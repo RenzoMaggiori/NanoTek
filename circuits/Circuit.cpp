@@ -9,6 +9,10 @@
 #include <memory>
 
 
-void nts::Circuit::addComponent(std::unique_ptr<nts::IComponent> component) {
-    _components.push_back(std::move(component));
+void nts::Circuit::addComponent(std::string name, std::unique_ptr<nts::IComponent> component) {
+    _components[name] = (std::move(component));
+}
+
+std::map<std::string, std::unique_ptr<nts::IComponent>> &nts::Circuit::getComponents() {
+    return _components;
 }
