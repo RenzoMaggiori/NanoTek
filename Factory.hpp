@@ -9,6 +9,7 @@
 #define FACTORY_HPP_
 
 #include "IComponent.hpp"
+#include "circuits/Circuit.hpp"
 #include "components/chipsets/Chipset4001.hpp"
 #include "components/chipsets/Chipset4011.hpp"
 #include "components/chipsets/Chipset4030.hpp"
@@ -35,6 +36,9 @@ class Factory {
         };
 
         Factory();
+
+        void createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>> components, std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links);
+
         std::unique_ptr<nts::IComponent> createComponent(const std::string &type);
         std::unique_ptr<nts::IComponent> create4001() const;
         std::unique_ptr<nts::IComponent> create4011() const;

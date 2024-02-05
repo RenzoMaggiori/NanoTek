@@ -18,7 +18,7 @@ int main(int argc, const char *argv[]) {
     std::string line;
 
     for (auto &chip: chipsets)
-        circuit->addComponent(factory->createComponent(chip.first));
+        circuit->addComponent(chip.second, factory->createComponent(chip.first));
     while (std::getline(std::cin, line)) {
 
     }

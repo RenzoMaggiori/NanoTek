@@ -67,3 +67,18 @@ std::unique_ptr<nts::IComponent> Factory::createComponent(const std::string &typ
     }
     throw Error("Unknown component type: " + type);
 }
+
+void Factory::createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>> components, std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links) {
+    for (auto &link: links) {
+            auto &source = link.first.first;
+            auto &sourcePin = link.first.second;
+            auto &destination = link.second.first;
+            auto &destinationPin = link.second.second;
+
+            if (components.find(source) != components.end() && components.find(destination) != components.end()) {
+                components[source]->setLink(sourcePin, components[destination].get(), destinationPin);
+            } else {
+                // Handle error: Component not found
+            }
+        }
+}
