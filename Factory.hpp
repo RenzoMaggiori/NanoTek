@@ -10,6 +10,7 @@
 
 #include "IComponent.hpp"
 #include "circuits/Circuit.hpp"
+#include "components/elementary/OrComponent.hpp"
 #include "components/chipsets/Chipset4001.hpp"
 #include "components/chipsets/Chipset4011.hpp"
 #include "components/chipsets/Chipset4030.hpp"
@@ -52,6 +53,7 @@ class Factory {
         std::unique_ptr<nts::IComponent> createOutput() const;
         std::unique_ptr<nts::IComponent> createFalse() const;
         std::unique_ptr<nts::IComponent> createTrue() const;
+        std::unique_ptr<nts::IComponent> createOr() const;
         std::map<std::string, std::function<std::unique_ptr<nts::IComponent>()>> _creators;
 };
 

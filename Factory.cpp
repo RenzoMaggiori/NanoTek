@@ -18,6 +18,7 @@ Factory::Factory() {
     _creators["output"] = [this]() { return this->createOutput(); };
     _creators["true"] = [this]() { return this->createTrue(); };
     _creators["false"] = [this]() { return this->createFalse(); };
+    _creators["or"] = [this]() { return this->createOr(); };
 }
 
 std::unique_ptr<nts::IComponent> Factory::create4001() const {
@@ -60,6 +61,10 @@ std::unique_ptr<nts::IComponent> Factory::createFalse() const {
     return std::make_unique<nts::FalseComponent>();
 }
 
+std::unique_ptr<nts::IComponent> Factory::createOr() const {
+    return std::make_unique<nts::OrComponent>();
+}
+
 std::unique_ptr<nts::IComponent> Factory::createComponent(const std::string &type) {
     auto it = _creators.find(type);
     if (it != _creators.end()) {
@@ -67,6 +72,8 @@ std::unique_ptr<nts::IComponent> Factory::createComponent(const std::string &typ
     }
     throw Error("Unknown component type: " + type);
 }
+
+#include <iostream>
 
 void Factory::createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>> &components, std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links) {
     for (auto &link: links) {

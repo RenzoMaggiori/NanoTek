@@ -18,8 +18,10 @@ namespace nts {
             Circuit() = default;
             void addComponent(std::string name, std::unique_ptr<nts::IComponent> component);
             std::map<std::string, std::unique_ptr<nts::IComponent>> &getComponents();
+            void display();
         protected:
         private:
+        std::size_t _ticks = 0;
         std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
     };
 }
