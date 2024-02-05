@@ -76,7 +76,7 @@ void Factory::createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>
             auto &destinationPin = link.second.second;
 
             if (components.find(source) != components.end() && components.find(destination) != components.end()) {
-                components[source]->setLink(sourcePin, components[destination].get(), destinationPin);
+                components[source]->setLink(sourcePin, *components[destination].get(), destinationPin);
             } else {
                 // Handle error: Component not found
             }
