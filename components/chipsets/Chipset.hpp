@@ -20,7 +20,7 @@ namespace nts {
             void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
             Tristate compute(std::size_t pin) override;
         protected:
-            std::map<std::size_t, std::unique_ptr<AComponent>> _components;
+            std::map<std::size_t, std::unique_ptr<IComponent>> _components;
         private:
     };
 }
