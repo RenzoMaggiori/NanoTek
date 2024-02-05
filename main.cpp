@@ -9,6 +9,10 @@
 
 int main(int argc, const char *argv[]) {
     Parser parser((argv[1] ? argv[1] : ""));
+    std::string line;
 
+    while (std::getline(std::cin, line)) {
+        
+    }
     return 0;
 }
