@@ -16,10 +16,11 @@ namespace nts {
     class Circuit {
         public:
             Circuit() = default;
-            void addComponent(std::unique_ptr<nts::IComponent> component);
+            void addComponent(std::string name, std::unique_ptr<nts::IComponent> component);
+            std::map<std::string, std::unique_ptr<nts::IComponent>> &getComponents();
         protected:
         private:
-        std::deque<std::unique_ptr<nts::IComponent>> _components;
+        std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
     };
 }
 
