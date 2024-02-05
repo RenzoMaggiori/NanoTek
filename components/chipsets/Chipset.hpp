@@ -2,26 +2,27 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-BAR-4-1-tekspice-renzo.maggiori
 ** File description:
-** Circuit
+** Chipset
 */
 
-#ifndef CIRCUIT_HPP_
-#define CIRCUIT_HPP_
+#ifndef CHIPSET_HPP_
+#define CHIPSET_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
+#include <memory>
 
 namespace nts {
-    class Circuit: public AComponent {
+    class Chipset: public AComponent {
         public:
-            Circuit();
+            Chipset() = default;
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
             void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
             Tristate compute(std::size_t pin) override;
         protected:
+            std::map<std::size_t, std::unique_ptr<AComponent>> _components;
         private:
-        std::map<std::size_t, IComponent &> _components;
     };
 }
 
-#endif /* !CIRCUIT_HPP_ */
+#endif /* !CHIPSET_HPP_ */

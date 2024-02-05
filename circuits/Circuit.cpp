@@ -9,8 +9,5 @@
 
 Circuit::Circuit()
 {
-}
-
-Circuit::~Circuit()
-{
+    
 }

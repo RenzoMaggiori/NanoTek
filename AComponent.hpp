@@ -39,7 +39,7 @@ namespace nts {
             virtual void updateOutputPin() = 0;
 
             // Setters
-            void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
+            virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
 
             // Getters
             std::map<std::size_t, std::shared_ptr<nts::Tristate>> &getPins();
@@ -47,7 +47,7 @@ namespace nts {
 
             // Member
             // void simulate(std::size_t tick);
-            Tristate compute(std::size_t pin) override;
+            virtual Tristate compute(std::size_t pin) override;
 
         private:
     };
