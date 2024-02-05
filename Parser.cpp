@@ -69,3 +69,7 @@ void Parser::parseFile(const std::string &file) {
             parseLink(line);
     }
 }
+
+std::deque<std::pair<std::string, std::string>> Parser::getChipsets() const {
+    return _chipsets;
+}

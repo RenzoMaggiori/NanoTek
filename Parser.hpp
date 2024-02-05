@@ -40,6 +40,8 @@ class Parser {
         void parseChipset(const std::string &line);
         void parseLink(const std::string &line);
 
+        std::deque<std::pair<std::string, std::string>> getChipsets() const;
+
     protected:
         std::deque<std::pair<std::string, std::string>> _chipsets;
         std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> _links;

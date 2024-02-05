@@ -16,7 +16,7 @@ namespace nts {
     class Circuit {
         public:
             Circuit() = default;
-            void addComponent(std::unique_ptr<nts::IComponent> &component);
+            void addComponent(std::unique_ptr<nts::IComponent> component);
         protected:
         private:
         std::deque<std::unique_ptr<nts::IComponent>> _components;
