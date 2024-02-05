@@ -7,23 +7,28 @@
 
 #include "Chipset.hpp"
 #include <cstddef>
+#include <memory>
 
 nts::pinType nts::Chipset::getPinType(std::size_t pin)
 {
     std::size_t i = 0;
+    AComponent* derivedComponent = nullptr;
 
     for (auto &it : _components) {
+        derivedComponent = dynamic_cast<AComponent*>(it.second.get());
         if (i == pin)
-            return it.second->getPinType(pin);
-        i = i + it.second->getPins().size();
+            return derivedComponent->getPinType(pin);
+        i = i + derivedComponent->getPins().size();
     }
     return nts::pinType::NONE;
 }
 
 void nts::Chipset::updateOutputPin()
 {
+    AComponent* derivedComponent = nullptr;
     for (auto &it: _components) {
-        it.second->updateOutputPin();
+        derivedComponent = dynamic_cast<AComponent*>(it.second.get());
+        derivedComponent->updateOutputPin();
     }
 }
 
@@ -37,11 +42,13 @@ void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t c
 nts::Tristate nts::Chipset::compute(std::size_t pin)
 {
     std::size_t i = 0;
+    AComponent* derivedComponent = nullptr;
 
     for (auto &it : _components) {
+        derivedComponent = dynamic_cast<AComponent*>(it.second.get());
         if (i == pin)
             return it.second->compute(pin);
-        i = i + it.second->getPins().size();
+        i = i + derivedComponent->getPins().size();
     }
     return nts::Tristate::Undefined;
 }
