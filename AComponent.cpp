@@ -12,21 +12,13 @@ std::map<std::size_t, std::shared_ptr<nts::Tristate>> &nts::AComponent::getPins(
     return _pins;
 }
 
-std::map<std::size_t, std::shared_ptr<nts::Link>> &nts::AComponent::getLinks() {
-    return _links;
-}
-
-
 void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_t componentPin) {
-   AComponent *componentCast = dynamic_cast<AComponent *>(&component);
-    if (pin > _pins.size()) throw Error("Pin outside of bounds.");
-    if (componentPin > componentCast->getPins().size()) throw Error("Component pin outside of bounds.");
+    AComponent *componentCast = dynamic_cast<AComponent*>(&component);
 
-    std::map<std::size_t, std::shared_ptr<Link>> componentLinks = componentCast->getLinks();
-    std::shared_ptr<Link> newLink = std::make_shared<Link>(*this, component, componentPin, pin);
+    if (pin >= _pins.size()) throw Error("Pin outside of bounds.");
+    if (componentPin >= componentCast->getPins().size()) throw Error("Component pin outside of bounds.");
 
-    _links[pin] = newLink;
-    componentLinks[componentPin] = newLink;
+    _pins[pin] = componentCast->getPins()[componentPin];
 
     this->updateOutputPin();
 }

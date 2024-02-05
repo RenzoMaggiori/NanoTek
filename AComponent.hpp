@@ -9,7 +9,7 @@
 #define ACOMPONENT_HPP_
 
 #include "IComponent.hpp"
-#include "Link.hpp"
+//#include "Link.hpp"
 #include <exception>
 #include <memory>
 #include <map>
@@ -20,10 +20,9 @@ namespace nts {
         OUTPUT,
         NONE
     };
-    class AComponent: public IComponent {
+    class AComponent:public IComponent {
         protected:
             std::map<std::size_t,  std::shared_ptr<Tristate>> _pins;
-            std::map<std::size_t, std::shared_ptr<Link>> _links;
         public:
             // Nested
             class Error: public std::exception
@@ -44,7 +43,6 @@ namespace nts {
 
             // Getters
             std::map<std::size_t, std::shared_ptr<nts::Tristate>> &getPins();
-            std::map<std::size_t, std::shared_ptr<Link>> &getLinks();
 
             // Member
             virtual Tristate compute(std::size_t pin) override;

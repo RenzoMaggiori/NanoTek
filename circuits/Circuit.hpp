@@ -9,18 +9,17 @@
 #define CIRCUIT_HPP_
 
 #include "../AComponent.hpp"
+#include <deque>
+
 
 namespace nts {
-    class Circuit: public AComponent {
+    class Circuit {
         public:
-            Circuit();
-            pinType getPinType(std::size_t pin) override;
-            void updateOutputPin() override;
-            void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
-            Tristate compute(std::size_t pin) override;
+            Circuit() = default;
+            void addComponent(std::unique_ptr<nts::IComponent> &component);
         protected:
         private:
-        std::map<std::size_t, IComponent &> _components;
+        std::deque<std::unique_ptr<nts::IComponent>> _components;
     };
 }
 
