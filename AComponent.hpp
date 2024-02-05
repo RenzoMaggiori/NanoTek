@@ -37,7 +37,7 @@ namespace nts {
             // Virtual
             virtual pinType getPinType(std::size_t pin) = 0;
             virtual void updateOutputPin() = 0;
-            virtual void simulate(std::size_t tick) = 0;
+            //virtual void simulate(std::size_t tick) = 0;
 
             // Setters
             virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
