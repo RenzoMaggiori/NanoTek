@@ -10,6 +10,7 @@
 nts::OutputComponent::OutputComponent() {
     std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::Undefined);
     this->getPins()[1] = status;
+    _type = pinType::OUTPUT;
 }
 
 nts::pinType nts::OutputComponent::getPinType(std::size_t pin) {

@@ -20,9 +20,21 @@ std::map<std::string, std::unique_ptr<nts::IComponent>> &nts::Circuit::getCompon
 }
 
 void nts::Circuit::display() {
+    AComponent* derivedComponent = nullptr;
     std::cout << "tick: " << _ticks << std::endl << "input(s):" << std::endl;
-    for (auto &it: _components) {
-        nts::Tristate status = it.second->compute(1);
-        std::cout << "  " << it.first << ": " << ((status == nts::Tristate::Undefined) ? "U" : std::to_string(status))  << std::endl;
+    nts::pinType type = nts::pinType::INPUT;
+
+    for (std::size_t i = 0; i < 2; i++) {
+        if (type == nts::pinType::OUTPUT)
+            std::cout << "output(s):" << std::endl;
+
+        for (auto &it: _components) {
+            derivedComponent = dynamic_cast<AComponent*>(it.second.get());
+            if(derivedComponent->getType() == type) {
+                nts::Tristate status = it.second->compute(1);
+                std::cout << "  " << it.first << ": " << ((status == nts::Tristate::Undefined) ? "U" : std::to_string(status))  << std::endl;
+            }
+        }
+        type = nts::pinType::OUTPUT;
     }
 }

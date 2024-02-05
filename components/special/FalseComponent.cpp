@@ -10,6 +10,7 @@
 nts::FalseComponent::FalseComponent() {
     std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::False);
     this->getPins()[1] = status;
+    _type = pinType::INPUT;
 }
 
 nts::pinType nts::FalseComponent::getPinType(std::size_t pin) {

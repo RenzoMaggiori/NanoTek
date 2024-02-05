@@ -33,3 +33,6 @@ nts::Tristate nts::AComponent::compute(std::size_t pin) {
     return *(_pins[pin]);
 }
 
+nts::pinType nts::AComponent::getType() const {
+    return _type;
+}

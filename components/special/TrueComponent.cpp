@@ -10,6 +10,7 @@
 nts::TrueComponnet::TrueComponnet() {
     std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::True);
     this->getPins()[1] = status;
+    _type = pinType::INPUT;
 }
 
 nts::pinType nts::TrueComponnet::getPinType(std::size_t pin) {

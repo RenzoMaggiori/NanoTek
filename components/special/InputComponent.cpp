@@ -10,6 +10,8 @@
 nts::InputComponent::InputComponent() {
     std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::Undefined);
     this->getPins()[1] = status;
+    _type = pinType::INPUT;
+
 }
 
 nts::pinType nts::InputComponent::getPinType(std::size_t pin) {

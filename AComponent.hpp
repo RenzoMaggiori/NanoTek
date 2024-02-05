@@ -23,6 +23,7 @@ namespace nts {
     class AComponent:public IComponent {
         protected:
             std::map<std::size_t,  std::shared_ptr<Tristate>> _pins;
+            pinType _type = pinType::NONE;
         public:
             // Nested
             class Error: public std::exception
@@ -44,6 +45,7 @@ namespace nts {
             // Getters
             virtual std::shared_ptr<nts::Tristate> getPin(std::size_t pin);
             std::map<std::size_t, std::shared_ptr<nts::Tristate>> &getPins();
+            pinType getType() const;
 
             // Member
             virtual Tristate compute(std::size_t pin) override;
