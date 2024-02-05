@@ -10,9 +10,9 @@
 
 #include "IComponent.hpp"
 #include "Link.hpp"
-#include <memory>
-#include <vector>
 #include <exception>
+#include <memory>
+#include <map>
 
 namespace nts {
     enum pinType {
@@ -32,9 +32,7 @@ namespace nts {
                     std::string _msg;
                 public:
                     Error(std::string msg): _msg(msg) {}
-                    const char *what() const noexcept override {
-                        return _msg.c_str();
-                    }
+                    const char *what() const noexcept override { return _msg.c_str(); }
             };
             // Virtual
             virtual pinType getPinType(std::size_t pin) = 0;
@@ -49,7 +47,7 @@ namespace nts {
 
             // Member
             // void simulate(std::size_t tick);
-            Tristate compute(std::size_t pin);
+            Tristate compute(std::size_t pin) override;
 
         private:
     };
