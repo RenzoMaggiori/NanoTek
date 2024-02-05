@@ -6,6 +6,7 @@
 */
 
 #include "Chipset4071.hpp"
+#include "../elementary/OrComponent.hpp"
 
 nts::Chipset4071::Chipset4071() {
     for (int i = 1; i < 5; i++) {

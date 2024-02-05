@@ -8,7 +8,7 @@
 #ifndef NANDCOMPONENT_HPP_
 #define NANDCOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
 
 namespace nts {
     class NandComponent: public AComponent {

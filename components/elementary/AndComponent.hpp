@@ -8,7 +8,7 @@
 #ifndef ANDCOMPONENT_HPP_
 #define ANDCOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
 
 namespace nts {
     class AndComponent: public AComponent {

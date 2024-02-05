@@ -7,7 +7,7 @@
 
 #include "Chipset4069.hpp"
 
-#include "../NotComponent.hpp"
+#include "../elementary/NotComponent.hpp"
 
 nts::Chipset4069::Chipset4069()
 {

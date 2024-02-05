@@ -6,7 +6,7 @@
 */
 
 #include "Chipset4011.hpp"
-#include "../NandComponent.hpp"
+#include "../elementary/NandComponent.hpp"
 
 nts::Chipset4011::Chipset4011()
 {

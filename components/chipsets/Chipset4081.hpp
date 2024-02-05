@@ -9,7 +9,6 @@
 #define CHIPSET4081_HPP_
 
 #include "Chipset.hpp"
-#include "../AndComponent.hpp"
 
 namespace nts {
     class Chipset4081: public Chipset {

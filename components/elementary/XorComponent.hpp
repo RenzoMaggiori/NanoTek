@@ -2,19 +2,18 @@
 ** EPITECH PROJECT, 2024
 ** nanoTek
 ** File description:
-** FalseComponent
+** XorComponent
 */
 
-#ifndef FALSECOMPONENT_HPP_
-#define FALSECOMPONENT_HPP_
+#ifndef XORCOMPONENT_HPP_
+#define XORCOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
 
-namespace nts
-{
-    class FalseComponent: public AComponent{
+namespace nts {
+    class XorComponent: public AComponent{
         public:
-            FalseComponent();
+            XorComponent();
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
         protected:
@@ -22,4 +21,4 @@ namespace nts
     };
 }
 
-#endif /* !FALSECOMPONENT_HPP_ */
+#endif /* !XORCOMPONENT_HPP_ */

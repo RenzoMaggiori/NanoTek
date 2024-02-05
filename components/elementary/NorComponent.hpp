@@ -2,18 +2,18 @@
 ** EPITECH PROJECT, 2024
 ** nanoTek
 ** File description:
-** NotComponent
+** NorComponent
 */
 
-#ifndef NOTCOMPONENT_HPP_
-#define NOTCOMPONENT_HPP_
+#ifndef NORCOMPONENT_HPP_
+#define NORCOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
 
 namespace nts {
-    class NotComponent: public AComponent {
+    class NorComponent: public AComponent {
         public:
-            NotComponent();
+            NorComponent();
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
         protected:
@@ -21,4 +21,4 @@ namespace nts {
     };
 }
 
-#endif /* !NOTCOMPONENT_HPP_ */
+#endif /* !NORCOMPONENT_HPP_ */

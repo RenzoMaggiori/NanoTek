@@ -2,20 +2,21 @@
 ** EPITECH PROJECT, 2024
 ** nanoTek
 ** File description:
-** TrueComponent
+** InputComponent
 */
 
-#ifndef TRUECOMPONENT_HPP_
-#define TRUECOMPONENT_HPP_
+#ifndef INPUTCOMPONENT_HPP_
+#define INPUTCOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
 
 namespace nts {
-    class TrueComponnet: public AComponent {
+    class InputComponent: public AComponent {
         public:
-            TrueComponnet();
+            InputComponent();
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
+
         protected:
         private:
     };

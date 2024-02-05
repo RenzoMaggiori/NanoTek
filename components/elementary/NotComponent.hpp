@@ -2,24 +2,23 @@
 ** EPITECH PROJECT, 2024
 ** nanoTek
 ** File description:
-** InputComponent
+** NotComponent
 */
 
-#ifndef INPUTCOMPONENT_HPP_
-#define INPUTCOMPONENT_HPP_
+#ifndef NOTCOMPONENT_HPP_
+#define NOTCOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
 
 namespace nts {
-    class InputComponent: public AComponent {
+    class NotComponent: public AComponent {
         public:
-            InputComponent();
+            NotComponent();
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
-
         protected:
         private:
     };
 }
 
-#endif
+#endif /* !NOTCOMPONENT_HPP_ */

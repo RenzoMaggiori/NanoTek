@@ -2,18 +2,18 @@
 ** EPITECH PROJECT, 2024
 ** nanoTek
 ** File description:
-** OrComponent
+** TrueComponent
 */
 
-#ifndef ORCOMPONENT_HPP_
-#define ORCOMPONENT_HPP_
+#ifndef TRUECOMPONENT_HPP_
+#define TRUECOMPONENT_HPP_
 
-#include "../AComponent.hpp"
+#include "../../AComponent.hpp"
 
 namespace nts {
-    class OrComponent: public AComponent {
+    class TrueComponnet: public AComponent {
         public:
-            OrComponent();
+            TrueComponnet();
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
         protected:
@@ -21,4 +21,4 @@ namespace nts {
     };
 }
 
-#endif /* !ORCOMPONENT_HPP_ */
+#endif

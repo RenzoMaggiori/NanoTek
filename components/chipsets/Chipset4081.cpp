@@ -6,6 +6,7 @@
 */
 
 #include "Chipset4081.hpp"
+#include "../elementary/AndComponent.hpp"
 
 nts::Chipset4081::Chipset4081() {
     for (int i = 1; i < 5; i++) {
