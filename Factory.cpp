@@ -65,15 +65,16 @@ std::unique_ptr<nts::IComponent> Factory::createOr() const {
     return std::make_unique<nts::OrComponent>();
 }
 
+#include <iostream>
+#include <memory>
 std::unique_ptr<nts::IComponent> Factory::createComponent(const std::string &type) {
     auto it = _creators.find(type);
-    if (it != _creators.end()) {
+    if (it != _creators.end())
         return it->second();
-    }
+
     throw Error("Unknown component type: " + type);
 }
 
-#include <iostream>
 
 void Factory::createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>> &components, std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links) {
     for (auto &link: links) {
@@ -83,7 +84,7 @@ void Factory::createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>
         auto &destinationPin = link.second.second;
 
         if (components.find(source) != components.end() && components.find(destination) != components.end()) {
-            components[source]->setLink(sourcePin, *components[destination].get(), destinationPin);
+            components[destination]->setLink(destinationPin, *components[source].get(), sourcePin);
         } else
             throw Error("No such component.");
     }

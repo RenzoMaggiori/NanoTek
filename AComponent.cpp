@@ -20,11 +20,13 @@ std::shared_ptr<nts::Tristate> nts::AComponent::getPin(std::size_t pin) {
 void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_t componentPin) {
     AComponent *componentCast = dynamic_cast<AComponent*>(&component);
 
-    if (pin > _pins.size()) throw Error("Pin outside of bounds.");
-    if (componentPin > componentCast->getPins().size()) throw Error("Component pin outside of bounds.");
+    if (!componentCast) throw Error("Component casting failed.");
+    if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
+    if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
 
-    _pins[pin] = componentCast->getPins()[componentPin];
+    _pins[pin] = componentCast->_pins[componentPin];
 
+    auto it = _pins.find(pin);
     this->updateOutputPin();
 }
 
