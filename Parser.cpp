@@ -8,6 +8,7 @@
 #include "Parser.hpp"
 
 Parser::Parser(const std::string &file) {
+    if (file == "") throw Error("File does not exist");
     parseFile(file);
 }
 
