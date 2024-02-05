@@ -23,6 +23,20 @@ nts::pinType nts::Chipset::getPinType(std::size_t pin)
     return nts::pinType::NONE;
 }
 
+std::shared_ptr<nts::Tristate> nts::Chipset::getPin(std::size_t pin)
+{
+    std::size_t i = 0;
+    AComponent* derivedComponent = nullptr;
+
+    for (auto &it : _components) {
+        derivedComponent = dynamic_cast<AComponent*>(it.second.get());
+        if (i == pin)
+            return derivedComponent->getPin(pin);
+        i = i + derivedComponent->getPins().size();
+    }
+    return nullptr;
+}
+
 void nts::Chipset::updateOutputPin()
 {
     AComponent* derivedComponent = nullptr;

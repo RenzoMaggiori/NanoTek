@@ -19,6 +19,7 @@ namespace nts {
             void updateOutputPin() override;
             void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
             Tristate compute(std::size_t pin) override;
+            std::shared_ptr<nts::Tristate> getPin(std::size_t pin) override;
         protected:
             std::map<std::size_t, std::unique_ptr<nts::IComponent>> _components;
         private:

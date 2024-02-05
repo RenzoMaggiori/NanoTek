@@ -13,6 +13,10 @@ std::map<std::size_t, std::shared_ptr<nts::Tristate>> &nts::AComponent::getPins(
     return _pins;
 }
 
+std::shared_ptr<nts::Tristate> nts::AComponent::getPin(std::size_t pin) {
+    return _pins[pin];
+}
+
 void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_t componentPin) {
     AComponent *componentCast = dynamic_cast<AComponent*>(&component);
 

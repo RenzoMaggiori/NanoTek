@@ -42,6 +42,7 @@ namespace nts {
             virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
 
             // Getters
+            virtual std::shared_ptr<nts::Tristate> getPin(std::size_t pin);
             std::map<std::size_t, std::shared_ptr<nts::Tristate>> &getPins();
 
             // Member
