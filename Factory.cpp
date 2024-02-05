@@ -77,8 +77,7 @@ void Factory::createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>
 
             if (components.find(source) != components.end() && components.find(destination) != components.end()) {
                 components[source]->setLink(sourcePin, *components[destination].get(), destinationPin);
-            } else {
-                // Handle error: Component not found
-            }
+            } else
+                throw Error("No such component.");
         }
 }

@@ -19,6 +19,7 @@ int main(int argc, const char *argv[]) {
 
     for (auto &chip: chipsets)
         circuit->addComponent(chip.second, factory->createComponent(chip.first));
+    factory->createLinks(circuit->getComponents(), parser->getLinks());
     while (std::getline(std::cin, line)) {
 
     }

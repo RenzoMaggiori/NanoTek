@@ -73,3 +73,7 @@ void Parser::parseFile(const std::string &file) {
 std::deque<std::pair<std::string, std::string>> Parser::getChipsets() const {
     return _chipsets;
 }
+
+std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> Parser::getLinks() const {
+    return _links;
+}
