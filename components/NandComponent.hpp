@@ -11,9 +11,9 @@
 #include "../AComponent.hpp"
 
 namespace nts {
-    class Nand: public AComponent {
+    class NandComponent: public AComponent {
         public:
-            Nand();
+            NandComponent();
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
         protected:
