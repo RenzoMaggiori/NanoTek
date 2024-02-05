@@ -55,21 +55,17 @@ void Parser::parseFile(const std::string &file) {
 
     if (!parseFile.is_open()) throw Error("File does not exist.");
 
-    bool parsingChipsets = false, parsingLinks = false;
-
     while (std::getline(parseFile, line)) {
         if (line == ".chipsets:") {
-            parsingChipsets = true;
-            parsingLinks = false;
+            state = ParseState::CHIPSETS;
             continue;
         } else if (line == ".links:") {
-            parsingChipsets = false;
-            parsingLinks = true;
+            state = ParseState::LINKS;
             continue;
         }
-        if (parsingChipsets)
+        if (state == ParseState::CHIPSETS)
             parseChipset(line);
-        else if (parsingLinks)
+        else if (state == ParseState::LINKS)
             parseLink(line);
     }
 }
