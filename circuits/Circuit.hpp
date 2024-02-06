@@ -10,7 +10,7 @@
 
 #include "../AComponent.hpp"
 #include <deque>
-
+#include <sstream>
 
 namespace nts {
     class Circuit: public IComponent {
@@ -25,8 +25,10 @@ namespace nts {
             void simulate(std::size_t ticks) override;
             void display();
             std::size_t getTicks() const;
+            void setComponentsStatus(std::string status);
         protected:
         private:
+            std::map<std::string, nts::Tristate> _inputStatus;
             std::size_t _ticks = 0;
             std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
     };

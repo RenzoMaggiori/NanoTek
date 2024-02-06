@@ -55,6 +55,15 @@ void nts::Circuit::createLinks(std::deque<std::pair<std::pair<std::string, size_
 void nts::Circuit::simulate(std::size_t ticks) {
     AComponent* derivedComponent = nullptr;
 
+    for (auto &update: _inputStatus) {
+        if (_components.find(update.first) != _components.end()) {
+            derivedComponent = dynamic_cast<AComponent*>(_components.find(update.first)->second.get());
+            //if (derivedComponent->getType() != nts::pinType::INPUT) //error
+            derivedComponent->setInput(update.second);
+        } // else
+            // error
+    }
+    derivedComponent = nullptr;
     for (auto &component: _components) {
         derivedComponent = dynamic_cast<AComponent*>(component.second.get());
         derivedComponent->updateOutputPin();
@@ -73,4 +82,32 @@ void nts::Circuit::setLink(std::size_t pin, nts::IComponent & other, std ::size_
 
 std::size_t nts::Circuit::getTicks() const {
     return _ticks;
+}
+
+void nts::Circuit::setComponentsStatus(std::string line) {
+    if (line.empty()) return;
+    std::istringstream iss(line);
+    std::string source, token, pin;
+    Tristate pinValue = Tristate::Undefined;
+
+    if (std::getline(iss, token, ' ')) {
+        auto colonPos = token.find('=');
+        if (colonPos != std::string::npos) {
+            source = token.substr(0, colonPos);
+            pin = token.substr(colonPos + 1);
+            int pinInt = std::stoi(pin);
+            switch (pinInt) {
+                case 1:
+                    pinValue = True;
+                    break;
+                case 0:
+                    pinValue = False;
+                    break;
+                default:
+                    pinValue = Undefined;
+                    break;
+            }
+        }
+    }
+    _inputStatus[source] = pinValue;
 }
