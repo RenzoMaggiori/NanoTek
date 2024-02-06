@@ -22,7 +22,7 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
     AComponent *componentCast = dynamic_cast<AComponent*>(&component);
 
     if (!componentCast) throw Error("Component casting failed.");
-    if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
+    if (pin > _pins.size() || pin <= 0) throw Error("Pin " + std::to_string(pin) + " outside of bounds.");
     if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
 
     if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT)
