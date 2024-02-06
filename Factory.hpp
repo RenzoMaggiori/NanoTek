@@ -38,7 +38,6 @@ class Factory {
 
         Factory();
 
-        void createLinks(std::map<std::string, std::unique_ptr<nts::IComponent>> &components, std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links);
         std::unique_ptr<nts::IComponent> createComponent(const std::string &type);
 
     protected:

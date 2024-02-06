@@ -38,3 +38,16 @@ void nts::Circuit::display() {
         type = nts::pinType::OUTPUT;
     }
 }
+
+void nts::Circuit::createLinks(std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links) {
+    for (auto &link: links) {
+        auto &source = link.first.first;
+        auto &sourcePin = link.first.second;
+        auto &destination = link.second.first;
+        auto &destinationPin = link.second.second;
+
+        if (_components.find(source) != _components.end() && _components.find(destination) != _components.end()) {
+            _components[destination]->setLink(destinationPin, *_components[source].get(), sourcePin);
+        }
+    }
+}
