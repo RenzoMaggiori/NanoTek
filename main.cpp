@@ -24,11 +24,13 @@ int main(int argc, const char *argv[]) {
         if (line == "display") {
             circuit->display();
         }
-        if (line == "simulate") {
+        else if (line == "simulate") {
             if (circuit->getTicks() == 0)
                 circuit->createLinks(parser->getLinks());
             circuit->simulate(circuit->getTicks() + 1);
-        }
+        } else
+            circuit->setComponentsStatus(line);
+
         std::cout << "> ";
     }
 
