@@ -16,6 +16,7 @@ namespace nts {
             ClockComponent();
             pinType getPinType(std::size_t pin) override;
             void updateOutputPin() override;
+            void setInput(nts::Tristate) override;
         protected:
         private:
     };

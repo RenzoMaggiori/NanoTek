@@ -23,3 +23,7 @@ void nts::InputComponent::updateOutputPin() {
     return;
 }
 
+void nts::InputComponent::setInput(nts::Tristate status)
+{
+    *this->getPins()[1].get() = status;
+}

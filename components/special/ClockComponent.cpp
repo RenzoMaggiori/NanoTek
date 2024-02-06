@@ -30,3 +30,7 @@ void nts::ClockComponent::updateOutputPin()
         *this->getPins()[1].get() = nts::Tristate::False;
 }
 
+void nts::ClockComponent::setInput(nts::Tristate status)
+{
+    *this->getPins()[1].get() = status;
+}

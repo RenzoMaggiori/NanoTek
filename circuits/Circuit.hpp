@@ -16,7 +16,7 @@ namespace nts {
     class Circuit: public IComponent {
         public:
             Circuit() = default;
-    
+
             std::map<std::string, std::unique_ptr<nts::IComponent>> &getComponents();
             void addComponent(std::string name, std::unique_ptr<nts::IComponent> component);
             void createLinks(std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links);
