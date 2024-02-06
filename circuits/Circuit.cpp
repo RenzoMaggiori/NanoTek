@@ -58,10 +58,10 @@ void nts::Circuit::simulate(std::size_t ticks) {
     for (auto &update: _inputStatus) {
         if (_components.find(update.first) != _components.end()) {
             derivedComponent = dynamic_cast<AComponent*>(_components.find(update.first)->second.get());
-            //if (derivedComponent->getType() != nts::pinType::INPUT) //error
+            if (derivedComponent->getType() != nts::pinType::INPUT) throw Error("Invalid component match");
             derivedComponent->setInput(update.second);
-        } // else
-            // error
+        } else
+            throw Error("Invalid component match");
     }
     derivedComponent = nullptr;
     for (auto &component: _components) {

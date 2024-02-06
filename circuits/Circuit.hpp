@@ -15,6 +15,14 @@
 namespace nts {
     class Circuit: public IComponent {
         public:
+            class Error: public std::exception {
+                private:
+                    std::string _msg;
+                public:
+                    Error(std::string msg): _msg(msg) {}
+                    const char *what() const noexcept override { return _msg.c_str(); }
+            };
+
             Circuit() = default;
 
             std::map<std::string, std::unique_ptr<nts::IComponent>> &getComponents();
