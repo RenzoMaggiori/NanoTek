@@ -40,3 +40,7 @@ nts::Tristate nts::AComponent::compute(std::size_t pin) {
 nts::pinType nts::AComponent::getType() const {
     return _type;
 }
+
+void nts::AComponent::simulate(std::size_t tick) {
+    (void) tick;
+}

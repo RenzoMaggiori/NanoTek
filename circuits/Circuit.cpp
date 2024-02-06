@@ -51,3 +51,26 @@ void nts::Circuit::createLinks(std::deque<std::pair<std::pair<std::string, size_
         }
     }
 }
+
+void nts::Circuit::simulate(std::size_t ticks) {
+    AComponent* derivedComponent = nullptr;
+
+    for (auto &component: _components) {
+        derivedComponent = dynamic_cast<AComponent*>(component.second.get());
+        derivedComponent->updateOutputPin();
+    }
+    _ticks = ticks;
+}
+
+nts::Tristate nts::Circuit::compute(std::size_t pin) {
+    (void) pin;
+    return Tristate::Undefined;
+}
+
+void nts::Circuit::setLink(std::size_t pin, nts::IComponent & other, std ::size_t otherPin) {
+    (void) pin, other, otherPin;
+}
+
+std::size_t nts::Circuit::getTicks() const {
+    return _ticks;
+}

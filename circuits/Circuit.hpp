@@ -13,18 +13,22 @@
 
 
 namespace nts {
-    class Circuit {
+    class Circuit: public IComponent {
         public:
             Circuit() = default;
-            void addComponent(std::string name, std::unique_ptr<nts::IComponent> component);
+    
             std::map<std::string, std::unique_ptr<nts::IComponent>> &getComponents();
-            void display();
+            void addComponent(std::string name, std::unique_ptr<nts::IComponent> component);
             void createLinks(std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> links);
-
+            nts::Tristate compute(std::size_t pin) override;
+            void setLink(std::size_t pin, nts::IComponent & other, std ::size_t otherPin) override;
+            void simulate(std::size_t ticks) override;
+            void display();
+            std::size_t getTicks() const;
         protected:
         private:
-        std::size_t _ticks = 0;
-        std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
+            std::size_t _ticks = 0;
+            std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
     };
 }
 
