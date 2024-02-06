@@ -27,8 +27,8 @@ nts::pinType nts::XorComponent::getPinType(std::size_t pin) {
 void nts::XorComponent::updateOutputPin() {
     std::shared_ptr<nts::Tristate> status;
 
-    if (*(_pins[1]) == Tristate::True && *(_pins[2]) == Tristate::True ||
-    *(_pins[1]) == Tristate::False && *(_pins[2]) == Tristate::False) {
+    if ((*(_pins[1]) == Tristate::True && *(_pins[2]) == Tristate::True) ||
+    (*(_pins[1]) == Tristate::False && *(_pins[2]) == Tristate::False)) {
         status = std::make_shared<nts::Tristate>(Tristate::False);
         _pins[3] = status;
         return;
