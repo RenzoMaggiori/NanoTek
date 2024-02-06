@@ -25,5 +25,6 @@ void nts::InputComponent::updateOutputPin() {
 
 void nts::InputComponent::setInput(nts::Tristate status)
 {
-    *this->getPins()[1].get() = status;
+    std::shared_ptr<nts::Tristate> statusInput = std::make_shared<nts::Tristate>(status);
+    _pins[1] = statusInput;
 }
