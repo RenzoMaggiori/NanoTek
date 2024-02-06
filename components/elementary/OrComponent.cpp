@@ -23,6 +23,8 @@ nts::pinType nts::OrComponent::getPinType(std::size_t pin) {
     return pinType::NONE;
 }
 
+#include <iostream>
+
 void nts::OrComponent::updateOutputPin() {
     std::shared_ptr<nts::Tristate> status;
 

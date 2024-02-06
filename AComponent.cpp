@@ -24,9 +24,11 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
     if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
     if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
 
-    _pins[pin] = componentCast->_pins[componentPin];
+    if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT)
+        _pins[pin] = componentCast->_pins[componentPin];
+    if (this->getPinType(pin) == pinType::OUTPUT && componentCast->getPinType(componentPin) == pinType::INPUT)
+        componentCast->_pins[componentPin] = _pins[pin];
 
-    auto it = _pins.find(pin);
     this->updateOutputPin();
 }
 

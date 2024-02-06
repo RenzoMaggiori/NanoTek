@@ -49,7 +49,7 @@ namespace nts {
 
             // Member
             virtual Tristate compute(std::size_t pin) override;
-            
+
         private:
     };
 }
