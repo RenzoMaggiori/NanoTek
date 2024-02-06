@@ -16,7 +16,7 @@ nts::InputComponent::InputComponent() {
 
 nts::pinType nts::InputComponent::getPinType(std::size_t pin) {
     if (pin != 1) throw Error("Invalid pin.");
-    return pinType::INPUT;
+    return pinType::OUTPUT;
 }
 
 void nts::InputComponent::updateOutputPin() {

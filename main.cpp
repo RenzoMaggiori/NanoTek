@@ -29,8 +29,8 @@ int main(int argc, const char *argv[]) {
                 circuit->createLinks(parser->getLinks());
             circuit->simulate(circuit->getTicks() + 1);
         }
-        // if (line != "display" && line != "simulate")
-        //     circuit->setComponentsStatus(line);
+        if (line != "display" && line != "simulate")
+            circuit->setComponentsStatus(line);
 
         std::cout << "> ";
     }
