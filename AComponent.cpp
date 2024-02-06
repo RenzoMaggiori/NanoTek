@@ -6,6 +6,7 @@
 */
 
 #include "AComponent.hpp"
+#include "IComponent.hpp"
 #include <memory>
 #include <iostream>
 
@@ -43,4 +44,8 @@ nts::pinType nts::AComponent::getType() const {
 
 void nts::AComponent::simulate(std::size_t tick) {
     (void) tick;
+}
+
+void nts::AComponent::setInput(nts::Tristate status) {
+    (void) status;
 }

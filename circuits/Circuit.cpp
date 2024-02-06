@@ -77,7 +77,9 @@ nts::Tristate nts::Circuit::compute(std::size_t pin) {
 }
 
 void nts::Circuit::setLink(std::size_t pin, nts::IComponent & other, std ::size_t otherPin) {
-    (void) pin, other, otherPin;
+    (void) pin;
+    (void) other;
+    (void) otherPin;
 }
 
 std::size_t nts::Circuit::getTicks() const {
