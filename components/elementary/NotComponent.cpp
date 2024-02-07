@@ -6,7 +6,7 @@
 */
 
 #include "NotComponent.hpp"
-
+#include <iostream>
 
 nts::NotComponent::NotComponent() {
     for (size_t i = 1; i < 3; i++) {
@@ -28,15 +28,12 @@ void nts::NotComponent::updateOutputPin() {
     std::shared_ptr<nts::Tristate> status;
 
     if (*(_pins[1]) == Tristate::True) {
-        status = std::make_shared<nts::Tristate>(Tristate::False);
-        _pins[2] = status;
+        *_pins[2].get() = Tristate::False;
         return;
     }
     if (*(_pins[1]) == Tristate::False) {
-        status = std::make_shared<nts::Tristate>(Tristate::True);
-        _pins[2] = status;
+        *_pins[2].get() = Tristate::True;
         return;
     }
-        status = std::make_shared<nts::Tristate>(Tristate::Undefined);
-    _pins[2] = status;
+    *_pins[2].get() = Tristate::Undefined;
 }

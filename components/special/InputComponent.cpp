@@ -6,12 +6,12 @@
 */
 
 #include "InputComponent.hpp"
+#include <iostream>
 
 nts::InputComponent::InputComponent() {
     std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::Undefined);
     this->getPins()[1] = status;
     _type = pinType::INPUT;
-
 }
 
 nts::pinType nts::InputComponent::getPinType(std::size_t pin) {
@@ -25,6 +25,5 @@ void nts::InputComponent::updateOutputPin() {
 
 void nts::InputComponent::setInput(nts::Tristate status)
 {
-    std::shared_ptr<nts::Tristate> statusInput = std::make_shared<nts::Tristate>(status);
-    _pins[1] = statusInput;
+    *_pins[1].get() = status;
 }

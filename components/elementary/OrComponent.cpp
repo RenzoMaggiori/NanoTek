@@ -29,16 +29,13 @@ void nts::OrComponent::updateOutputPin() {
     std::shared_ptr<nts::Tristate> status;
 
     if (*(_pins[1]) == Tristate::True || *(_pins[2]) == Tristate::True) {
-        status = std::make_shared<nts::Tristate>(Tristate::True);
-        _pins[3] = status;
+        *_pins[3].get() = Tristate::True;
         return;
     }
     if (*(_pins[1]) == Tristate::False && *(_pins[2]) == Tristate::False) {
-        status = std::make_shared<nts::Tristate>(Tristate::False);
-        _pins[3] = status;
+        *_pins[3].get() = Tristate::False;
         return;
     }
-    status = std::make_shared<nts::Tristate>(Tristate::Undefined);
-    _pins[3] = status;
+    *_pins[3].get() = Tristate::Undefined;
 }
 

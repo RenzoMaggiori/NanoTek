@@ -25,9 +25,10 @@ int main(int argc, const char *argv[]) {
             circuit->display();
         }
         if (line == "simulate") {
-            circuit->createLinks(parser->getLinks());
+            if (circuit->getTicks() == 0)
+                circuit->createLinks(parser->getLinks());
             circuit->simulate(circuit->getTicks() + 1);
-            circuit->createLinks(parser->getLinks());
+            // circuit->createLinks(parser->getLinks());
         }
         if (line != "display" && line != "simulate")
             circuit->setComponentsStatus(line);

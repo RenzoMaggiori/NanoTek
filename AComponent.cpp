@@ -22,14 +22,16 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
     AComponent *componentCast = dynamic_cast<AComponent*>(&component);
 
     if (!componentCast) throw Error("Component casting failed.");
-    if (pin > _pins.size() || pin <= 0) throw Error("Pin " + std::to_string(pin) + " outside of bounds.");
+    if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
     if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
-
-    if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT)
-        _pins[pin] = componentCast->_pins[componentPin];
-    if (this->getPinType(pin) == pinType::OUTPUT && componentCast->getPinType(componentPin) == pinType::INPUT)
-        componentCast->_pins[componentPin] = _pins[pin];
-
+        if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT) {
+            _pins[pin].reset();
+            _pins[pin] = componentCast->_pins[componentPin];
+        }
+        if (this->getPinType(pin) == pinType::OUTPUT && componentCast->getPinType(componentPin) == pinType::INPUT) {
+            componentCast->_pins[componentPin].reset();
+            componentCast->_pins[componentPin] = _pins[pin];
+        }
     this->updateOutputPin();
 }
 
@@ -48,4 +50,5 @@ void nts::AComponent::simulate(std::size_t tick) {
 
 void nts::AComponent::setInput(nts::Tristate status) {
     (void) status;
+    return;
 }

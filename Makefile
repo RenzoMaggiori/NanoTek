@@ -17,7 +17,7 @@ CFLAGS	=	-I./include/ -g3
 NAME	=	nanotekspice
 
 all:
-		g++ -Wall -Werror -o $(NAME) $(SRC)
+		g++ -g3 -Wall -Werror -o $(NAME) $(SRC)
 
 clean:
 	rm -rf $(NAME)

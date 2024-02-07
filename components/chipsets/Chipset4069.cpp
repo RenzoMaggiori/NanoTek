@@ -6,21 +6,36 @@
 */
 
 #include "Chipset4069.hpp"
-
+#include <iostream>
+#include <memory>
 #include "../elementary/NotComponent.hpp"
+#include "Chipset.hpp"
 
 nts::Chipset4069::Chipset4069()
 {
-    int y = 0;
+    // Create instances of NotComponent and populate _components map
+    this->_components[1] = std::make_unique<nts::NotComponent>();
+    this->_components[2] = std::make_unique<nts::NotComponent>();
+    this->_components[3] = std::make_unique<nts::NotComponent>();
+    this->_components[4] = std::make_unique<nts::NotComponent>();
+    this->_components[5] = std::make_unique<nts::NotComponent>();
+    this->_components[6] = std::make_unique<nts::NotComponent>();
 
-    for (int i = 1; i < 7; i++) {
-        this->_components[i] = std::make_unique<nts::NotComponent>();
-        AComponent *derivedComponent = dynamic_cast<AComponent *>(this->_components[i].get());
-        if (i == 4)
-            y++;
-        for (int count = 1; count < 3; count++) {
-            this->_pins[y] = derivedComponent->getPin(count);
-            y++;
-        }
-    }
+    // Link pins in_01, out_02, in_03, out_04, in_05, out_06, out_08
+    this->_pins[1] = static_cast<NotComponent*>(this->_components[1].get())->getPin(1);
+    this->_pins[2] = static_cast<NotComponent*>(this->_components[1].get())->getPin(2);
+    this->_pins[3] = static_cast<NotComponent*>(this->_components[2].get())->getPin(1);
+    this->_pins[4] = static_cast<NotComponent*>(this->_components[2].get())->getPin(2);
+    this->_pins[5] = static_cast<NotComponent*>(this->_components[3].get())->getPin(1);
+    this->_pins[6] = static_cast<NotComponent*>(this->_components[3].get())->getPin(2);
+    this->_pins[7] = nullptr;
+    this->_pins[8] = static_cast<NotComponent*>(this->_components[4].get())->getPin(2);
+    this->_pins[9] = static_cast<NotComponent*>(this->_components[4].get())->getPin(1);
+    this->_pins[10] = static_cast<NotComponent*>(this->_components[5].get())->getPin(2);
+    this->_pins[11] = static_cast<NotComponent*>(this->_components[5].get())->getPin(1);
+    this->_pins[12] = static_cast<NotComponent*>(this->_components[6].get())->getPin(2);
+    this->_pins[13] = static_cast<NotComponent*>(this->_components[6].get())->getPin(1);
+    this->_pins[14] = nullptr;
+
+    // // Link pins in_09, in_11, in_13
 }

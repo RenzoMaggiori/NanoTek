@@ -6,6 +6,7 @@
 */
 
 #include "OutputComponent.hpp"
+#include <iostream>
 
 nts::OutputComponent::OutputComponent() {
     std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::Undefined);

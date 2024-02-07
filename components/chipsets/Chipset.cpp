@@ -6,7 +6,9 @@
 */
 
 #include "Chipset.hpp"
+#include "../elementary/NotComponent.hpp"
 #include <cstddef>
+#include <iostream>
 #include <memory>
 
 nts::pinType nts::Chipset::getPinType(std::size_t pin)
@@ -48,10 +50,37 @@ void nts::Chipset::updateOutputPin()
 
 void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
 {
-    for (auto &it: _components) {
-        it.second->setLink(pin, component, componentPin);
+    AComponent *componentCast = dynamic_cast<AComponent*>(&component);
+    if (!componentCast) throw Error("Component casting failed.");
+    if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
+    if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
+    //In case the pin is 1- 7
+    if (pin < 8) {
+        // If the pin refers to an input
+        if (pin % 2 == 0)
+            this->_components[pin / 2]->setLink(2, component, componentPin);
+        // If the pin refers to an output
+        else
+            this->_components[(pin / 2) + 1]->setLink(1, component, componentPin);
+    } else if (pin >= 8) {
+        componentCast = dynamic_cast<AComponent*>(this->_components[pin / 2].get());
+        if (pin % 2 != 0) {
+            this->_components[(pin / 2)]->setLink(1, component, componentPin);
+            this->_pins[pin] = componentCast->getPin(componentPin);
+        }
+        else {
+            this->_pins[pin + 1] = dynamic_cast<AComponent*>(&component)->getPin(componentPin);
+
+            *this->_pins[pin + 1] .get() = *componentCast->getPin(2).get();
+
+            componentCast = dynamic_cast<AComponent*>(&component);
+            componentCast->getPins()[1] = this->_pins[pin + 1];
+        }
     }
+    this->updateOutputPin();
 }
+
+
 
 nts::Tristate nts::Chipset::compute(std::size_t pin)
 {
