@@ -63,18 +63,14 @@ void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t c
         else
             this->_components[(pin / 2) + 1]->setLink(1, component, componentPin);
     } else if (pin >= 8) {
-        componentCast = dynamic_cast<AComponent*>(this->_components[pin / 2].get());
         if (pin % 2 != 0) {
             this->_components[(pin / 2)]->setLink(1, component, componentPin);
+            componentCast = dynamic_cast<AComponent*>(this->_components[pin / 2].get());
             this->_pins[pin] = componentCast->getPin(componentPin);
         }
         else {
-            this->_pins[pin + 1] = dynamic_cast<AComponent*>(&component)->getPin(componentPin);
-
-            *this->_pins[pin + 1] .get() = *componentCast->getPin(2).get();
-
-            componentCast = dynamic_cast<AComponent*>(&component);
-            componentCast->getPins()[1] = this->_pins[pin + 1];
+            this->_pins[pin + 1] = componentCast->getPin(2);
+            dynamic_cast<AComponent*>(&component)->getPins()[1] = this->_pins[pin + 1];
         }
     }
     this->updateOutputPin();
