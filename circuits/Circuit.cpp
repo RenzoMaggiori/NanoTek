@@ -9,7 +9,7 @@
 #include <memory>
 #include <iostream>
 #include <string>
-
+#include <vector>
 
 void nts::Circuit::addComponent(std::string name, std::unique_ptr<nts::IComponent> component) {
     _components[name] = (std::move(component));
@@ -54,15 +54,19 @@ void nts::Circuit::createLinks(std::deque<std::pair<std::pair<std::string, size_
 
 void nts::Circuit::simulate(std::size_t ticks) {
     AComponent* derivedComponent = nullptr;
+    std::vector<std::string> removeUpdated;
 
     for (auto &update: _inputStatus) {
         if (_components.find(update.first) != _components.end()) {
             derivedComponent = dynamic_cast<AComponent*>(_components.find(update.first)->second.get());
             if (derivedComponent->getType() != nts::pinType::INPUT) throw Error("Invalid component match");
             derivedComponent->setInput(update.second);
+            removeUpdated.push_back(update.first);
         } else
             throw Error("Invalid component match");
     }
+    for (const auto &key : removeUpdated)
+        _inputStatus.erase(key);
     derivedComponent = nullptr;
     for (auto &component: _components) {
         derivedComponent = dynamic_cast<AComponent*>(component.second.get());
