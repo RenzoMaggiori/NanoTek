@@ -44,6 +44,7 @@ nts::pinType nts::AComponent::getType() const {
 }
 
 void nts::AComponent::simulate(std::size_t tick) {
+    this->updateOutputPin();
     (void) tick;
 }
 
