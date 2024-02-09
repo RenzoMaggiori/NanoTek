@@ -50,23 +50,21 @@ void nts::Chipset::updateOutputPin()
 
 void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
 {
-    AComponent *componentCast = dynamic_cast<AComponent*>(&component);
-    if (!componentCast) throw Error("Component casting failed.");
     if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
-    if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
-    //In case the pin is 1- 7
-    if (pin < 8) {
-        if (pin % 2 == 0)
-            this->_components[pin / 2]->setLink(2, component, componentPin);
-        else
-            this->_components[(pin / 2) + 1]->setLink(1, component, componentPin);
-    } else if (pin >= 8) {
-        if (pin % 2 != 0)
-            this->_components[(pin / 2)]->setLink(1, component, componentPin);
-        else
-            this->_components[(pin / 2)]->setLink(2, component, componentPin);
+    if (componentPin > static_cast<AComponent*>(&component)->getPins().size() || componentPin <= 0)
+        throw Error("Component pin outside of bounds.");
+    
+    std::map<std::size_t, std::pair<std::shared_ptr<nts::Tristate>, nts::pinType>> pinsMap;
+
+    for (std::size_t i = 1; i <= _components.size(); i++) {
+        pinsMap = dynamic_cast<AComponent *>(_components[i].get())->getPins();
+        for  (std::size_t j = 1; j <= pinsMap.size(); j++) {
+            if (pinsMap[j] == _pins[pin]) {
+                this->_components[i]->setLink(j, component, componentPin);
+                this->updateOutputPin();
+            }
+        }
     }
-    this->updateOutputPin();
 }
 
 
