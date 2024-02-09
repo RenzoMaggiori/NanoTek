@@ -31,7 +31,6 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
             componentCast->_pins[componentPin].first.reset();
             componentCast->_pins[componentPin].first = _pins[pin].first;
         }
-    this->updateOutputPin();
 }
 
 nts::Tristate nts::AComponent::compute(std::size_t pin) {
@@ -44,7 +43,7 @@ nts::pinType nts::AComponent::getType() const {
 }
 
 void nts::AComponent::simulate(std::size_t tick) {
-    this->updateOutputPin();
+    this->simulate(tick);
     (void) tick;
 }
 

@@ -66,7 +66,7 @@ void nts::Circuit::simulate(std::size_t ticks) {
     derivedComponent = nullptr;
     for (auto &component: _components) {
         derivedComponent = dynamic_cast<AComponent*>(component.second.get());
-        derivedComponent->updateOutputPin();
+        derivedComponent->simulate(ticks);
     }
     _ticks = ticks;
 }

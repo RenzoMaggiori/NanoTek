@@ -16,7 +16,7 @@ namespace nts
         public:
             FalseComponent();
             pinType getPinType(std::size_t pin) override;
-            void updateOutputPin() override;
+            void simulate(std::size_t tick) override;
         protected:
         private:
     };

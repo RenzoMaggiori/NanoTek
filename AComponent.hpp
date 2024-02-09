@@ -35,7 +35,6 @@ namespace nts {
             };
             // Virtual
             virtual pinType getPinType(std::size_t pin) = 0;
-            virtual void updateOutputPin() = 0;
             virtual void setInput(nts::Tristate);
 
             // Setters
@@ -47,7 +46,7 @@ namespace nts {
             pinType getType() const;
 
             // Member
-            virtual void simulate(std::size_t tick )override;
+            virtual void simulate(std::size_t tick) override;
             virtual Tristate compute(std::size_t pin) override;
 
         private:

@@ -16,7 +16,7 @@ namespace nts {
         public:
             Chipset() = default;
             pinType getPinType(std::size_t pin) override;
-            void updateOutputPin() override;
+            void simulate(std::size_t tick) override;
             virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
             Tristate compute(std::size_t pin) override;
             std::pair<std::shared_ptr<nts::Tristate>, nts::pinType> getPin(std::size_t pin) override;

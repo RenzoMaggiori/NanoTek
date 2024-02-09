@@ -25,7 +25,8 @@ nts::pinType nts::NandComponent::getPinType(std::size_t pin) {
     return _pins[pin].second;
 }
 
-void nts::NandComponent::updateOutputPin() {
+void nts::NandComponent::simulate(std::size_t tick) {
+    (void) tick;
     std::shared_ptr<nts::Tristate> status;
 
     if (*_pins[1].first.get() == Tristate::True && *_pins[2].first.get() == Tristate::True) {

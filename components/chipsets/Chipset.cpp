@@ -39,12 +39,12 @@ std::pair<std::shared_ptr<nts::Tristate>, nts::pinType> nts::Chipset::getPin(std
     return std::make_pair<std::shared_ptr<nts::Tristate>, nts::pinType>(nullptr, nts::pinType::NONE);
 }
 
-void nts::Chipset::updateOutputPin()
+void nts::Chipset::simulate(std::size_t tick)
 {
     AComponent* derivedComponent = nullptr;
     for (auto &it: _components) {
         derivedComponent = dynamic_cast<AComponent*>(it.second.get());
-        derivedComponent->updateOutputPin();
+        derivedComponent->simulate(tick);
     }
 }
 
@@ -61,7 +61,6 @@ void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t c
         for  (std::size_t j = 1; j <= pinsMap.size(); j++) {
             if (pinsMap[j] == _pins[pin]) {
                 this->_components[i]->setLink(j, component, componentPin);
-                this->updateOutputPin();
             }
         }
     }

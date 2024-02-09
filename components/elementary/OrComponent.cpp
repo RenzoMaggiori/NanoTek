@@ -25,9 +25,8 @@ nts::pinType nts::OrComponent::getPinType(std::size_t pin) {
     return _pins[pin].second;
 }
 
-#include <iostream>
-
-void nts::OrComponent::updateOutputPin() {
+void nts::OrComponent::simulate(std::size_t tick) {
+    (void) tick;
     std::shared_ptr<nts::Tristate> status;
 
     if (*_pins[1].first.get() == Tristate::True || *_pins[2].first.get() == Tristate::True) {

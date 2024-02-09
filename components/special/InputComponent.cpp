@@ -18,7 +18,8 @@ nts::pinType nts::InputComponent::getPinType(std::size_t pin) {
     return pinType::OUTPUT;
 }
 
-void nts::InputComponent::updateOutputPin() {
+void nts::InputComponent::simulate(std::size_t tick) {
+    (void) tick;
     return;
 }
 

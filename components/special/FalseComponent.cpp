@@ -18,6 +18,7 @@ nts::pinType nts::FalseComponent::getPinType(std::size_t pin) {
     return pinType::OUTPUT;
 }
 
-void nts::FalseComponent::updateOutputPin() {
+void nts::FalseComponent::simulate(std::size_t tick) {
+    (void) tick;
     return;
 }
