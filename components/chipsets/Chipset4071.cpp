@@ -9,14 +9,23 @@
 #include "../elementary/OrComponent.hpp"
 
 nts::Chipset4071::Chipset4071() {
-    int y = 0;
+    this->_components[1] = std::make_unique<nts::OrComponent>();
+    this->_components[2] = std::make_unique<nts::OrComponent>();
+    this->_components[3] = std::make_unique<nts::OrComponent>();
+    this->_components[4] = std::make_unique<nts::OrComponent>();
 
-    for (int i = 1; i < 5; i++) {
-        this->_components[i] = std::make_unique<nts::OrComponent>();
-        AComponent *derivedComponent = dynamic_cast<AComponent *>(this->_components[i].get());
-        for (int count = 1; count < 4; count++) {
-            this->_pins[y] = derivedComponent->getPin(count);
-            y++;
-        }
-    }
+    this->_pins[1] = static_cast<OrComponent*>(this->_components[1].get())->getPin(1);
+    this->_pins[2] = static_cast<OrComponent*>(this->_components[1].get())->getPin(2);
+    this->_pins[3] = static_cast<OrComponent*>(this->_components[1].get())->getPin(3);
+    this->_pins[4] = static_cast<OrComponent*>(this->_components[2].get())->getPin(3);
+    this->_pins[5] = static_cast<OrComponent*>(this->_components[2].get())->getPin(2);
+    this->_pins[6] = static_cast<OrComponent*>(this->_components[2].get())->getPin(1);
+    this->_pins[7] = std::make_pair<std::shared_ptr<nts::Tristate>, nts::pinType>(nullptr, nts::pinType::NONE);;
+    this->_pins[8] = static_cast<OrComponent*>(this->_components[3].get())->getPin(1);
+    this->_pins[9] = static_cast<OrComponent*>(this->_components[3].get())->getPin(2);
+    this->_pins[10] = static_cast<OrComponent*>(this->_components[3].get())->getPin(3);
+    this->_pins[11] = static_cast<OrComponent*>(this->_components[4].get())->getPin(3);
+    this->_pins[12] = static_cast<OrComponent*>(this->_components[4].get())->getPin(2);
+    this->_pins[13] = static_cast<OrComponent*>(this->_components[4].get())->getPin(1);
+    this->_pins[14] = std::make_pair<std::shared_ptr<nts::Tristate>, nts::pinType>(nullptr, nts::pinType::NONE);
 }

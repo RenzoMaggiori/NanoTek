@@ -21,7 +21,6 @@ nts::Chipset4069::Chipset4069()
     this->_components[5] = std::make_unique<nts::NotComponent>();
     this->_components[6] = std::make_unique<nts::NotComponent>();
 
-    // Link pins in_01, out_02, in_03, out_04, in_05, out_06, out_08
     this->_pins[1] = static_cast<NotComponent*>(this->_components[1].get())->getPin(1);
     this->_pins[2] = static_cast<NotComponent*>(this->_components[1].get())->getPin(2);
     this->_pins[3] = static_cast<NotComponent*>(this->_components[2].get())->getPin(1);
@@ -36,6 +35,4 @@ nts::Chipset4069::Chipset4069()
     this->_pins[12] = static_cast<NotComponent*>(this->_components[6].get())->getPin(2);
     this->_pins[13] = static_cast<NotComponent*>(this->_components[6].get())->getPin(1);
     this->_pins[14] = std::make_pair<std::shared_ptr<nts::Tristate>, nts::pinType>(nullptr, nts::pinType::NONE);
-
-    // // Link pins in_09, in_11, in_13
 }
