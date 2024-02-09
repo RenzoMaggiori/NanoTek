@@ -8,8 +8,8 @@
 #include "FalseComponent.hpp"
 
 nts::FalseComponent::FalseComponent() {
-    std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::False);
-    this->getPins()[1] = status;
+    this->getPins()[1].first = std::make_shared<nts::Tristate>(Tristate::False);
+    this->getPins()[1].second = nts::OUTPUT;
     _type = pinType::INPUT;
 }
 

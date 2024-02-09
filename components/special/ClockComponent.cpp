@@ -9,8 +9,8 @@
 
 nts::ClockComponent::ClockComponent()
 {
-    std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::Undefined);
-    this->getPins()[1] = status;
+    this->getPins()[1].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
+    this->getPins()[1].second = nts::OUTPUT;
     _type = pinType::INPUT;
 }
 
@@ -23,14 +23,14 @@ nts::pinType nts::ClockComponent::getPinType(std::size_t pin)
 
 void nts::ClockComponent::updateOutputPin()
 {
-    nts::Tristate state = *this->getPins()[1].get();
+    nts::Tristate state = *this->getPins()[1].first.get();
     if (state == nts::Tristate::False)
-        *this->getPins()[1].get() = nts::Tristate::True;
+        *this->getPins()[1].first.get() = nts::Tristate::True;
     else if (state == nts::Tristate::True)
-        *this->getPins()[1].get() = nts::Tristate::False;
+        *this->getPins()[1].first.get() = nts::Tristate::False;
 }
 
 void nts::ClockComponent::setInput(nts::Tristate status)
 {
-    *this->getPins()[1].get() = status;
+    *this->getPins()[1].first.get() = status;
 }

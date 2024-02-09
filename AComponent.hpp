@@ -9,7 +9,6 @@
 #define ACOMPONENT_HPP_
 
 #include "IComponent.hpp"
-//#include "Link.hpp"
 #include <exception>
 #include <memory>
 #include <map>
@@ -22,8 +21,8 @@ namespace nts {
     };
     class AComponent:public IComponent {
         protected:
-            std::map<std::size_t,  std::shared_ptr<Tristate>> _pins;
             pinType _type = pinType::NONE;
+            std::map<std::size_t, std::pair<std::shared_ptr<nts::Tristate>, nts::pinType>> _pins;
         public:
             // Nested
             class Error: public std::exception
@@ -43,8 +42,8 @@ namespace nts {
             virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
 
             // Getters
-            virtual std::shared_ptr<nts::Tristate> getPin(std::size_t pin);
-            std::map<std::size_t, std::shared_ptr<nts::Tristate>> &getPins();
+            virtual std::pair<std::shared_ptr<nts::Tristate>, nts::pinType> getPin(std::size_t pin);
+            std::map<std::size_t, std::pair<std::shared_ptr<nts::Tristate>, nts::pinType>> &getPins();
             pinType getType() const;
 
             // Member

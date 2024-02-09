@@ -9,9 +9,9 @@
 #include <iostream>
 
 nts::OutputComponent::OutputComponent() {
-    std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::Undefined);
-    this->getPins()[1] = status;
-    _type = pinType::OUTPUT;
+    this->getPins()[1].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
+    this->getPins()[1].second = nts::INPUT;
+    _type = nts::pinType::OUTPUT;
 }
 
 nts::pinType nts::OutputComponent::getPinType(std::size_t pin) {

@@ -8,13 +8,12 @@
 #include "AComponent.hpp"
 #include "IComponent.hpp"
 #include <memory>
-#include <iostream>
 
-std::map<std::size_t, std::shared_ptr<nts::Tristate>> &nts::AComponent::getPins() {
+std::map<std::size_t, std::pair<std::shared_ptr<nts::Tristate>, nts::pinType>> &nts::AComponent::getPins() {
     return _pins;
 }
 
-std::shared_ptr<nts::Tristate> nts::AComponent::getPin(std::size_t pin) {
+std::pair<std::shared_ptr<nts::Tristate>, nts::pinType> nts::AComponent::getPin(std::size_t pin) {
     return _pins[pin];
 }
 
@@ -25,19 +24,19 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
     if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
     if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
         if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT) {
-            _pins[pin].reset();
-            _pins[pin] = componentCast->_pins[componentPin];
+            _pins[pin].first.reset();
+            _pins[pin].first = componentCast->_pins[componentPin].first;
         }
         if (this->getPinType(pin) == pinType::OUTPUT && componentCast->getPinType(componentPin) == pinType::INPUT) {
-            componentCast->_pins[componentPin].reset();
-            componentCast->_pins[componentPin] = _pins[pin];
+            componentCast->_pins[componentPin].first.reset();
+            componentCast->_pins[componentPin].first = _pins[pin].first;
         }
     this->updateOutputPin();
 }
 
 nts::Tristate nts::AComponent::compute(std::size_t pin) {
     if (pin > _pins.size()) Error("Invalid pin.");
-    return *(_pins[pin]);
+    return *(_pins[pin].first.get());
 }
 
 nts::pinType nts::AComponent::getType() const {

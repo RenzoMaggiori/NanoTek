@@ -9,8 +9,7 @@
 #include <iostream>
 
 nts::InputComponent::InputComponent() {
-    std::shared_ptr<nts::Tristate> status = std::make_shared<nts::Tristate>(Tristate::Undefined);
-    this->getPins()[1] = status;
+    _pins[1] = std::make_pair(std::make_shared<nts::Tristate>(Tristate::Undefined), nts::OUTPUT);
     _type = pinType::INPUT;
 }
 
@@ -25,5 +24,5 @@ void nts::InputComponent::updateOutputPin() {
 
 void nts::InputComponent::setInput(nts::Tristate status)
 {
-    *_pins[1].get() = status;
+    *_pins[1].first.get() = status;
 }
