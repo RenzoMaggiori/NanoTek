@@ -11,7 +11,7 @@
 nts::TrueComponnet::TrueComponnet() {
     this->getPins()[1].first = std::make_shared<nts::Tristate>(Tristate::True);
     this->getPins()[1].second = nts::OUTPUT;
-    _type = pinType::INPUT;
+    _type = pinType::NONE;
 }
 
 nts::pinType nts::TrueComponnet::getPinType(std::size_t pin) {
