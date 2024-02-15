@@ -10,15 +10,6 @@
 #include "circuits/Circuit.hpp"
 #include <cstring>
 #include <iostream>
-#include <csignal>
-
-bool exitLoop = false;
-
-void signalHandler(int signal)
-{
-    if (signal == SIGINT)
-        exitLoop = true;
-}
 
 void loopProgram(std::string line, nts::Circuit *circuit)
 {
@@ -30,7 +21,7 @@ void loopProgram(std::string line, nts::Circuit *circuit)
         if (std::strstr(line.c_str(), "="))
             circuit->setComponentsStatus(line);
         if (line == "loop") {
-            while (!exitLoop) {
+            while (1) {
                 circuit->simulate(circuit->getTicks() + 1);
                 circuit->display();
             }
@@ -66,6 +57,5 @@ int initProgram(const char *argv[])
 
 int main(int argc, const char *argv[])
 {
-    signal(SIGINT, signalHandler);
     return (initProgram(argv));
 }
