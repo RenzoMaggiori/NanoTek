@@ -7,23 +7,23 @@
 
 #include "Parser.hpp"
 
-Parser::Parser(const std::string &file) {
-    if (file == "") throw Error("File does not exist");
+nts::Parser::Parser(const std::string &file) {
+    if (file == "") throw nts::Error("File does not exist");
     parseFile(file);
 }
 
-void Parser::parseChipset(const std::string &line) {
+void nts::Parser::parseChipset(const std::string &line) {
     if (line.empty()) return;
 
     std::istringstream iss(line);
     std::string type, name;
 
-    if (!(iss >> type >> name)) throw Error("Invalid chipset format");
+    if (!(iss >> type >> name)) throw nts::Error("Invalid chipset format");
 
     _chipsets.push_back({type, name});
 }
 
-void Parser::parseLink(const std::string &line) {
+void nts::Parser::parseLink(const std::string &line) {
     if (line.empty()) return;
     std::istringstream iss(line);
     std::string source, destination, token;
@@ -48,12 +48,12 @@ void Parser::parseLink(const std::string &line) {
     _links.push_back({{source, pin}, {destination, destinationPin}});
 }
 
-void Parser::parseFile(const std::string &file) {
+void nts::Parser::parseFile(const std::string &file) {
     std::ifstream parseFile(file);
     std::string line;
     ParseState state = ParseState::NONE;
 
-    if (!parseFile.is_open()) throw Error("File does not exist.");
+    if (!parseFile.is_open()) throw nts::Error("File does not exist.");
 
     while (std::getline(parseFile, line)) {
         if (line == ".chipsets:") {
@@ -70,10 +70,10 @@ void Parser::parseFile(const std::string &file) {
     }
 }
 
-std::deque<std::pair<std::string, std::string>> Parser::getChipsets() const {
+std::deque<std::pair<std::string, std::string>> nts::Parser::getChipsets() const {
     return _chipsets;
 }
 
-std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> Parser::getLinks() const {
+std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> nts::Parser::getLinks() const {
     return _links;
 }

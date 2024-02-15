@@ -7,7 +7,7 @@
 
 #include "Factory.hpp"
 
-Factory::Factory() {
+nts::Factory::Factory() {
     _creators["4001"] = [this]() { return this->create4001(); };
     _creators["4011"] = [this]() { return this->create4011(); };
     _creators["4030"] = [this]() { return this->create4030(); };
@@ -31,85 +31,85 @@ Factory::Factory() {
 
 // chipsets
 
-std::unique_ptr<nts::IComponent> Factory::create4001() const {
+std::unique_ptr<nts::IComponent> nts::Factory::create4001() const {
     return std::make_unique<nts::Chipset4001>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::create4011() const {
+std::unique_ptr<nts::IComponent> nts::Factory::create4011() const {
     return std::make_unique<nts::Chipset4011>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::create4030() const {
+std::unique_ptr<nts::IComponent> nts::Factory::create4030() const {
     return std::make_unique<nts::Chipset4030>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::create4069() const {
+std::unique_ptr<nts::IComponent> nts::Factory::create4069() const {
     return std::make_unique<nts::Chipset4069>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::create4071() const {
+std::unique_ptr<nts::IComponent> nts::Factory::create4071() const {
     return std::make_unique<nts::Chipset4071>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::create4081() const {
+std::unique_ptr<nts::IComponent> nts::Factory::create4081() const {
     return std::make_unique<nts::Chipset4081>();
 }
 
 // special
 
-std::unique_ptr<nts::IComponent> Factory::createInput() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createInput() const {
     return std::make_unique<nts::InputComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createOutput() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createOutput() const {
     return std::make_unique<nts::OutputComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createTrue() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createTrue() const {
     return std::make_unique<nts::TrueComponnet>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createFalse() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createFalse() const {
     return std::make_unique<nts::FalseComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createClock() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createClock() const {
     return std::make_unique<nts::ClockComponent>();
 }
 
 // elementary
 
-std::unique_ptr<nts::IComponent> Factory::createOr() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createOr() const {
     return std::make_unique<nts::OrComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createNot() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createNot() const {
     return std::make_unique<nts::NotComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createNor() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createNor() const {
     return std::make_unique<nts::NorComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createXor() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createXor() const {
     return std::make_unique<nts::XorComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createAnd() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createAnd() const {
     return std::make_unique<nts::AndComponent>();
 }
 
-std::unique_ptr<nts::IComponent> Factory::createNand() const {
+std::unique_ptr<nts::IComponent> nts::Factory::createNand() const {
     return std::make_unique<nts::NandComponent>();
 }
 
 // create
 
-std::unique_ptr<nts::IComponent> Factory::createComponent(const std::string &type) {
+std::unique_ptr<nts::IComponent> nts::Factory::createComponent(const std::string &type) {
     auto it = _creators.find(type);
     if (it != _creators.end())
         return it->second();
 
-    throw Error("Unknown component type: " + type);
+    throw nts::Error("Unknown component type: " + type);
 }
 

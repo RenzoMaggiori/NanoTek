@@ -20,9 +20,9 @@ std::pair<std::shared_ptr<nts::Tristate>, nts::pinType> nts::AComponent::getPin(
 void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_t componentPin) {
     AComponent *componentCast = dynamic_cast<AComponent*>(&component);
 
-    if (!componentCast) throw Error("Component casting failed.");
-    if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
-    if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw Error("Component pin outside of bounds.");
+    if (!componentCast) throw nts::Error("Component casting failed.");
+    if (pin > _pins.size() || pin <= 0) throw nts::Error("Pin outside of bounds.");
+    if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw nts::Error("Component pin outside of bounds.");
         if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT) {
             _pins[pin].first.reset();
             _pins[pin].first = componentCast->_pins[componentPin].first;
@@ -34,7 +34,7 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
 }
 
 nts::Tristate nts::AComponent::compute(std::size_t pin) {
-    if (pin > _pins.size()) Error("Invalid pin.");
+    if (pin > _pins.size()) nts::Error("Invalid pin.");
     return *(_pins[pin].first.get());
 }
 

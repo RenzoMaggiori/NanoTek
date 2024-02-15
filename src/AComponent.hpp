@@ -25,14 +25,7 @@ namespace nts {
             std::map<std::size_t, std::pair<std::shared_ptr<nts::Tristate>, nts::pinType>> _pins;
         public:
             // Nested
-            class Error: public std::exception
-            {
-                private:
-                    std::string _msg;
-                public:
-                    Error(std::string msg): _msg(msg) {}
-                    const char *what() const noexcept override { return _msg.c_str(); }
-            };
+            class Error;
             // Virtual
             virtual pinType getPinType(std::size_t pin) = 0;
             virtual void setInput(nts::Tristate);

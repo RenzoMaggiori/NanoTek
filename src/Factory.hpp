@@ -35,44 +35,38 @@
 #include <map>
 #include <functional>
 
+namespace nts {
+    class Factory {
+        public:
+            class Error;
 
-class Factory {
-    public:
-        class Error: public std::exception {
-            private:
-                std::string _msg;
-            public:
-                Error(std::string msg): _msg(msg) {}
-                const char *what() const noexcept override { return _msg.c_str(); }
-        };
+            Factory();
 
-        Factory();
+            std::unique_ptr<nts::IComponent> createComponent(const std::string &type);
 
-        std::unique_ptr<nts::IComponent> createComponent(const std::string &type);
+        protected:
+        private:
+            std::unique_ptr<nts::IComponent> create4001() const;
+            std::unique_ptr<nts::IComponent> create4011() const;
+            std::unique_ptr<nts::IComponent> create4030() const;
+            std::unique_ptr<nts::IComponent> create4069() const;
+            std::unique_ptr<nts::IComponent> create4071() const;
+            std::unique_ptr<nts::IComponent> create4081() const;
 
-    protected:
-    private:
-        std::unique_ptr<nts::IComponent> create4001() const;
-        std::unique_ptr<nts::IComponent> create4011() const;
-        std::unique_ptr<nts::IComponent> create4030() const;
-        std::unique_ptr<nts::IComponent> create4069() const;
-        std::unique_ptr<nts::IComponent> create4071() const;
-        std::unique_ptr<nts::IComponent> create4081() const;
+            std::unique_ptr<nts::IComponent> createInput() const;
+            std::unique_ptr<nts::IComponent> createOutput() const;
+            std::unique_ptr<nts::IComponent> createFalse() const;
+            std::unique_ptr<nts::IComponent> createTrue() const;
+            std::unique_ptr<nts::IComponent> createClock() const;
 
-        std::unique_ptr<nts::IComponent> createInput() const;
-        std::unique_ptr<nts::IComponent> createOutput() const;
-        std::unique_ptr<nts::IComponent> createFalse() const;
-        std::unique_ptr<nts::IComponent> createTrue() const;
-        std::unique_ptr<nts::IComponent> createClock() const;
+            std::unique_ptr<nts::IComponent> createOr() const;
+            std::unique_ptr<nts::IComponent> createNor() const;
+            std::unique_ptr<nts::IComponent> createAnd() const;
+            std::unique_ptr<nts::IComponent> createNand() const;
+            std::unique_ptr<nts::IComponent> createXor() const;
+            std::unique_ptr<nts::IComponent> createNot() const;
 
-        std::unique_ptr<nts::IComponent> createOr() const;
-        std::unique_ptr<nts::IComponent> createNor() const;
-        std::unique_ptr<nts::IComponent> createAnd() const;
-        std::unique_ptr<nts::IComponent> createNand() const;
-        std::unique_ptr<nts::IComponent> createXor() const;
-        std::unique_ptr<nts::IComponent> createNot() const;
-
-        std::map<std::string, std::function<std::unique_ptr<nts::IComponent>()>> _creators;
-};
-
+            std::map<std::string, std::function<std::unique_ptr<nts::IComponent>()>> _creators;
+    };
+}
 #endif /* !FACTORY_HPP_ */

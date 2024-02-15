@@ -35,8 +35,8 @@ void loopProgram(std::string line, nts::Circuit *circuit)
 int initProgram(const char *argv[])
 {
     try {
-        Parser parser = Parser((argv[1] ? argv[1] : ""));
-        Factory factory = Factory();
+        nts::Parser parser = nts::Parser((argv[1] ? argv[1] : ""));
+        nts::Factory factory = nts::Factory();
         nts::Circuit *circuit = new nts::Circuit();
         std::deque<std::pair<std::string, std::string>> chipsets = parser.getChipsets();
         std::string line;

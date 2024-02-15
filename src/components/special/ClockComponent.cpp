@@ -17,7 +17,7 @@ nts::ClockComponent::ClockComponent()
 nts::pinType nts::ClockComponent::getPinType(std::size_t pin)
 {
     if (pin != 1)
-        throw Error("Invalid pin.");
+        throw nts::Error("Invalid pin.");
     return pinType::OUTPUT;
 }
 

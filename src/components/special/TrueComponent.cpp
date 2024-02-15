@@ -15,7 +15,7 @@ nts::TrueComponnet::TrueComponnet() {
 }
 
 nts::pinType nts::TrueComponnet::getPinType(std::size_t pin) {
-    if (pin != 1) throw Error("Invalid pin.");
+    if (pin != 1) throw nts::Error("Invalid pin.");
     return pinType::OUTPUT;
 }
 

@@ -50,9 +50,9 @@ void nts::Chipset::simulate(std::size_t tick)
 
 void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
 {
-    if (pin > _pins.size() || pin <= 0) throw Error("Pin outside of bounds.");
+    if (pin > _pins.size() || pin <= 0) throw nts::Error("Pin outside of bounds.");
     if (componentPin > static_cast<AComponent*>(&component)->getPins().size() || componentPin <= 0)
-        throw Error("Component pin outside of bounds.");
+        throw nts::Error("Component pin outside of bounds.");
     
     std::map<std::size_t, std::pair<std::shared_ptr<nts::Tristate>, nts::pinType>> pinsMap;
 

@@ -21,7 +21,7 @@ nts::NandComponent::NandComponent() {
 }
 
 nts::pinType nts::NandComponent::getPinType(std::size_t pin) {
-    if (pin > 3 || pin < 1) throw Error("Invalid pin.");
+    if (pin > 3 || pin < 1) throw nts::Error("Invalid pin.");
     return _pins[pin].second;
 }
 

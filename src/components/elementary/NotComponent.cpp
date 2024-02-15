@@ -22,7 +22,7 @@ nts::NotComponent::NotComponent() {
 }
 
 nts::pinType nts::NotComponent::getPinType(std::size_t pin) {
-    if (pin > 2 || pin < 1) throw Error("Invalid pin.");
+    if (pin > 2 || pin < 1) throw nts::Error("Invalid pin.");
     return _pins[pin].second;
 }
 

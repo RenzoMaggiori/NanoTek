@@ -17,6 +17,13 @@ namespace nts
         True = true,
         False = false
     };
+    class Error: public std::exception {
+        private:
+            std::string _msg;
+        public:
+            Error(std::string msg): _msg(msg) {}
+            const char *what() const noexcept override { return _msg.c_str(); }
+    };
     class IComponent
     {
         public :
