@@ -8,6 +8,21 @@
 #include "Parser.hpp"
 #include "IComponent.hpp"
 #include <iostream>
+#include <regex>
+
+std::string& ltrim(std::string& str) {
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](char ch) {
+        return !std::isspace(ch, std::locale::classic());
+    }));
+    return str;
+}
+
+std::string& rtrim(std::string& str) {
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](char ch) {
+        return !std::isspace(ch, std::locale::classic());
+    }).base(), str.end());
+    return str;
+}
 
 nts::Parser::Parser(const std::string &file) {
     if (file == "") throw nts::Error("File does not exist");
@@ -69,6 +84,7 @@ void nts::Parser::parseFile(const std::string &file) {
     if (!parseFile.is_open()) throw nts::Error("File does not exist.");
 
     while (std::getline(parseFile, line)) {
+            ltrim(rtrim(line));
         if (line == ".chipsets:" || std::strncmp(line.c_str(), ".chipsets:#", 11) == 0) {
             state = ParseState::CHIPSETS;
             chipsets = true;
