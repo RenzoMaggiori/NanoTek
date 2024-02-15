@@ -9,6 +9,7 @@
 #define ICOMPONENT_HPP_
 
 #include <string>
+#include <cstring>
 
 namespace nts
 {

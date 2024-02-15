@@ -7,6 +7,7 @@
 
 #include "Parser.hpp"
 #include "IComponent.hpp"
+#include <iostream>
 
 nts::Parser::Parser(const std::string &file) {
     if (file == "") throw nts::Error("File does not exist");
@@ -14,7 +15,7 @@ nts::Parser::Parser(const std::string &file) {
 }
 
 void nts::Parser::parseChipset(const std::string &line) {
-    if (line.empty()) return;
+    if (line.empty() || line[0] == '#') return;
 
     std::istringstream iss(line);
     std::string type, name;
@@ -28,11 +29,12 @@ void nts::Parser::parseChipset(const std::string &line) {
 }
 
 void nts::Parser::parseLink(const std::string &line) {
-    if (line.empty()) return;
+    if (line.empty() || line[0] == '#') return;
     std::istringstream iss(line);
     std::string source, destination, token;
     size_t pin, destinationPin;
-
+    bool destinationName = false;
+    bool sourceName = false;
     if (std::getline(iss, token, ' ')) {
         auto colonPos = token.find(':');
         if (colonPos != std::string::npos) {
@@ -48,7 +50,13 @@ void nts::Parser::parseLink(const std::string &line) {
             destinationPin = std::stoull(token.substr(colonPos + 1));
         }
     }
-
+    for (auto &it: _chipsets) {
+        if (it.second == source)
+            sourceName = true;
+        if (it.second == destination)
+            destinationName = true;
+    }
+    if (!sourceName || !destinationName) throw nts::Error("Invalid chipset format");
     _links.push_back({{source, pin}, {destination, destinationPin}});
 }
 
@@ -61,11 +69,11 @@ void nts::Parser::parseFile(const std::string &file) {
     if (!parseFile.is_open()) throw nts::Error("File does not exist.");
 
     while (std::getline(parseFile, line)) {
-        if (line == ".chipsets:") {
+        if (line == ".chipsets:" || std::strncmp(line.c_str(), ".chipsets:#", 11) == 0) {
             state = ParseState::CHIPSETS;
             chipsets = true;
             continue;
-        } else if (line == ".links:") {
+        } else if (line == ".links:" || std::strncmp(line.c_str(), ".links:#", 8) == 0) {
             state = ParseState::LINKS;
             links = true;
             continue;
@@ -75,7 +83,7 @@ void nts::Parser::parseFile(const std::string &file) {
         else if (state == ParseState::LINKS)
             parseLink(line);
     }
-    if (!chipsets || !links) throw nts::Error("Invalid file");
+    if (!chipsets || !links || _chipsets.size() == 0) throw nts::Error("Invalid file");
 }
 
 std::deque<std::pair<std::string, std::string>> nts::Parser::getChipsets() const {
