@@ -8,7 +8,8 @@
 #include "Parser.hpp"
 #include "Factory.hpp"
 #include "circuits/Circuit.hpp"
-
+#include <cstring>
+#include <iostream>
 int main(int argc, const char *argv[]) {
     Parser *parser = new Parser((argv[1] ? argv[1] : ""));
     Factory *factory = new Factory();
@@ -26,7 +27,7 @@ int main(int argc, const char *argv[]) {
             circuit->display();
         if (line == "simulate")
             circuit->simulate(circuit->getTicks() + 1);
-        if (line != "display" && line != "simulate")
+        if (std::strstr(line.c_str(), "="))
             circuit->setComponentsStatus(line);
         if (line == "exit")
             break;
