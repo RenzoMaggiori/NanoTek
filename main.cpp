@@ -22,15 +22,14 @@ int main(int argc, const char *argv[]) {
     std::cout << "> ";
     circuit->createLinks(parser->getLinks());
     while (std::getline(std::cin, line)) {
-        if (line == "display") {
+        if (line == "display")
             circuit->display();
-        }
-        if (line == "simulate") {
+        if (line == "simulate")
             circuit->simulate(circuit->getTicks() + 1);
-        }
         if (line != "display" && line != "simulate")
             circuit->setComponentsStatus(line);
-
+        if (line == "exit")
+            break;
         std::cout << "> ";
     }
 
