@@ -6,6 +6,7 @@
 */
 
 #include "Parser.hpp"
+#include "IComponent.hpp"
 
 nts::Parser::Parser(const std::string &file) {
     if (file == "") throw nts::Error("File does not exist");
@@ -20,6 +21,9 @@ void nts::Parser::parseChipset(const std::string &line) {
 
     if (!(iss >> type >> name)) throw nts::Error("Invalid chipset format");
 
+    for (auto &it: _chipsets) {
+        if (it.second == name) throw nts::Error("Invalid chipset format");
+    }
     _chipsets.push_back({type, name});
 }
 
@@ -52,15 +56,18 @@ void nts::Parser::parseFile(const std::string &file) {
     std::ifstream parseFile(file);
     std::string line;
     ParseState state = ParseState::NONE;
-
+    bool chipsets = false;
+    bool links = false;
     if (!parseFile.is_open()) throw nts::Error("File does not exist.");
 
     while (std::getline(parseFile, line)) {
         if (line == ".chipsets:") {
             state = ParseState::CHIPSETS;
+            chipsets = true;
             continue;
         } else if (line == ".links:") {
             state = ParseState::LINKS;
+            links = true;
             continue;
         }
         if (state == ParseState::CHIPSETS)
@@ -68,6 +75,7 @@ void nts::Parser::parseFile(const std::string &file) {
         else if (state == ParseState::LINKS)
             parseLink(line);
     }
+    if (!chipsets || !links) throw nts::Error("Invalid file");
 }
 
 std::deque<std::pair<std::string, std::string>> nts::Parser::getChipsets() const {
