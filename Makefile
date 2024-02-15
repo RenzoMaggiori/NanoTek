@@ -5,12 +5,12 @@
 ## Makefile
 ##
 
-SRC	=	$(wildcard ./*.cpp)\
-		${wildcard components/*.cpp} \
-		${wildcard circuits/*.cpp} \
-		${wildcard components/chipsets/*.cpp} \
-		${wildcard components/elementary/*.cpp} \
-		${wildcard components/special/*.cpp}
+SRC	=	$(wildcard src/*.cpp)\
+		${wildcard src/components/*.cpp} \
+		${wildcard src/circuits/*.cpp} \
+		${wildcard src/components/chipsets/*.cpp} \
+		${wildcard src/components/elementary/*.cpp} \
+		${wildcard src/components/special/*.cpp}
 
 CFLAGS	=	-I./include/ -g3
 
