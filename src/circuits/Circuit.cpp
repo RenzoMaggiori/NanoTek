@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include<algorithm>
 
 void nts::Circuit::addComponent(std::string name, std::unique_ptr<nts::IComponent> component) {
     _components[name] = (std::move(component));
@@ -92,6 +93,7 @@ std::size_t nts::Circuit::getTicks() const {
 
 void nts::Circuit::setComponentsStatus(std::string line) {
     if (line.empty()) return;
+    line.erase(std::remove(line.begin(), line.end(), ' '), line.end());
     std::istringstream iss(line);
     std::string source, token, pin;
     Tristate pinValue = Tristate::Undefined;
@@ -101,18 +103,14 @@ void nts::Circuit::setComponentsStatus(std::string line) {
         if (colonPos != std::string::npos) {
             source = token.substr(0, colonPos);
             pin = token.substr(colonPos + 1);
-            int pinInt = std::stoi(pin);
-            switch (pinInt) {
-                case 1:
-                    pinValue = True;
-                    break;
-                case 0:
-                    pinValue = False;
-                    break;
-                default:
-                    pinValue = Undefined;
-                    break;
-            }
+            if (pin == "1")
+                pinValue = Tristate::True;
+            else if (pin == "0")
+                pinValue = Tristate::False;
+            else if (pin == "U")
+                pinValue = Tristate::Undefined;
+            else
+                throw nts::Error("Invalid input value");
         }
     }
     _inputStatus[source] = pinValue;
