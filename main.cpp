@@ -20,13 +20,12 @@ int main(int argc, const char *argv[]) {
     for (auto &chip: chipsets)
         circuit->addComponent(chip.second, factory->createComponent(chip.first));
     std::cout << "> ";
+    circuit->createLinks(parser->getLinks());
     while (std::getline(std::cin, line)) {
         if (line == "display") {
             circuit->display();
         }
         if (line == "simulate") {
-            if (circuit->getTicks() == 0)
-                circuit->createLinks(parser->getLinks());
             circuit->simulate(circuit->getTicks() + 1);
         }
         if (line != "display" && line != "simulate")
