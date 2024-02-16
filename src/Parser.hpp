@@ -8,16 +8,22 @@
 #ifndef PARSER_HPP_
 #define PARSER_HPP_
 
+#include <cstddef>
 #include <exception>
 #include <fstream>
 #include <iostream>
 #include <deque>
+#include <memory>
 #include <sstream>
 #include <vector>
 #include <utility>
 #include "IComponent.hpp"
 
+
+ ;
 namespace nts {
+    typedef std::pair<std::string, std::string> chipsetType;
+    typedef std::deque<chipsetType> listChipsetsType;
     class Parser {
         public:
             enum class ParseState {
@@ -34,7 +40,8 @@ namespace nts {
 
             std::deque<std::pair<std::string, std::string>> getChipsets() const;
             std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> getLinks() const;
-
+            void existingComponent(std::string source, std::string destination);
+        std::pair<std::string, std::size_t> parseChipsetLink(std::istringstream &iss);
         protected:
             std::deque<std::pair<std::string, std::string>> _chipsets;
             std::deque<std::pair<std::pair<std::string, size_t>, std::pair<std::string, size_t>>> _links;
