@@ -26,7 +26,9 @@ namespace nts {
         protected:
             pinType _type = pinType::NONE;
             nts::pinsMapType _pins;
+            IComponent *_outputLink = nullptr;
         public:
+            std::size_t _priority = 0;
             // Nested
             class Error;
             // Virtual
@@ -35,11 +37,12 @@ namespace nts {
 
             // Setters
             virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
-
+            virtual void setOutputLink(IComponent &component);
             // Getters
             virtual nts::pinsPairType &getPin(std::size_t pin);
             nts::pinsMapType &getPins();
             pinType getType() const;
+            virtual IComponent *getOutputLink();
 
             // Member
             virtual void simulate(std::size_t tick) override;

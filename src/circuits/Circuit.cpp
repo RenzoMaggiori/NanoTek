@@ -6,6 +6,8 @@
 */
 
 #include "Circuit.hpp"
+#include <cstddef>
+#include <map>
 #include <memory>
 #include <iostream>
 #include <string>
@@ -18,6 +20,37 @@ void nts::Circuit::addComponent(std::string name, std::unique_ptr<nts::IComponen
 
 std::map<std::string, std::unique_ptr<nts::IComponent>> &nts::Circuit::getComponents() {
     return _components;
+}
+
+std::multimap<nts::AComponent*, std::size_t> nts::Circuit::sortComponents() {
+    AComponent *castComponent = nullptr;
+    std::multimap<nts::AComponent*, std::size_t> componentMap;
+    std::size_t previousPriority = 1;
+
+    //Loop all components
+    for (auto &component : _components) {
+        castComponent = static_cast<AComponent*>(component.second.get());
+        //Acces ONLY the ones which are of type INPUT e.g.(True, False, Clock, ...)
+        if (castComponent->getType() == nts::pinType::INPUT) {
+            castComponent->_priority = previousPriority; // 1
+            //Iterate over all the links setting the priority n + 1 e.g. (True(1)->Not(2)->And(3)...)
+            while (castComponent->getOutputLink() != nullptr) {
+                if (castComponent->_priority < previousPriority) {
+                    castComponent->_priority = previousPriority + 1;
+                    previousPriority++;
+                }
+                castComponent = static_cast<AComponent*>(castComponent->getOutputLink());
+            }
+            previousPriority = 1;
+        }
+    }
+    for (auto &component : _components) {
+        castComponent = static_cast<AComponent*>(component.second.get());
+        componentMap.insert({castComponent, castComponent->_priority});
+        //std::cout << "NAME: " << component.first <<" PRIORITY: "<<castComponent->_priority << std::endl;
+    }
+
+    return componentMap;
 }
 
 void nts::Circuit::display() {
@@ -56,7 +89,7 @@ void nts::Circuit::createLinks(std::deque<std::pair<std::pair<std::string, size_
 void nts::Circuit::simulate(std::size_t ticks) {
     AComponent* derivedComponent = nullptr;
     std::vector<std::string> removeUpdated;
-
+    std::multimap<AComponent*, std::size_t> sortedComponents;
     for (auto &update: _inputStatus) {
         if (_components.find(update.first) != _components.end()) {
             derivedComponent = dynamic_cast<AComponent*>(_components.find(update.first)->second.get());
@@ -69,9 +102,9 @@ void nts::Circuit::simulate(std::size_t ticks) {
     for (const auto &key : removeUpdated)
         _inputStatus.erase(key);
     derivedComponent = nullptr;
-    for (auto &component: _components) {
-        derivedComponent = dynamic_cast<AComponent*>(component.second.get());
-        derivedComponent->simulate(ticks);
+    sortedComponents = sortComponents();
+    for (auto &component: sortedComponents) {
+        component.first->simulate(ticks);
     }
     _ticks = ticks;
 }

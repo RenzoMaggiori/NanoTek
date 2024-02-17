@@ -28,6 +28,7 @@ namespace nts {
             void display();
             std::size_t getTicks() const;
             void setComponentsStatus(std::string status);
+            std::multimap<nts::AComponent*, std::size_t> sortComponents();
         protected:
         private:
             std::map<std::string, nts::Tristate> _inputStatus;

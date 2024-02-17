@@ -7,6 +7,7 @@
 
 #include "AComponent.hpp"
 #include "IComponent.hpp"
+#include <float.h>
 #include <memory>
 #include <iostream>
 nts::pinsMapType &nts::AComponent::getPins() {
@@ -26,10 +27,13 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
 
     if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT) {
         this->getPin(pin).first = componentCast->getPin(componentPin).first;
+        componentCast->_outputLink = this;
     }
     if (this->getPinType(pin) == pinType::OUTPUT && componentCast->getPinType(componentPin) == pinType::INPUT) {
         componentCast->getPin(componentPin).first = this->getPin(pin).first;
+        this->_outputLink = componentCast;
     }
+
 }
 
 nts::Tristate nts::AComponent::compute(std::size_t pin) {
@@ -49,4 +53,12 @@ void nts::AComponent::simulate(std::size_t tick) {
 void nts::AComponent::setInput(nts::Tristate status) {
     (void) status;
     return;
+}
+
+void nts::AComponent::setOutputLink(nts::IComponent &component) {
+    this->_outputLink = &component;
+}
+
+nts::IComponent *nts::AComponent::getOutputLink() {
+    return this->_outputLink;
 }
