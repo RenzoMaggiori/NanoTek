@@ -42,6 +42,17 @@ nts::pinsPairType &nts::Chipset::getPin(std::size_t pin)
     throw nts::Error("Pin not found. :" + std::to_string(pin));
 }
 
+void nts::Chipset::simulate(std::size_t tick)
+{
+/*     AComponent* derivedComponent = nullptr;
+    for (unsigned int i = 1; i <= _components.size(); i++) {
+        for (auto &it: _components) {
+            derivedComponent = dynamic_cast<AComponent*>(it.second.get());
+            derivedComponent->simulate(tick);
+        }
+    } */
+}
+
 void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
 {
     if (pin > _pins.size() || pin <= 0) throw nts::Error("Pin outside of bounds.");
