@@ -9,6 +9,7 @@
 #define CIRCUIT_HPP_
 
 #include "../AComponent.hpp"
+#include <cstddef>
 #include <deque>
 #include <sstream>
 
@@ -28,12 +29,13 @@ namespace nts {
             void display();
             std::size_t getTicks() const;
             void setComponentsStatus(std::string status);
-            std::multimap<nts::AComponent*, std::size_t> sortComponents();
+            void setSortedComponents();
         protected:
         private:
             std::map<std::string, nts::Tristate> _inputStatus;
             std::size_t _ticks = 0;
             std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
+            std::multimap<std::size_t, nts::AComponent*> _sortedComponents;
     };
 }
 

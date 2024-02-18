@@ -14,7 +14,6 @@ namespace nts {
     class OrComponent: public AComponent {
         public:
             OrComponent();
-            pinType getPinType(std::size_t pin) override;
             void simulate(std::size_t tick) override;
         protected:
         private:

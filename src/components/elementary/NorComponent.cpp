@@ -21,11 +21,6 @@ nts::NorComponent::NorComponent() {
     }
 }
 
-nts::pinType nts::NorComponent::getPinType(std::size_t pin) {
-    if (pin > 3 || pin < 1) throw nts::Error("Invalid pin.");
-     return _pins[pin].second;
-}
-
 void nts::NorComponent::simulate(std::size_t tick) {
     (void) tick;
     std::shared_ptr<nts::Tristate> status;

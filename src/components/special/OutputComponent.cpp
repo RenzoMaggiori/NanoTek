@@ -14,11 +14,6 @@ nts::OutputComponent::OutputComponent() {
     _type = nts::pinType::OUTPUT;
 }
 
-nts::pinType nts::OutputComponent::getPinType(std::size_t pin) {
-    if (pin != 1) throw nts::Error("Invalid pin.");
-    return pinType::INPUT;
-}
-
 void nts::OutputComponent::simulate(std::size_t tick) {
     (void) tick;
     return;

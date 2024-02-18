@@ -12,47 +12,6 @@
 #include <iostream>
 #include <ostream>
 
-nts::pinType nts::Chipset::getPinType(std::size_t pin)
-{
-    AComponent *pinsMap;
-
-    for (std::size_t i = 1; i <= _components.size(); i++) {
-        pinsMap = dynamic_cast<AComponent *>(_components[i].get());
-        for  (std::size_t j = 1; j <= pinsMap->getPins().size(); j++) {
-            if (pinsMap->getPins()[j] == _pins[pin]) {
-                return pinsMap->getPinType(j);
-            }
-        }
-    }
-    throw nts::Error("Pin not found. :" + std::to_string(pin));
-}
-
-nts::pinsPairType &nts::Chipset::getPin(std::size_t pin)
-{
-    AComponent *pinsMap;
-
-    for (std::size_t i = 1; i <= _components.size(); i++) {
-        pinsMap = dynamic_cast<AComponent *>(_components[i].get());
-        for  (std::size_t j = 1; j <= pinsMap->getPins().size(); j++) {
-            if (pinsMap->getPins()[j] == _pins[pin]) {
-                return pinsMap->getPin(j);
-            }
-        }
-    }
-    throw nts::Error("Pin not found. :" + std::to_string(pin));
-}
-
-void nts::Chipset::simulate(std::size_t tick)
-{
-/*     AComponent* derivedComponent = nullptr;
-    for (unsigned int i = 1; i <= _components.size(); i++) {
-        for (auto &it: _components) {
-            derivedComponent = dynamic_cast<AComponent*>(it.second.get());
-            derivedComponent->simulate(tick);
-        }
-    } */
-}
-
 void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
 {
     if (pin > _pins.size() || pin <= 0) throw nts::Error("Pin outside of bounds.");
@@ -71,17 +30,3 @@ void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t c
     }
 }
 
-nts::Tristate nts::Chipset::compute(std::size_t pin)
-{
-    AComponent *pinsMap;
-
-    for (std::size_t i = 1; i <= _components.size(); i++) {
-        pinsMap = dynamic_cast<AComponent *>(_components[i].get());
-        for  (std::size_t j = 1; j <= pinsMap->getPins().size(); j++) {
-            if (pinsMap->getPins()[j] == _pins[pin]) {
-                return pinsMap->compute(j);
-            }
-        }
-    }
-    return nts::Tristate::Undefined;
-}

@@ -14,7 +14,6 @@ namespace nts {
     class OutputComponent: public AComponent {
         public:
             OutputComponent();
-            pinType getPinType(std::size_t pin) override;
             void simulate(std::size_t tick) override;
         protected:
         private:

@@ -6,7 +6,7 @@
 */
 
 #include "AndComponent.hpp"
-
+#include <iostream>
 nts::AndComponent::AndComponent() {
     nts::pinType type = nts::pinType::INPUT;
 
@@ -18,11 +18,6 @@ nts::AndComponent::AndComponent() {
         _pins[i].first = status;
         _pins[i].second = type;
     }
-}
-
-nts::pinType nts::AndComponent::getPinType(std::size_t pin) {
-    if (pin > 3 || pin < 1) throw nts::Error("Invalid pin.");
-    return _pins[pin].second;
 }
 
 void nts::AndComponent::simulate(std::size_t tick) {

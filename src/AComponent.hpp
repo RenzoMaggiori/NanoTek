@@ -27,22 +27,23 @@ namespace nts {
             pinType _type = pinType::NONE;
             nts::pinsMapType _pins;
             IComponent *_outputLink = nullptr;
-        public:
             std::size_t _priority = 0;
+        public:
             // Nested
             class Error;
             // Virtual
-            virtual pinType getPinType(std::size_t pin) = 0;
+            virtual pinType getPinType(std::size_t pin);
             virtual void setInput(nts::Tristate);
+            void setPriority(std::size_t priority);
 
             // Setters
             virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
-            virtual void setOutputLink(IComponent &component);
             // Getters
-            virtual nts::pinsPairType &getPin(std::size_t pin);
             nts::pinsMapType &getPins();
             pinType getType() const;
             virtual IComponent *getOutputLink();
+            std::size_t getPriority() const;
+
 
             // Member
             virtual void simulate(std::size_t tick) override;

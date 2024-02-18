@@ -9,17 +9,14 @@
 #define CHIPSET_HPP_
 
 #include "../../AComponent.hpp"
+#include <cstddef>
 #include <memory>
 
 namespace nts {
     class Chipset: public AComponent {
         public:
             Chipset() = default;
-            pinType getPinType(std::size_t pin) override;
-            void simulate(std::size_t tick) override;
-            virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
-            Tristate compute(std::size_t pin) override;
-            nts::pinsPairType &getPin(std::size_t pin) override;
+            void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
         protected:
             std::map<std::size_t, std::unique_ptr<nts::IComponent>> _components;
         private:

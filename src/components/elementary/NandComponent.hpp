@@ -14,7 +14,6 @@ namespace nts {
     class NandComponent: public AComponent {
         public:
             NandComponent();
-            pinType getPinType(std::size_t pin) override;
             void simulate(std::size_t tick) override;
         protected:
         private:

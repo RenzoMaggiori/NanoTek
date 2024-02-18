@@ -45,6 +45,7 @@ int initProgram(const char *argv[])
             circuit->addComponent(chip.second, factory.createComponent(chip.first));
         std::cout << "> ";
         circuit->createLinks(parser.getLinks());
+        circuit->simulate(circuit->getTicks());
         //loop program
         loopProgram(line, circuit);
     }
