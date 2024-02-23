@@ -29,6 +29,9 @@ nts::Chipset4008::Chipset4008() {
     static_cast<AdderComponent*>(this->_components[1].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[2].get())->getPins()[4];
     static_cast<AdderComponent*>(this->_components[2].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[3].get())->getPins()[4];
     static_cast<AdderComponent*>(this->_components[3].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[4].get())->getPins()[4];
+    static_cast<AdderComponent*>(this->_components[2].get())->setOutputLink(this->_components[1].get());
+    static_cast<AdderComponent*>(this->_components[3].get())->setOutputLink(this->_components[2].get());
+    static_cast<AdderComponent*>(this->_components[4].get())->setOutputLink(this->_components[3].get());
     this->_pins[9] = static_cast<AdderComponent*>(this->_components[4].get())->getPins()[3];
 
     this->_pins[13] = static_cast<AdderComponent*>(this->_components[1].get())->getPins()[5];

@@ -10,7 +10,7 @@
 
 #include "IComponent.hpp"
 #include <cstddef>
-#include <exception>
+#include <deque>
 #include <memory>
 #include <map>
 
@@ -26,7 +26,7 @@ namespace nts {
         protected:
             pinType _type = pinType::NONE;
             nts::pinsMapType _pins;
-            IComponent *_outputLink = nullptr;
+            std::deque<IComponent *> _outputLink;
             std::size_t _priority = 0;
         public:
             // Nested
@@ -38,10 +38,11 @@ namespace nts {
 
             // Setters
             virtual void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
+            void setOutputLink(IComponent * outputLink);
             // Getters
             nts::pinsMapType &getPins();
             pinType getType() const;
-            virtual IComponent *getOutputLink();
+            std::deque<IComponent *> getOutputLink();
             std::size_t getPriority() const;
 
 

@@ -26,11 +26,11 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
 
     if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT) {
         this->getPins()[pin].first = componentCast->getPins()[componentPin].first;
-        componentCast->_outputLink = this;
+        componentCast->_outputLink.push_front(this);
     }
     if (this->getPinType(pin) == pinType::OUTPUT && componentCast->getPinType(componentPin) == pinType::INPUT) {
         componentCast->getPins()[componentPin].first = this->getPins()[pin].first;
-        this->_outputLink = componentCast;
+        this->_outputLink.push_front(componentCast);
     }
 
 }
@@ -59,7 +59,7 @@ void nts::AComponent::setInput(nts::Tristate status) {
     return;
 }
 
-nts::IComponent *nts::AComponent::getOutputLink() {
+std::deque<nts::IComponent *> nts::AComponent::getOutputLink() {
     return this->_outputLink;
 }
 
@@ -69,4 +69,8 @@ void nts::AComponent::setPriority(std::size_t priority) {
 
 std::size_t nts::AComponent::getPriority() const {
     return _priority;
+}
+
+void nts::AComponent::setOutputLink(IComponent * outputLink) {
+    _outputLink.push_front(outputLink);
 }
