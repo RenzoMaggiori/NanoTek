@@ -14,6 +14,7 @@ nts::Factory::Factory() {
     _creators["4069"] = [this]() { return this->create4069(); };
     _creators["4071"] = [this]() { return this->create4071(); };
     _creators["4081"] = [this]() { return this->create4081(); };
+    _creators["4008"] = [this]() { return this->create4008(); };
 
     _creators["input"] = [this]() { return this->createInput(); };
     _creators["output"] = [this]() { return this->createOutput(); };
@@ -33,6 +34,10 @@ nts::Factory::Factory() {
 
 std::unique_ptr<nts::IComponent> nts::Factory::create4001() const {
     return std::make_unique<nts::Chipset4001>();
+}
+
+std::unique_ptr<nts::IComponent> nts::Factory::create4008() const {
+    return std::make_unique<nts::Chipset4008>();
 }
 
 std::unique_ptr<nts::IComponent> nts::Factory::create4011() const {
