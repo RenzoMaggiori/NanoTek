@@ -7,6 +7,7 @@
 
 #include "Circuit.hpp"
 #include <cstddef>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <iostream>
@@ -22,32 +23,40 @@ std::map<std::string, std::unique_ptr<nts::IComponent>> &nts::Circuit::getCompon
     return _components;
 }
 
+std::map<nts::AComponent*, std::size_t> nts::Circuit::loopThroughLinks(nts::AComponent *castComponent,
+    std::map<nts::AComponent*, std::size_t> &componentMap)
+{
+    std::size_t previousPriority = 1;
+
+    while (castComponent->getOutputLink() != nullptr) {
+        castComponent = static_cast<AComponent*>(castComponent->getOutputLink());
+        if (castComponent->getPriority() <= previousPriority) {
+            if (componentMap.find(castComponent) != componentMap.end())
+                componentMap.erase(castComponent);
+            previousPriority++;
+            castComponent->setPriority(previousPriority);
+            componentMap.insert({castComponent, previousPriority});
+        }
+    }
+    return componentMap;
+}
+
 void nts::Circuit::setSortedComponents() {
     AComponent *castComponent = nullptr;
     std::map<nts::AComponent*, std::size_t> componentMap;
-    std::size_t previousPriority = 1;
 
     //Loop all components
     for (auto &component : _components) {
         castComponent = static_cast<AComponent*>(component.second.get());
         //Acces ONLY the ones which are of type INPUT e.g.(True, False, Clock, ...)
         if (castComponent->getPins().size() == 1) {
-            castComponent->setPriority(previousPriority); // 1
-            componentMap.insert({castComponent, previousPriority});
+            castComponent->setPriority(1); // 1
+            componentMap.insert({castComponent, 1});
             //Iterate over all the links setting the priority n + 1 e.g. (True(1)->Not(2)->And(3)...)
-            while (castComponent->getOutputLink() != nullptr) {
-                castComponent = static_cast<AComponent*>(castComponent->getOutputLink());
-                if (castComponent->getPriority() < previousPriority) {
-                    if (componentMap.find(castComponent) != componentMap.end())
-                        componentMap.erase(castComponent);
-                    previousPriority++;
-                    castComponent->setPriority(previousPriority);
-                    componentMap.insert({castComponent, previousPriority});
-                }
-            }
-            previousPriority = 1;
+            componentMap = loopThroughLinks(castComponent, componentMap);
         }
     }
+    //Insert the components into a multimap sorted by priority
     for (auto &component : componentMap) {
         this->_sortedComponents. insert({component.second, component.first});
     }
@@ -90,7 +99,6 @@ void nts::Circuit::createLinks(std::deque<std::pair<std::pair<std::string, size_
 void nts::Circuit::simulate(std::size_t ticks) {
     AComponent* derivedComponent = nullptr;
     std::vector<std::string> removeUpdated;
-    std::multimap<AComponent*, std::size_t> sortedComponents;
     for (auto &update: _inputStatus) {
         if (_components.find(update.first) != _components.end()) {
             derivedComponent = dynamic_cast<AComponent*>(_components.find(update.first)->second.get());
