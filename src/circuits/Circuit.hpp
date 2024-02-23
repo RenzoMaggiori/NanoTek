@@ -30,6 +30,8 @@ namespace nts {
             std::size_t getTicks() const;
             void setComponentsStatus(std::string status);
             void setSortedComponents();
+            std::map<nts::AComponent*, std::size_t> loopThroughLinks(nts::AComponent *castComponent,
+                std::map<nts::AComponent*, std::size_t> &componentMap);
         protected:
         private:
             std::map<std::string, nts::Tristate> _inputStatus;

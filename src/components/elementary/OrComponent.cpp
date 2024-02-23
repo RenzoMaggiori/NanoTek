@@ -7,15 +7,14 @@
 
 #include "OrComponent.hpp"
 
-nts::OrComponent::OrComponent() {
+nts::OrComponent::OrComponent()
+{
     nts::pinType type = nts::pinType::INPUT;
 
     for (size_t i = 1; i < 4; i++) {
         if (i == 3)
             type = nts::pinType::OUTPUT;
-        std::shared_ptr<nts::Tristate> status;
-        status = std::make_shared<nts::Tristate>(Tristate::Undefined);
-        _pins[i].first = status;
+        _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
         _pins[i].second = type;
     }
 }

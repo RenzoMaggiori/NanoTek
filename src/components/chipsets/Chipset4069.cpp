@@ -6,10 +6,8 @@
 */
 
 #include "Chipset4069.hpp"
-#include <iostream>
 #include <memory>
 #include "../elementary/NotComponent.hpp"
-#include "Chipset.hpp"
 
 nts::Chipset4069::Chipset4069()
 {
