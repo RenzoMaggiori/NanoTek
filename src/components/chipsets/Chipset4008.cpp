@@ -25,15 +25,15 @@ nts::Chipset4008::Chipset4008() {
     this->_pins[8] = std::make_pair<std::shared_ptr<nts::Tristate>, nts::pinType>(nullptr, nts::pinType::NONE);
     this->_pins[16] = std::make_pair<std::shared_ptr<nts::Tristate>, nts::pinType>(nullptr, nts::pinType::NONE);
 
-    this->_pins[14] = static_cast<AdderComponent*>(this->_components[1].get())->getPins()[5];
-    static_cast<AdderComponent*>(this->_components[1].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[2].get())->getPins()[5];
-    static_cast<AdderComponent*>(this->_components[2].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[3].get())->getPins()[5];
-    static_cast<AdderComponent*>(this->_components[3].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[4].get())->getPins()[5];
+    this->_pins[14] = static_cast<AdderComponent*>(this->_components[1].get())->getPins()[4];
+    static_cast<AdderComponent*>(this->_components[1].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[2].get())->getPins()[4];
+    static_cast<AdderComponent*>(this->_components[2].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[3].get())->getPins()[4];
+    static_cast<AdderComponent*>(this->_components[3].get())->getPins()[3] = static_cast<AdderComponent*>(this->_components[4].get())->getPins()[4];
     this->_pins[9] = static_cast<AdderComponent*>(this->_components[4].get())->getPins()[3];
 
-    this->_pins[13] = static_cast<AdderComponent*>(this->_components[1].get())->getPins()[4];
-    this->_pins[12] = static_cast<AdderComponent*>(this->_components[2].get())->getPins()[4];
-    this->_pins[11] = static_cast<AdderComponent*>(this->_components[3].get())->getPins()[4];
-    this->_pins[10] = static_cast<AdderComponent*>(this->_components[4].get())->getPins()[4];
+    this->_pins[13] = static_cast<AdderComponent*>(this->_components[1].get())->getPins()[5];
+    this->_pins[12] = static_cast<AdderComponent*>(this->_components[2].get())->getPins()[5];
+    this->_pins[11] = static_cast<AdderComponent*>(this->_components[3].get())->getPins()[5];
+    this->_pins[10] = static_cast<AdderComponent*>(this->_components[4].get())->getPins()[5];
 }
 
