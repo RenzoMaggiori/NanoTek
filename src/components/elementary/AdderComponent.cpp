@@ -54,6 +54,6 @@ void nts::AdderComponent::simulate(std::size_t tick) {
         carryOut = Tristate::True;
     }
 
-    *_pins[4].first.get() = sum;
-    *_pins[5].first.get() = carryOut;
+    *_pins[4].first.get() = carryOut;
+    *_pins[5].first.get() = sum;
 }
