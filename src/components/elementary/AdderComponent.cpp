@@ -49,9 +49,12 @@ void nts::AdderComponent::simulate(std::size_t tick) {
     } else if (inputA == Tristate::True && inputB == Tristate::False && carryIn == Tristate::True) {
         sum = Tristate::False;
         carryOut = Tristate::True;
-    } else {
+    } else if (inputA == Tristate::True && inputB == Tristate::True && carryIn == Tristate::True) {
         sum = Tristate::True;
         carryOut = Tristate::True;
+    } else {
+        sum = Tristate::Undefined;
+        carryOut = Tristate::Undefined;
     }
 
     *_pins[4].first.get() = carryOut;
