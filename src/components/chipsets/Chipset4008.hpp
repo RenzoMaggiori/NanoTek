@@ -9,9 +9,8 @@
 #define CHIPSET4008_HPP_
 
 #include "Chipset.hpp"
-#include "../elementary/XorComponent.hpp"
-#include "../elementary/OrComponent.hpp"
-#include "../elementary/AndComponent.hpp"
+#include "../elementary/AdderComponent.hpp"
+
 
 namespace nts {
     class Chipset4008: public Chipset {
