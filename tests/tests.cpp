@@ -190,6 +190,8 @@ Test(output_component_tests, simulate_no_effect_of_output) {
 
 // -------------------------------------- ELEMENTARY COMPONENTS TESTS -------------------------------------- //
 
+// ---- And component ---- //
+
 Test(and_component_tests, initialization_of_and) {
     nts::AndComponent andComponent;
     auto pins = andComponent.getPins();
@@ -199,7 +201,7 @@ Test(and_component_tests, initialization_of_and) {
 }
 
 // Test AND logic: True AND True = True
-Test(and_component_tests, true_and_true) {
+Test(and_component_tests, true_and_true_and) {
     nts::TrueComponnet trueComponent1;
     nts::TrueComponnet trueComponent2;
     nts::AndComponent andComponent;
@@ -211,7 +213,7 @@ Test(and_component_tests, true_and_true) {
 }
 
 // Test AND logic: False AND True = False
-Test(and_component_tests, false_and_true) {
+Test(and_component_tests, false_and_true_and) {
     nts::TrueComponnet trueComponent;
     nts::FalseComponent falseComponent;
 
@@ -224,7 +226,7 @@ Test(and_component_tests, false_and_true) {
 }
 
 // Test AND logic: False AND False = False
-Test(and_component_tests, false_and_false) {
+Test(and_component_tests, false_and_false_and) {
     nts::FalseComponent falseComponent1;
     nts::FalseComponent falseComponent2;
     nts::AndComponent andComponent;
@@ -236,7 +238,7 @@ Test(and_component_tests, false_and_false) {
 }
 
 // Test AND logic: Undefined AND True/False = Undefined
-Test(and_component_tests, undefined_and_any) {
+Test(and_component_tests, undefined_and_any_and) {
     nts::TrueComponnet trueComponent;
     nts::FalseComponent falseComponent;
     nts::InputComponent inputComponent;
@@ -251,4 +253,201 @@ Test(and_component_tests, undefined_and_any) {
     andComponent.simulate(1);
     auto outputFalse = andComponent.compute(3);
     cr_assert_eq(outputFalse, nts::Tristate::False, "Undefined AND False should be False");
+}
+
+
+// ---- Or component ---- //
+
+Test(or_component_tests, initialization_of_or) {
+    nts::OrComponent orComponent;
+    auto pins = orComponent.getPins();
+    cr_assert_eq(*pins[1].first, nts::Tristate::Undefined, "Input pin 1 should initialize as Undefined");
+    cr_assert_eq(*pins[2].first, nts::Tristate::Undefined, "Input pin 2 should initialize as Undefined");
+    cr_assert_eq(*pins[3].first, nts::Tristate::Undefined, "Output pin should initialize as Undefined");
+}
+
+// Test AND logic: True AND True = True
+Test(or_component_tests, true_and_true_or) {
+    nts::TrueComponnet trueComponent1;
+    nts::TrueComponnet trueComponent2;
+    nts::OrComponent orComponent;
+    orComponent.setLink(1, trueComponent1, 1);
+    orComponent.setLink(2, trueComponent2, 1);
+    orComponent.simulate(0);
+    auto output = orComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::True, "True AND True should be True");
+}
+
+// Test AND logic: False AND True = True
+Test(or_component_tests, false_and_true_or) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+
+    nts::OrComponent orComponent;
+    orComponent.setLink(1, trueComponent, 1);
+    orComponent.setLink(2, falseComponent, 1);
+    orComponent.simulate(0);
+    auto output = orComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::True, "False AND True should be True");
+}
+
+// Test AND logic: False AND False = False
+Test(or_component_tests, false_and_false_or) {
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::OrComponent orComponent;
+    orComponent.setLink(1, falseComponent1, 1);
+    orComponent.setLink(2, falseComponent2, 1);
+    orComponent.simulate(0);
+    auto output = orComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::False, "False AND False should be False");
+}
+
+// Test AND logic: Undefined AND True/False = Undefined
+Test(or_component_tests, undefined_and_any_or) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+    nts::InputComponent inputComponent;
+    nts::OrComponent orComponent;
+    orComponent.setLink(1, inputComponent, 1);
+    orComponent.setLink(2, trueComponent, 1);
+    orComponent.simulate(0);
+    auto outputTrue = orComponent.compute(3);
+    cr_assert_eq(outputTrue, nts::Tristate::True, "Undefined AND True should be True");
+
+    orComponent.setLink(2, falseComponent, 1);
+    orComponent.simulate(1);
+    auto outputFalse = orComponent.compute(3);
+    cr_assert_eq(outputFalse, nts::Tristate::Undefined, "Undefined AND False should be Undefined");
+}
+
+// ---- Nand component ---- //
+
+
+Test(nand_component_tests, initialization_of_nand) {
+    nts::NandComponent nandComponent;
+    auto pins = nandComponent.getPins();
+    cr_assert_eq(*pins[1].first, nts::Tristate::Undefined, "Input pin 1 should initialize as Undefined");
+    cr_assert_eq(*pins[2].first, nts::Tristate::Undefined, "Input pin 2 should initialize as Undefined");
+    cr_assert_eq(*pins[3].first, nts::Tristate::Undefined, "Output pin should initialize as Undefined");
+}
+
+// Test AND logic: True AND True = False
+Test(nand_component_tests, true_and_true_nand) {
+    nts::TrueComponnet trueComponent1;
+    nts::TrueComponnet trueComponent2;
+    nts::NandComponent nandComponent;
+    nandComponent.setLink(1, trueComponent1, 1);
+    nandComponent.setLink(2, trueComponent2, 1);
+    nandComponent.simulate(0);
+    auto output = nandComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::False, "True AND True should be False");
+}
+
+// Test AND logic: False AND True = True
+Test(nand_component_tests, false_and_true_nand) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+
+    nts::NandComponent nandComponent;
+    nandComponent.setLink(1, trueComponent, 1);
+    nandComponent.setLink(2, falseComponent, 1);
+    nandComponent.simulate(0);
+    auto output = nandComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::True, "False AND True should be True");
+}
+
+// Test AND logic: False AND False = False
+Test(nand_component_tests, false_and_false_nand) {
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::NandComponent nandComponent;
+    nandComponent.setLink(1, falseComponent1, 1);
+    nandComponent.setLink(2, falseComponent2, 1);
+    nandComponent.simulate(0);
+    auto output = nandComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::True, "False AND False should be True");
+}
+
+// Test AND logic: Undefined AND True/False = Undefined
+Test(nand_component_tests, undefined_and_any_nand) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+    nts::InputComponent inputComponent;
+    nts::NandComponent nandComponent;
+    nandComponent.setLink(1, inputComponent, 1);
+    nandComponent.setLink(2, trueComponent, 1);
+    nandComponent.simulate(0);
+    auto outputTrue = nandComponent.compute(3);
+    cr_assert_eq(outputTrue, nts::Tristate::Undefined, "Undefined AND True should be True");
+
+    nandComponent.setLink(2, falseComponent, 1);
+    nandComponent.simulate(1);
+    auto outputFalse = nandComponent.compute(3);
+    cr_assert_eq(outputFalse, nts::Tristate::True, "Undefined AND False should be True");
+}
+
+// ---- Nor component ---- //
+
+Test(nor_component_tests, initialization_of_nor) {
+    nts::NorComponent norComponent;
+    auto pins = norComponent.getPins();
+    cr_assert_eq(*pins[1].first, nts::Tristate::Undefined, "Input pin 1 should initialize as Undefined");
+    cr_assert_eq(*pins[2].first, nts::Tristate::Undefined, "Input pin 2 should initialize as Undefined");
+    cr_assert_eq(*pins[3].first, nts::Tristate::Undefined, "Output pin should initialize as Undefined");
+}
+
+// Test AND logic: True AND True = False
+Test(nor_component_tests, true_and_true_nor) {
+    nts::TrueComponnet trueComponent1;
+    nts::TrueComponnet trueComponent2;
+    nts::NorComponent norComponent;
+    norComponent.setLink(1, trueComponent1, 1);
+    norComponent.setLink(2, trueComponent2, 1);
+    norComponent.simulate(0);
+    auto output = norComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::False, "True AND True should be False");
+}
+
+// Test AND logic: False AND True = False
+Test(nor_component_tests, false_and_true_nor) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+
+    nts::NorComponent norComponent;
+    norComponent.setLink(1, trueComponent, 1);
+    norComponent.setLink(2, falseComponent, 1);
+    norComponent.simulate(0);
+    auto output = norComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::False, "False AND True should be False");
+}
+
+// Test AND logic: False AND False = True
+Test(nor_component_tests, false_and_false_or) {
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::NorComponent norComponent;
+    norComponent.setLink(1, falseComponent1, 1);
+    norComponent.setLink(2, falseComponent2, 1);
+    norComponent.simulate(0);
+    auto output = norComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::True, "False AND False should be true");
+}
+
+// Test AND logic: Undefined AND True/False = Undefined
+Test(nor_component_tests, undefined_and_any_or) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+    nts::InputComponent inputComponent;
+    nts::NorComponent norComponent;
+    norComponent.setLink(1, inputComponent, 1);
+    norComponent.setLink(2, trueComponent, 1);
+    norComponent.simulate(0);
+    auto outputTrue = norComponent.compute(3);
+    cr_assert_eq(outputTrue, nts::Tristate::False, "Undefined AND True should be False");
+
+    norComponent.setLink(2, falseComponent, 1);
+    norComponent.simulate(1);
+    auto outputFalse = norComponent.compute(3);
+    cr_assert_eq(outputFalse, nts::Tristate::Undefined, "Undefined AND False should be Undefined");
 }
