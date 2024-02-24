@@ -19,7 +19,7 @@ namespace nts {
         protected:
         private:
             std::size_t _counter = 0;
-            Tristate _prevClock = Tristate::True;
+            Tristate _prevClock = Tristate::False;
     };
 }
 
