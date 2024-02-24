@@ -28,7 +28,7 @@
 #include "components/chipsets/Chipset4081.hpp"
 #include "components/chipsets/Chipset4008.hpp"
 #include "components/chipsets/Chipset4512.hpp"
-
+#include "components/chipsets/single/Chipset2716.hpp"
 
 #include "components/special/InputComponent.hpp"
 #include "components/special/OutputComponent.hpp"

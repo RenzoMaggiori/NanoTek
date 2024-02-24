@@ -8,6 +8,7 @@
 #include "AComponent.hpp"
 #include "IComponent.hpp"
 #include "components/chipsets/Chipset.hpp"
+#include <iostream>
 #include <memory>
 nts::pinsMapType &nts::AComponent::getPins() {
     return _pins;
@@ -15,24 +16,32 @@ nts::pinsMapType &nts::AComponent::getPins() {
 
 void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_t componentPin) {
     AComponent *componentCast = dynamic_cast<AComponent*>(&component);
+    nts::pinType thisPinType;
+    nts::pinType compPinType;
 
-    if (Chipset* chipsetPtr = dynamic_cast<Chipset*>(componentCast)) {
-        chipsetPtr->setLink(componentPin, *this, pin);
-        return;
-    }
     if (!componentCast) throw nts::Error("Component casting failed.");
     if (pin > _pins.size() || pin <= 0) throw nts::Error("Pin outside of bounds.");
     if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw nts::Error("Component pin outside of bounds.");
 
-    if (this->getPinType(pin) == pinType::INPUT && componentCast->getPinType(componentPin) == pinType::OUTPUT) {
+    if (Chipset* chipsetPtr = dynamic_cast<Chipset*>(componentCast))
+        return chipsetPtr->setLink(componentPin, *this, pin);
+    thisPinType = this->getPinType(pin);
+    compPinType = componentCast->getPinType(componentPin);
+    if ((thisPinType == pinType::INPUT || thisPinType == pinType::HYBRID)
+        && compPinType == pinType::OUTPUT) {
         this->getPins()[pin].first = componentCast->getPins()[componentPin].first;
         componentCast->_outputLink.push_front(this);
     }
-    if (this->getPinType(pin) == pinType::OUTPUT && componentCast->getPinType(componentPin) == pinType::INPUT) {
+    if (thisPinType == pinType::OUTPUT && compPinType == pinType::INPUT) {
         componentCast->getPins()[componentPin].first = this->getPins()[pin].first;
         this->_outputLink.push_front(componentCast);
     }
-
+    if (thisPinType == pinType::HYBRID && compPinType == pinType::INPUT) {
+        componentCast->getPins()[componentPin].second = pinType::HYBRID;
+    }
+    if (thisPinType == pinType::INPUT && compPinType == pinType::HYBRID) {
+        this->getPins()[pin].second = pinType::HYBRID;
+    }
 }
 
 nts::Tristate nts::AComponent::compute(std::size_t pin) {
@@ -54,9 +63,9 @@ void nts::AComponent::simulate(std::size_t tick) {
     (void) tick;
 }
 
-void nts::AComponent::setInput(nts::Tristate status) {
+bool nts::AComponent::setInput(nts::Tristate status) {
     (void) status;
-    return;
+    return false;
 }
 
 std::deque<nts::IComponent *> nts::AComponent::getOutputLink() {

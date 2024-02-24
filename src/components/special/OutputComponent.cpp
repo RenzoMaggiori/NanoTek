@@ -18,3 +18,13 @@ void nts::OutputComponent::simulate(std::size_t tick) {
     (void) tick;
     return;
 }
+
+bool nts::OutputComponent::setInput(nts::Tristate status)
+{
+    if (_pins[1].second == nts::pinType::HYBRID) {
+        *_pins[1].first.get() = status;
+        return true;
+    } else {
+        return false;
+    }
+}

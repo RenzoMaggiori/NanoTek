@@ -18,6 +18,7 @@ namespace nts {
     enum pinType {
         INPUT,
         OUTPUT,
+        HYBRID,
         NONE
     };
     typedef std::pair<std::shared_ptr<nts::Tristate>, nts::pinType> pinsPairType;
@@ -33,7 +34,7 @@ namespace nts {
             class Error;
             // Virtual
             virtual pinType getPinType(std::size_t pin);
-            virtual void setInput(nts::Tristate);
+            virtual bool setInput(nts::Tristate);
             void setPriority(std::size_t priority);
 
             // Setters

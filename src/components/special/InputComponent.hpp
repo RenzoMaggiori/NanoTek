@@ -15,7 +15,7 @@ namespace nts {
         public:
             InputComponent();
             void simulate(std::size_t tick) override;
-            void setInput(nts::Tristate) override;
+            bool setInput(nts::Tristate) override;
         protected:
         private:
     };

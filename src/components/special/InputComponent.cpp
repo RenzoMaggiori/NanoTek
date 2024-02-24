@@ -18,7 +18,8 @@ void nts::InputComponent::simulate(std::size_t tick) {
     return;
 }
 
-void nts::InputComponent::setInput(nts::Tristate status)
+bool nts::InputComponent::setInput(nts::Tristate status)
 {
     *_pins[1].first.get() = status;
+    return true;
 }

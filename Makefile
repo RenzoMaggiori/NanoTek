@@ -10,7 +10,8 @@ SRC	=	$(wildcard src/*.cpp) \
 		$(wildcard src/circuits/*.cpp) \
 		$(wildcard src/components/chipsets/*.cpp) \
 		$(wildcard src/components/elementary/*.cpp) \
-		$(wildcard src/components/special/*.cpp)
+		$(wildcard src/components/special/*.cpp) \
+	    $(wildcard src/components/chipsets/single/*.cpp) \
 
 # Exclude main.cpp from the test compilation to avoid multiple main definitions
 TEST_SRC = $(filter-out src/main.cpp, $(SRC)) $(wildcard tests/*.cpp)

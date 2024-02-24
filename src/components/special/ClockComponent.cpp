@@ -26,8 +26,9 @@ void nts::ClockComponent::simulate(std::size_t tick)
         *this->getPins()[1].first.get() = (state == nts::Tristate::True) ? nts::Tristate::False : nts::Tristate::True;
 }
 
-void nts::ClockComponent::setInput(nts::Tristate status)
+bool nts::ClockComponent::setInput(nts::Tristate status)
 {
     this->_availableTick = false;
     *this->getPins()[1].first.get() = status;
+    return true;
 }
