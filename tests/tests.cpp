@@ -423,7 +423,7 @@ Test(nor_component_tests, false_and_true_nor) {
 }
 
 // Test AND logic: False AND False = True
-Test(nor_component_tests, false_and_false_or) {
+Test(nor_component_tests, false_and_false_nor) {
     nts::FalseComponent falseComponent1;
     nts::FalseComponent falseComponent2;
     nts::NorComponent norComponent;
@@ -435,7 +435,7 @@ Test(nor_component_tests, false_and_false_or) {
 }
 
 // Test AND logic: Undefined AND True/False = Undefined
-Test(nor_component_tests, undefined_and_any_or) {
+Test(nor_component_tests, undefined_and_any_nor) {
     nts::TrueComponnet trueComponent;
     nts::FalseComponent falseComponent;
     nts::InputComponent inputComponent;
@@ -451,3 +451,70 @@ Test(nor_component_tests, undefined_and_any_or) {
     auto outputFalse = norComponent.compute(3);
     cr_assert_eq(outputFalse, nts::Tristate::Undefined, "Undefined AND False should be Undefined");
 }
+
+// ---- Xor component ---- //
+
+Test(xor_component_tests, initialization_of_xor) {
+    nts::XorComponent xorComponent;
+    auto pins = xorComponent.getPins();
+    cr_assert_eq(*pins[1].first, nts::Tristate::Undefined, "Input pin 1 should initialize as Undefined");
+    cr_assert_eq(*pins[2].first, nts::Tristate::Undefined, "Input pin 2 should initialize as Undefined");
+    cr_assert_eq(*pins[3].first, nts::Tristate::Undefined, "Output pin should initialize as Undefined");
+}
+
+// Test AND logic: True AND True = False
+Test(xor_component_tests, true_and_true_xor) {
+    nts::TrueComponnet trueComponent1;
+    nts::TrueComponnet trueComponent2;
+    nts::XorComponent xorComponent;
+    xorComponent.setLink(1, trueComponent1, 1);
+    xorComponent.setLink(2, trueComponent2, 1);
+    xorComponent.simulate(0);
+    auto output = xorComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::False, "True AND True should be False");
+}
+
+// Test AND logic: False AND True = True
+Test(xor_component_tests, false_and_true_xor) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+
+    nts::XorComponent xorComponent;
+    xorComponent.setLink(1, trueComponent, 1);
+    xorComponent.setLink(2, falseComponent, 1);
+    xorComponent.simulate(0);
+    auto output = xorComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::True, "False AND True should be True");
+}
+
+// Test AND logic: False AND False = False
+Test(xor_component_tests, false_and_false_xor) {
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::XorComponent xorComponent;
+    xorComponent.setLink(1, falseComponent1, 1);
+    xorComponent.setLink(2, falseComponent2, 1);
+    xorComponent.simulate(0);
+    auto output = xorComponent.compute(3);
+    cr_assert_eq(output, nts::Tristate::False, "False AND False should be False");
+}
+
+// Test AND logic: Undefined AND True/False = Undefined
+Test(xor_component_tests, undefined_and_any_xor) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+    nts::InputComponent inputComponent;
+    nts::XorComponent xorComponent;
+    xorComponent.setLink(1, inputComponent, 1);
+    xorComponent.setLink(2, trueComponent, 1);
+    xorComponent.simulate(0);
+    auto outputTrue = xorComponent.compute(3);
+    cr_assert_eq(outputTrue, nts::Tristate::Undefined, "Undefined AND True should be Undefined");
+
+    xorComponent.setLink(2, falseComponent, 1);
+    xorComponent.simulate(1);
+    auto outputFalse = xorComponent.compute(3);
+    cr_assert_eq(outputFalse, nts::Tristate::Undefined, "Undefined AND False should be Undefined");
+}
+
+// ---- Not component ---- //
