@@ -18,7 +18,7 @@ TEST_SRC = $(filter-out src/main.cpp, $(SRC)) $(wildcard tests/*.cpp)
 
 CFLAGS	=	-I./include/ -g3
 
-LDFLAGS = -lcriterion
+LDFLAGS = -lcriterion --coverage
 
 NAME	=	nanotekspice
 
