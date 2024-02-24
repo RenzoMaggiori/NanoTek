@@ -14,6 +14,8 @@ nts::CounterComponent::CounterComponent()
     for (size_t i = 1; i < 17; i++) {
         if (i == 10 || i == 11)
             type = nts::pinType::INPUT;
+        else
+            type = nts::pinType::OUTPUT;
         _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
         _pins[i].second = type;
     }
