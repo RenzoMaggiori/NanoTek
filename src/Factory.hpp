@@ -22,11 +22,12 @@
 #include "components/chipsets/Chipset4011.hpp"
 #include "components/chipsets/Chipset4013.hpp"
 #include "components/chipsets/Chipset4030.hpp"
+#include "components/chipsets/Chipset4040.hpp"
 #include "components/chipsets/Chipset4069.hpp"
 #include "components/chipsets/Chipset4071.hpp"
 #include "components/chipsets/Chipset4081.hpp"
 #include "components/chipsets/Chipset4008.hpp"
-#include "components/chipsets/Chipset4040.hpp"
+#include "components/chipsets/Chipset4512.hpp"
 
 
 #include "components/special/InputComponent.hpp"
@@ -59,6 +60,7 @@ namespace nts {
             std::unique_ptr<nts::IComponent> create4069() const;
             std::unique_ptr<nts::IComponent> create4071() const;
             std::unique_ptr<nts::IComponent> create4081() const;
+            std::unique_ptr<nts::IComponent> create4512() const;
 
             std::unique_ptr<nts::IComponent> createInput() const;
             std::unique_ptr<nts::IComponent> createOutput() const;
