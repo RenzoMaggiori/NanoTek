@@ -31,14 +31,14 @@ void nts::CounterComponent::updateOutputPins() {
 }
 
 void nts::CounterComponent::simulate(std::size_t tick) {
-    (void)tick; 
+    (void)tick;
 
     Tristate clock = *_pins[10].first.get();
     Tristate reset = *_pins[11].first.get();
 
     if (reset == Tristate::True)
         _counter = 0;
-    else if (clock == Tristate::True && _prevClock == Tristate::False) {
+    else if (clock == Tristate::False && _prevClock == Tristate::True) {
         _counter++;
         if (_counter >= 4096)
             _counter = 0;
