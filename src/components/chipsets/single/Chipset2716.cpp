@@ -115,7 +115,7 @@ void nts::Chipset2716::simulate(std::size_t tick)
     int address = getAddress();
     //Mode reading
     if (*this->_pins[18].first.get() == nts::Tristate::False &&
-        *this->_pins[20].first.get() == nts::Tristate::True) {
+        *this->_pins[20].first.get() == nts::Tristate::False) {
         readMode(address);
         return;
     }

@@ -27,12 +27,12 @@ void nts::AComponent::setLink(std::size_t pin, IComponent &component, std::size_
         return chipsetPtr->setLink(componentPin, *this, pin);
     thisPinType = this->getPinType(pin);
     compPinType = componentCast->getPinType(componentPin);
-    if ((thisPinType == pinType::INPUT || thisPinType == pinType::HYBRID)
-        && compPinType == pinType::OUTPUT) {
+
+    if (thisPinType == pinType::INPUT && ( compPinType == pinType::HYBRID || compPinType == pinType::OUTPUT)) {
         this->getPins()[pin].first = componentCast->getPins()[componentPin].first;
         componentCast->_outputLink.push_front(this);
     }
-    if (thisPinType == pinType::OUTPUT && compPinType == pinType::INPUT) {
+    if ((thisPinType == pinType::HYBRID || thisPinType == pinType::OUTPUT) && compPinType == pinType::INPUT) {
         componentCast->getPins()[componentPin].first = this->getPins()[pin].first;
         this->_outputLink.push_front(componentCast);
     }
