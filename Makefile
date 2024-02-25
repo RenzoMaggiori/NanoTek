@@ -36,6 +36,6 @@ fclean: clean
 re:	fclean all
 
 # New target for compiling and running tests
-test_comp:
+tests_run:
 	g++ $(CFLAGS) $(TEST_SRC) $(LDFLAGS) -o unit_tests
 	./unit_tests

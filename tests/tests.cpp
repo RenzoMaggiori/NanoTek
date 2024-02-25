@@ -1,9 +1,10 @@
 #include <criterion/criterion.h>
+#include <criterion/redirect.h>
 #include <criterion/logging.h>
 #include "../src/Parser.hpp"
 #include "../src/Factory.hpp"
-#include "../src/components/special/TrueComponent.hpp"
-// Test that the Parser throws an error for an empty filename
+#include "../src/circuits/Circuit.hpp"
+
 using nts::Parser;
 
 
@@ -187,6 +188,20 @@ Test(output_component_tests, simulate_no_effect_of_output) {
     cr_assert_eq(stateAfterSimulate, nts::Tristate::True, "Simulate method should not alter the OutputComponent's state");
 }
 
+Test(output_component_tests, true_output) {
+    nts::TrueComponnet trueComponent;
+    nts::OutputComponent outputComponent;
+    outputComponent.setLink(1, trueComponent, 1);
+    outputComponent.simulate(0);
+    auto stateAfterSimulate = outputComponent.compute(1);
+    cr_assert_eq(stateAfterSimulate, nts::Tristate::True, "Output should be true");
+}
+
+Test(output_component, set_input_without_hybrid_pin_type) {
+    nts::OutputComponent outputComponent;
+    bool result = outputComponent.setInput(nts::Tristate::True);
+    cr_expect_eq(result, false, "setInput returned false when pin type wasn't HYBRID.");
+}
 
 // -------------------------------------- ELEMENTARY COMPONENTS TESTS -------------------------------------- //
 
@@ -518,3 +533,239 @@ Test(xor_component_tests, undefined_and_any_xor) {
 }
 
 // ---- Not component ---- //
+
+Test(not_component_tests, initialization_of_not) {
+    nts::NotComponent notComponent;
+    auto pins = notComponent.getPins();
+    cr_assert_eq(*pins[1].first, nts::Tristate::Undefined, "Input pin 1 should initialize as Undefined");
+    cr_assert_eq(*pins[2].first, nts::Tristate::Undefined, "Input pin 2 should initialize as Undefined");
+}
+
+// Test logic: True = False
+Test(not_component_tests, true_not) {
+    nts::TrueComponnet trueComponent;
+    nts::NotComponent notComponent;
+    notComponent.setLink(1, trueComponent, 1);
+    notComponent.simulate(0);
+    auto output = notComponent.compute(2);
+    cr_assert_eq(output, nts::Tristate::False, "True should be False");
+}
+
+// Test logic: False = True
+Test(not_component_tests, false_not) {
+    nts::FalseComponent falseComponent;
+    nts::NotComponent notComponent;
+    notComponent.setLink(1, falseComponent, 1);
+    notComponent.simulate(0);
+    auto output = notComponent.compute(2);
+    cr_assert_eq(output, nts::Tristate::True, "False should be True");
+}
+
+// Test logic: Undefined = Undefined
+Test(not_component_tests, undifined_not) {
+    nts::InputComponent inputCOmponent;
+    nts::NotComponent notComponent;
+    notComponent.setLink(1, inputCOmponent, 1);
+    notComponent.simulate(0);
+    auto output = notComponent.compute(2);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Undefined should be Undefined");
+}
+
+
+// ---- Selector component ---- //
+
+Test(selector_component_tests, initialization) {
+    nts::SelectorComponent selectorComponent;
+    auto pins = selectorComponent.getPins();
+    for (std::size_t i = 1; i < 16; i++)
+        cr_assert_eq(*pins[i].first, nts::Tristate::Undefined, "Input pin should initialize as Undefined");
+}
+
+Test(selector_component_tests, out_0) {
+    nts::InputComponent inputComponent;
+    nts::TrueComponnet trueComponent;
+    nts::TrueComponnet trueComponent1;
+    nts::TrueComponnet trueComponent2;
+    nts::TrueComponnet trueComponent3;
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::FalseComponent falseComponent3;
+    nts::FalseComponent falseComponent4;
+    nts::FalseComponent falseComponent5;
+    nts::SelectorComponent selectorComponent;
+    selectorComponent.setLink(10, falseComponent1, 1);
+    selectorComponent.setLink(15, falseComponent2, 1);
+    selectorComponent.setLink(11, falseComponent3, 1);
+    selectorComponent.setLink(12, falseComponent4, 1);
+    selectorComponent.setLink(13, falseComponent5, 1);
+    selectorComponent.setLink(1, trueComponent, 1);
+    selectorComponent.simulate(0);
+    auto output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::True, "Selector out should be True");
+    selectorComponent.setLink(11, trueComponent1, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+    selectorComponent.setLink(12, trueComponent2, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+    selectorComponent.setLink(13, trueComponent3, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+    selectorComponent.setLink(11, falseComponent3, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+    selectorComponent.setLink(12, falseComponent4, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+    selectorComponent.setLink(12, inputComponent, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+    selectorComponent.setLink(12, falseComponent4, 1);
+    selectorComponent.setLink(11, trueComponent2, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+    selectorComponent.setLink(13, falseComponent4, 1);
+    selectorComponent.setLink(12, trueComponent2, 1);
+    selectorComponent.setLink(11, falseComponent3, 1);
+    selectorComponent.simulate(0);
+    output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+}
+
+Test(selector_component_tests, inhibit) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+    nts::SelectorComponent selectorComponent;
+    selectorComponent.setLink(10, trueComponent, 1);
+    selectorComponent.setLink(15, falseComponent, 1);
+    selectorComponent.simulate(0);
+    auto output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::False, "Selector out should be False");
+}
+
+Test(selector_component_tests, enable) {
+    nts::TrueComponnet trueComponent;
+    nts::FalseComponent falseComponent;
+    nts::SelectorComponent selectorComponent;
+    selectorComponent.setLink(10, falseComponent, 1);
+    selectorComponent.setLink(15, trueComponent, 1);
+    selectorComponent.simulate(0);
+    auto output = selectorComponent.compute(14);
+    cr_assert_eq(output, nts::Tristate::Undefined, "Selector out should be Undefined");
+}
+
+
+// ---- Adder component ---- //
+
+Test(adder_component_tests, initialization) {
+    nts::AdderComponent adderComponent;
+    auto pins = adderComponent.getPins();
+    for (std::size_t i = 1; i < 6; i++)
+        cr_assert_eq(*pins[i].first, nts::Tristate::Undefined, "Input pin should initialize as Undefined");
+}
+
+Test(adder_component_tests, out_0) {
+    nts::InputComponent inputComponent;
+    nts::TrueComponnet trueComponent;
+    nts::TrueComponnet trueComponent1;
+    nts::TrueComponnet trueComponent2;
+    nts::TrueComponnet trueComponent3;
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::FalseComponent falseComponent3;
+    nts::FalseComponent falseComponent4;
+    nts::FalseComponent falseComponent5;
+    nts::AdderComponent adderComponent;
+    adderComponent.setLink(1, falseComponent1, 1);
+    adderComponent.setLink(2, falseComponent2, 1);
+    adderComponent.setLink(3, falseComponent3, 1);
+    adderComponent.simulate(0);
+    auto output1 = adderComponent.compute(4);
+    auto output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::False, "Adder carry out should be False");
+    cr_assert_eq(output2, nts::Tristate::False, "Adder sum should be False");
+    adderComponent.setLink(2, trueComponent, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::False, "Adder carry out should be False");
+    cr_assert_eq(output2, nts::Tristate::True, "Adder sum should be True");
+    adderComponent.setLink(2, falseComponent2, 1);
+    adderComponent.setLink(3, trueComponent, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::False, "Adder carry out should be False");
+    cr_assert_eq(output2, nts::Tristate::True, "Adder sum should be True");
+    adderComponent.setLink(2, trueComponent1, 1);
+    adderComponent.setLink(3, trueComponent, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::True, "Adder carry out should be True");
+    cr_assert_eq(output2, nts::Tristate::False, "Adder sum should be False");
+    adderComponent.setLink(1, trueComponent1, 1);
+    adderComponent.setLink(2, falseComponent2, 1);
+    adderComponent.setLink(3, falseComponent1, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::False, "Adder carry out should be False");
+    cr_assert_eq(output2, nts::Tristate::True, "Adder sum should be True");
+    adderComponent.setLink(2, trueComponent, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::True, "Adder carry out should be True");
+    cr_assert_eq(output2, nts::Tristate::False, "Adder sum should be False");
+    adderComponent.setLink(2, falseComponent2, 1);
+    adderComponent.setLink(3, trueComponent, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::True, "Adder carry out should be True");
+    cr_assert_eq(output2, nts::Tristate::False, "Adder sum should be False");
+    adderComponent.setLink(2, trueComponent2, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::True, "Adder carry out should be True");
+    cr_assert_eq(output2, nts::Tristate::True, "Adder sum should be True");
+    adderComponent.setLink(2, inputComponent, 1);
+    adderComponent.simulate(0);
+    output1 = adderComponent.compute(4);
+    output2 = adderComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::Undefined, "Adder carry out should be Undefined");
+    cr_assert_eq(output2, nts::Tristate::Undefined, "Adder sum should be Undefined");
+}
+
+// -------------------------------------- CIRCUITS TESTS -------------------------------------- //
+
+Test(circuit_test, add_and_use_true) {
+    nts::Circuit circuit;
+    auto trueComponent = std::make_unique<nts::TrueComponnet>();
+
+    circuit.addComponent("true1", std::move(trueComponent));
+    auto& components = circuit.getComponents();
+
+    cr_assert_eq(components.size(), 1, "Expected components size to be 1.");
+    cr_assert(components.find("true1") != components.end(), "Component 'true1' not found.");
+}
+
+Test(circuit, display_with_true_component, .init=cr_redirect_stdout) {
+    nts::Circuit circuit;
+    auto trueComponent = std::make_unique<nts::TrueComponnet>();
+
+    circuit.addComponent("true1", std::move(trueComponent));
+    circuit.display();
+
+    // Adjust the expected string according to your display format.
+    cr_assert_stdout_eq_str("tick: 0\ninput(s):\noutput(s):\n", "The display output did not match the expected output for TrueComponent.");
+}
