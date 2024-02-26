@@ -19,6 +19,7 @@ nts::Factory::Factory() {
     _creators["4081"] = [this]() { return this->create4081(); };
     _creators["4512"] = [this]() { return this->create4512(); };
     _creators["2716"] = [this]() { return  std::make_unique<nts::Chipset2716>();};
+    _creators["4801"] = [this]() { return  std::make_unique<nts::Chipset4801>();};
 
     _creators["input"] = [this]() { return this->createInput(); };
     _creators["output"] = [this]() { return this->createOutput(); };

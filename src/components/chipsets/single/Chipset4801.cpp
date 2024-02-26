@@ -2,15 +2,12 @@
 ** EPITECH PROJECT, 2024
 ** B-OOP-400-BAR-4-1-tekspice-renzo.maggiori
 ** File description:
-** Chipset2716
+** Chipset4801
 */
 
+#include "Chipset4801.hpp"
 
-#include "Chipset2716.hpp"
-#include <iostream>
-#include <iterator>
-
-nts::Chipset2716::Chipset2716()
+nts::Chipset4801::Chipset4801()
 {
     for (size_t i = 1; i < 25; i++) {
         if (i < 9) {
@@ -24,11 +21,11 @@ nts::Chipset2716::Chipset2716()
         } else if (i == 18) {
             _pins[i].second = nts::pinType::INPUT;
         } else if (i == 19) {
-            _pins[i].second = nts::pinType::INPUT;
+            _pins[i].second = nts::pinType::NONE;
         } else if (i == 20) {
             _pins[i].second = nts::pinType::INPUT;
         } else if (i == 21) {
-            _pins[i].second = nts::pinType::NONE;
+            _pins[i].second = nts::pinType::INPUT;
         } else if (i > 21 && i < 24) {
             _pins[i].second = nts::pinType::INPUT;
         } else if (i == 24) {
@@ -39,7 +36,7 @@ nts::Chipset2716::Chipset2716()
 }
 
 
-int nts::Chipset2716::getAddress()
+int nts::Chipset4801::getAddress()
 {
     int address = 0;
     std::deque<nts::Tristate> inputs;
@@ -54,7 +51,6 @@ int nts::Chipset2716::getAddress()
     inputs.push_back(*_pins[1].first.get());
     inputs.push_back(*_pins[23].first.get());
     inputs.push_back(*_pins[22].first.get());
-    inputs.push_back(*_pins[19].first.get());
 
     for (std::size_t i = 0; i < inputs.size(); i++) {
         if (inputs[i] == nts::Tristate::True) {
@@ -64,7 +60,7 @@ int nts::Chipset2716::getAddress()
     return address;
 }
 
-void nts::Chipset2716::readMode(int address)
+void nts::Chipset4801::readMode(int address)
 {
     int data = this->_memory[address];
     int byte0 = data & 0x01;
@@ -86,7 +82,7 @@ void nts::Chipset2716::readMode(int address)
     *this->_pins[17].first.get() = (nts::Tristate)byte7;
 }
 
-void nts::Chipset2716::programMode(int address)
+void nts::Chipset4801::writeMode(int address)
 {
     int data = 0;
     std::deque<nts::Tristate> inputs;
@@ -106,23 +102,23 @@ void nts::Chipset2716::programMode(int address)
         }
     }
     this->_memory[address] = data;
-
 }
 
-void nts::Chipset2716::simulate(std::size_t tick)
+void nts::Chipset4801::simulate(std::size_t tick)
 {
     (void)tick;
     int address = getAddress();
     //Mode reading
     if (*this->_pins[18].first.get() == nts::Tristate::False &&
-        *this->_pins[20].first.get() == nts::Tristate::False) {
+        *this->_pins[21].first.get() == nts::Tristate::False) {
         readMode(address);
         return;
     }
     //Mode programming
-    if (*this->_pins[18].first.get() == nts::Tristate::True &&
-        *this->_pins[20].first.get() == nts::Tristate::True) {
-        programMode(address);
+    if (*this->_pins[18].first.get() == nts::Tristate::False &&
+        *this->_pins[20].first.get() == nts::Tristate::False &&
+        *this->_pins[21].first.get() == nts::Tristate::True) {
+        writeMode(address);
         return;
     }
 }
