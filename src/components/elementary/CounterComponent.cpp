@@ -41,7 +41,7 @@ void nts::CounterComponent::updateOutputPins() {
             case 15: bitPosition = 11; break;
             default: continue;
         }
-        Tristate value = (_counter >> (bitPosition - 1)) & 1 ? Tristate::True : Tristate::False;
+        Tristate value = (_counter >> (bitPosition - 1)) & 1 ? Tristate::False : Tristate::True;
         *_pins[pin].first.get() = value;
     }
 }
