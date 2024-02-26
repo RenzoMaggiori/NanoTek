@@ -35,10 +35,13 @@ void nts::FlipflopComponent::simulate(std::size_t tick) {
     Tristate q = Tristate::Undefined;
     Tristate qbar = Tristate::Undefined;
 
-    if (set == Tristate::True) {
+    if (set == Tristate::True && reset == Tristate::False) {
         q = Tristate::True;
         qbar = Tristate::False;
-    } else if (reset == Tristate::True) {
+    } else if (set == Tristate::True && reset == Tristate::True) {
+        q = Tristate::True;
+        qbar = Tristate::True;
+    } else if (reset == Tristate::True && set == Tristate::False)  {
         q = Tristate::False;
         qbar = Tristate::True;
     } else if (clk == Tristate::True) {
