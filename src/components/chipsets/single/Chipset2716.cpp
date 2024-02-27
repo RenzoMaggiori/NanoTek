@@ -51,19 +51,26 @@ int nts::Chipset2716::getAddress()
 {
     int address = 0;
     std::deque<nts::Tristate> inputs;
+    inputs.push_front(*_pins[8].first.get());
+    inputs.push_front(*_pins[7].first.get());
+    inputs.push_front(*_pins[6].first.get());
+    inputs.push_front(*_pins[5].first.get());
+    inputs.push_front(*_pins[4].first.get());
+    inputs.push_front(*_pins[3].first.get());
+    inputs.push_front(*_pins[2].first.get());
+    inputs.push_front(*_pins[1].first.get());
+    inputs.push_front(*_pins[23].first.get());
+    inputs.push_front(*_pins[22].first.get());
+    inputs.push_front(*_pins[19].first.get());
 
-    inputs.push_back(*_pins[8].first.get());
-    inputs.push_back(*_pins[7].first.get());
-    inputs.push_back(*_pins[6].first.get());
-    inputs.push_back(*_pins[5].first.get());
-    inputs.push_back(*_pins[4].first.get());
-    inputs.push_back(*_pins[3].first.get());
-    inputs.push_back(*_pins[2].first.get());
-    inputs.push_back(*_pins[1].first.get());
-    inputs.push_back(*_pins[23].first.get());
-    inputs.push_back(*_pins[22].first.get());
-    inputs.push_back(*_pins[19].first.get());
-
+    //Check if all inputs are undefined
+    for (std::size_t i = 0; i < inputs.size(); i++) {
+        if (inputs[i] != nts::Tristate::Undefined)
+            break;
+        if (i == inputs.size() - 1)
+            return (-1);
+    }
+    //Compute address
     for (std::size_t i = inputs.size(); i > 0; i--) {
         if (inputs[i-1] == nts::Tristate::True) {
             address += 1 << (inputs.size() - i);
@@ -98,6 +105,9 @@ void nts::Chipset2716::simulate(std::size_t tick)
 {
     (void)tick;
     int address = getAddress();
+    if (address < 0 || address > 2048) {
+        return;
+    }
     //Mode reading
     if (*this->_pins[18].first.get() == nts::Tristate::False &&
         *this->_pins[20].first.get() == nts::Tristate::False) {
