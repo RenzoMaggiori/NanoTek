@@ -74,6 +74,20 @@ Test(factory_tests, create_all_known_types) {
     }
 }
 
+// -------------------------------------- ACOMPONENT TESTS -------------------------------------- //
+
+Test(acomponent_tests, function_calls) {
+    nts::TrueComponnet trueComponent;
+    auto pins = trueComponent.getPins();
+    auto type = trueComponent.getPinType(1);
+    bool status = trueComponent.setInput(nts::Tristate::True);
+    auto links = trueComponent.getOutputLink();
+    trueComponent.setPriority(1);
+    std::size_t priority = trueComponent.getPriority();
+    cr_assert_eq(*pins[1].first, nts::Tristate::True, "The TrueComponent's output pin should be initialized to Tristate::True");
+    cr_assert_eq(pins[1].second, nts::OUTPUT, "The TrueComponent's pin should be set as OUTPUT");
+}
+
 // -------------------------------------- SPECIAL COMPONENTS TESTS -------------------------------------- //
 
 // ---- True component ---- //
