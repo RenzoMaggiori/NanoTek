@@ -869,6 +869,30 @@ Test(johnson_component_tests, outputs) {
     cr_assert_eq(output1, nts::Tristate::False, "out_s should be False");
 }
 
+// ---- Johnson component ---- //
+Test(logger_component_tests, initialization) {
+    nts::LoggerComponent loggerComponent;
+    auto pins = loggerComponent.getPins();
+    for (std::size_t i = 1; i < 11; i++)
+        cr_assert_eq(*pins[i].first, nts::Tristate::Undefined, "Input pin should initialize as Undefined");
+}
+
+Test(logger_component_tests, inputs) {
+    nts::TrueComponnet trueComponent;
+    nts::TrueComponnet trueComponent1;
+    nts::FalseComponent falseComponent;
+    nts::FalseComponent falseComponent1;
+    nts::LoggerComponent loggerComponent;
+    loggerComponent.setLink(9, falseComponent, 1);
+    loggerComponent.setLink(10, falseComponent, 1);
+    loggerComponent.simulate(0);
+    loggerComponent.setLink(9, trueComponent, 1);
+    loggerComponent.setLink(1, trueComponent1, 1);
+    loggerComponent.simulate(0);
+    auto output1 = loggerComponent.compute(1);
+    cr_assert_eq(output1, nts::Tristate::True, "in_1 carry out should be True");
+}
+
 // -------------------------------------- CIRCUITS TESTS -------------------------------------- //
 
 Test(circuit_test, add_and_use_true) {
