@@ -19,10 +19,6 @@ nts::FlipflopComponent::FlipflopComponent()
     }
 }
 
-void nts::FlipflopComponent::set(bool value) {
-    *_pins[3].first.get() = (value) ? Tristate::True : Tristate::False;
-}
-
 void nts::FlipflopComponent::simulate(std::size_t tick) {
     (void)tick;
     Tristate clk = *_pins[1].first.get();

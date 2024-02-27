@@ -15,7 +15,6 @@ namespace nts {
         public:
             FlipflopComponent();
             void simulate(std::size_t tick) override;
-            void set(bool value);
         protected:
         private:
             Tristate _prevClock = Tristate::Undefined;

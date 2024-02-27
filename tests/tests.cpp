@@ -746,6 +746,90 @@ Test(adder_component_tests, out_0) {
     cr_assert_eq(output2, nts::Tristate::Undefined, "Adder sum should be Undefined");
 }
 
+
+// ---- Flip-Flop component ---- //
+
+Test(flipflop_component_tests, initialization) {
+    nts::FlipflopComponent flipflopComponent;
+    auto pins = flipflopComponent.getPins();
+    for (std::size_t i = 1; i < 7; i++)
+        cr_assert_eq(*pins[i].first, nts::Tristate::Undefined, "Input pin should initialize as Undefined");
+}
+
+Test(flipflop_component_tests, outputs) {
+    nts::TrueComponnet trueComponent;
+    nts::TrueComponnet trueComponent1;
+    nts::TrueComponnet trueComponent2;
+    nts::TrueComponnet trueComponent3;
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::FalseComponent falseComponent3;
+    nts::FlipflopComponent flipflopComponent;
+    flipflopComponent.setLink(3, trueComponent, 1);
+    flipflopComponent.setLink(4, falseComponent1, 1);
+    flipflopComponent.simulate(0);
+    auto output1 = flipflopComponent.compute(5);
+    auto output2 = flipflopComponent.compute(6);
+    cr_assert_eq(output1, nts::Tristate::True, "q carry out should be True");
+    cr_assert_eq(output2, nts::Tristate::False, "q' sum should be False");
+    flipflopComponent.setLink(4, trueComponent1, 1);
+    flipflopComponent.simulate(0);
+    output1 = flipflopComponent.compute(5);
+    output2 = flipflopComponent.compute(6);
+    cr_assert_eq(output1, nts::Tristate::True, "q carry out should be True");
+    cr_assert_eq(output2, nts::Tristate::True, "q' sum should be True");
+    flipflopComponent.setLink(3, falseComponent1, 1);
+    flipflopComponent.simulate(0);
+    output1 = flipflopComponent.compute(5);
+    output2 = flipflopComponent.compute(6);
+    cr_assert_eq(output1, nts::Tristate::False, "q carry out should be False");
+    cr_assert_eq(output2, nts::Tristate::True, "q' sum should be True");
+    flipflopComponent.setLink(2, trueComponent, 1);
+    flipflopComponent.setLink(1, trueComponent2, 1);
+    flipflopComponent.simulate(0);
+    output1 = flipflopComponent.compute(5);
+    output2 = flipflopComponent.compute(6);
+    cr_assert_eq(output1, nts::Tristate::False, "q carry out should be False");
+    cr_assert_eq(output2, nts::Tristate::True, "q' sum should be True");
+    flipflopComponent.setLink(1, falseComponent3, 1);
+    flipflopComponent.simulate(0);
+    output1 = flipflopComponent.compute(5);
+    output2 = flipflopComponent.compute(6);
+    cr_assert_eq(output1, nts::Tristate::False, "q carry out should be False");
+    cr_assert_eq(output2, nts::Tristate::True, "q' sum should be True");
+}
+
+// ---- Counter component ---- //
+Test(counter_component_tests, initialization) {
+    nts::CounterComponent counterComponent;
+    auto pins = counterComponent.getPins();
+    for (std::size_t i = 1; i < 17; i++)
+        cr_assert_eq(*pins[i].first, nts::Tristate::Undefined, "Input pin should initialize as Undefined");
+}
+
+Test(counter_component_tests, outputs) {
+    nts::TrueComponnet trueComponent;
+    nts::TrueComponnet trueComponent1;
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::CounterComponent counterComponent;
+    counterComponent.setLink(11, falseComponent1, 1);
+    counterComponent.simulate(0);
+    auto output1 = counterComponent.compute(1);
+    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be False");
+    counterComponent.setLink(11, trueComponent, 1);
+    counterComponent.setLink(10, falseComponent1, 1);
+    counterComponent.simulate(0);
+    counterComponent.setLink(10, trueComponent1, 1);
+    counterComponent.simulate(0);
+    output1 = counterComponent.compute(1);
+    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be True");
+    counterComponent.simulate(0);
+    output1 = counterComponent.compute(1);
+    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be True");
+
+}
+
 // -------------------------------------- CIRCUITS TESTS -------------------------------------- //
 
 Test(circuit_test, add_and_use_true) {
@@ -769,3 +853,5 @@ Test(circuit, display_with_true_component, .init=cr_redirect_stdout) {
     // Adjust the expected string according to your display format.
     cr_assert_stdout_eq_str("tick: 0\ninput(s):\noutput(s):\n", "The display output did not match the expected output for TrueComponent.");
 }
+
+
