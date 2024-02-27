@@ -68,7 +68,7 @@ Test(factory_tests, create_unknown_component) {
 // Test the creation of each known component type
 Test(factory_tests, create_all_known_types) {
     nts::Factory factory;
-    std::vector<std::string> knownTypes = {"4001", "4008", "4011", "4013", "4030", "4040", "4069", "4071", "4081", "4512", "input", "output", "true", "false", "clock", "or", "nor", "xor", "not", "and", "nand"};
+    std::vector<std::string> knownTypes = {"4001", "4008", "4011", "4013", "4030", "4040", "4069", "4071", "4081", "4512", "4801", "2716", "input", "output", "true", "false", "clock", "or", "nor", "xor", "not", "and", "nand"};
     for (const auto& type : knownTypes) {
         cr_assert_no_throw(factory.createComponent(type), nts::Error, "Factory should successfully create component of type: %s", type.c_str());
     }
