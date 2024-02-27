@@ -68,7 +68,7 @@ Test(factory_tests, create_unknown_component) {
 // Test the creation of each known component type
 Test(factory_tests, create_all_known_types) {
     nts::Factory factory;
-    std::vector<std::string> knownTypes = {"4001", "4008", "4011", "4013", "4030", "4040", "4069", "4071", "4081", "4512", "4801", "2716", "input", "output", "true", "false", "clock", "or", "nor", "xor", "not", "and", "nand"};
+    std::vector<std::string> knownTypes = {"4001", "4008", "4011", "4013", "4017", "4030", "4040", "4069", "4071", "4081", "4512", "4801", "2716", "input", "output", "true", "false", "clock", "or", "nor", "xor", "not", "and", "nand"};
     for (const auto& type : knownTypes) {
         cr_assert_no_throw(factory.createComponent(type), nts::Error, "Factory should successfully create component of type: %s", type.c_str());
     }
@@ -828,6 +828,45 @@ Test(counter_component_tests, outputs) {
     output1 = counterComponent.compute(1);
     cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be True");
 
+}
+
+// ---- Johnson component ---- //
+
+Test(johnson_component_tests, outputs) {
+    nts::TrueComponnet trueComponent;
+    nts::TrueComponnet trueComponent1;
+    nts::FalseComponent falseComponent1;
+    nts::FalseComponent falseComponent2;
+    nts::JohnsonComponent johnsonComponent;
+    johnsonComponent.setLink(3, trueComponent, 1);
+    johnsonComponent.simulate(0);
+    auto output1 = johnsonComponent.compute(4);
+    cr_assert_eq(output1, nts::Tristate::False, "out_1 should be False");
+    johnsonComponent.setLink(3, falseComponent2, 1);
+    johnsonComponent.setLink(1, falseComponent1, 1);
+    johnsonComponent.simulate(0);
+    johnsonComponent.setLink(1, trueComponent1, 1);
+    johnsonComponent.simulate(0);
+    johnsonComponent.setLink(1, falseComponent1, 1);
+    johnsonComponent.simulate(0);
+    johnsonComponent.setLink(1, trueComponent1, 1);
+    johnsonComponent.simulate(0);
+    output1 = johnsonComponent.compute(5);
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 should be True");
+    for (std::size_t i = 0; i < 8; i++) {
+        johnsonComponent.setLink(1, falseComponent1, 1);
+        johnsonComponent.simulate(0);
+        johnsonComponent.setLink(1, trueComponent1, 1);
+        johnsonComponent.simulate(0);
+    }
+    output1 = johnsonComponent.compute(13);
+    cr_assert_eq(output1, nts::Tristate::True, "out_s should be True");
+    johnsonComponent.setLink(1, falseComponent1, 1);
+    johnsonComponent.simulate(0);
+    johnsonComponent.setLink(1, trueComponent1, 1);
+    johnsonComponent.simulate(0);
+    output1 = johnsonComponent.compute(4);
+    cr_assert_eq(output1, nts::Tristate::False, "out_s should be False");
 }
 
 // -------------------------------------- CIRCUITS TESTS -------------------------------------- //

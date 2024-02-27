@@ -40,9 +40,6 @@ void nts::JohnsonComponent::simulate(std::size_t tick) {
             *_pins[_currentCount + 4].first.get() = Tristate::True;
         if (_currentCount != 0)
             *_pins[_currentCount + 3].first.get() = Tristate::False;
-        if (_currentCount == 10) {
-            *_pins[14].first.get() = Tristate::True;
-        }
         _currentCount++;
     }
     if (_currentCount > 5)
