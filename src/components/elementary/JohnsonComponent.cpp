@@ -25,6 +25,10 @@ void nts::JohnsonComponent::simulate(std::size_t tick) {
     Tristate clock = *_pins[1].first.get();
     Tristate reset = *_pins[3].first.get();
 
+    if (_prevClock == Tristate::Undefined) {
+        for (std::size_t i = 0; i < 11; i++)
+            *_pins[i + 3].first.get() = Tristate::False;
+    }
     if (reset == Tristate::True || _currentCount == 10) {
         if (_currentCount != 0)
             *_pins[_currentCount + 3].first.get() = Tristate::False;
@@ -39,9 +43,11 @@ void nts::JohnsonComponent::simulate(std::size_t tick) {
         if (_currentCount == 10) {
             *_pins[14].first.get() = Tristate::True;
         }
+        _currentCount++;
     }
     if (_currentCount > 5)
         *_pins[14].first.get() = Tristate::True;
     else
         *_pins[14].first.get() = Tristate::False;
+    _prevClock = clock;
 }
