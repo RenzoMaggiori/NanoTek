@@ -17,6 +17,7 @@
 #include "components/elementary/NandComponent.hpp"
 #include "components/elementary/NotComponent.hpp"
 #include "components/elementary/XorComponent.hpp"
+#include "components/elementary/LoggerComponent.hpp"
 
 #include "components/chipsets/Chipset4001.hpp"
 #include "components/chipsets/Chipset4011.hpp"
@@ -52,30 +53,6 @@ namespace nts {
 
         protected:
         private:
-            std::unique_ptr<nts::IComponent> create4001() const;
-            std::unique_ptr<nts::IComponent> create4008() const;
-            std::unique_ptr<nts::IComponent> create4011() const;
-            std::unique_ptr<nts::IComponent> create4013() const;
-            std::unique_ptr<nts::IComponent> create4030() const;
-            std::unique_ptr<nts::IComponent> create4040() const;
-            std::unique_ptr<nts::IComponent> create4069() const;
-            std::unique_ptr<nts::IComponent> create4071() const;
-            std::unique_ptr<nts::IComponent> create4081() const;
-            std::unique_ptr<nts::IComponent> create4512() const;
-
-            std::unique_ptr<nts::IComponent> createInput() const;
-            std::unique_ptr<nts::IComponent> createOutput() const;
-            std::unique_ptr<nts::IComponent> createFalse() const;
-            std::unique_ptr<nts::IComponent> createTrue() const;
-            std::unique_ptr<nts::IComponent> createClock() const;
-
-            std::unique_ptr<nts::IComponent> createOr() const;
-            std::unique_ptr<nts::IComponent> createNor() const;
-            std::unique_ptr<nts::IComponent> createAnd() const;
-            std::unique_ptr<nts::IComponent> createNand() const;
-            std::unique_ptr<nts::IComponent> createXor() const;
-            std::unique_ptr<nts::IComponent> createNot() const;
-
             std::map<std::string, std::function<std::unique_ptr<nts::IComponent>()>> _creators;
     };
 }
