@@ -19,7 +19,7 @@ namespace nts {
             void programMode(int address);
             int getAddress();
         private:
-        uint8_t _memory[2048] = {1};
+        uint8_t _memory[2048];
     };
 }
 
