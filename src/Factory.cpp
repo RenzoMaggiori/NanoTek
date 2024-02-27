@@ -12,6 +12,7 @@ nts::Factory::Factory() {
     _creators["4008"] = []() { return std::make_unique<nts::Chipset4008>(); };
     _creators["4011"] = []() { return std::make_unique<nts::Chipset4011>(); };
     _creators["4013"] = []() { return std::make_unique<nts::Chipset4013>(); };
+    _creators["4017"] = []() { return std::make_unique<nts::Chipset4017>(); };
     _creators["4030"] = []() { return std::make_unique<nts::Chipset4030>(); };
     _creators["4040"] = []() { return std::make_unique<nts::Chipset4040>(); };
     _creators["4069"] = []() { return std::make_unique<nts::Chipset4069>(); };

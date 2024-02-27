@@ -22,6 +22,7 @@
 #include "components/chipsets/Chipset4001.hpp"
 #include "components/chipsets/Chipset4011.hpp"
 #include "components/chipsets/Chipset4013.hpp"
+#include "components/chipsets/Chipset4017.hpp"
 #include "components/chipsets/Chipset4030.hpp"
 #include "components/chipsets/Chipset4040.hpp"
 #include "components/chipsets/Chipset4069.hpp"
