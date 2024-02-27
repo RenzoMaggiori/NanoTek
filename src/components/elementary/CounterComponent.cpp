@@ -54,7 +54,7 @@ void nts::CounterComponent::simulate(std::size_t tick) {
 
     if (reset == Tristate::True) {
         _counter = 0;
-    } else if (clock == Tristate::True && _prevClock == Tristate::False) {
+    } else if ((clock == Tristate::True && _prevClock == Tristate::False) || (clock != Tristate::Undefined && _prevClock == Tristate::Undefined)) {
         if (_counter < 0xFFF)
             _counter++;
         else
