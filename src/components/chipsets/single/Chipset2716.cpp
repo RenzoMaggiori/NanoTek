@@ -8,8 +8,6 @@
 
 #include "Chipset2716.hpp"
 #include <fstream>
-#include <iostream>
-#include <iterator>
 
 nts::Chipset2716::Chipset2716()
 {
@@ -71,9 +69,9 @@ int nts::Chipset2716::getAddress()
             return (-1);
     }
     //Compute address
-    for (std::size_t i = inputs.size(); i > 0; i--) {
-        if (inputs[i-1] == nts::Tristate::True) {
-            address += 1 << (inputs.size() - i);
+    for (std::size_t i = 0; i < inputs.size(); i++) {
+        if (inputs[i] == nts::Tristate::True) {
+            address += 1 << (inputs.size() - 1 - i);
         }
     }
     return address;
@@ -91,26 +89,26 @@ void nts::Chipset2716::readMode(int address)
     int byte6 = (data >> 6) & 1;
     int byte7 = (data >> 7) & 1;
 
-    *this->_pins[9].first.get() = (nts::Tristate)byte7;
-    *this->_pins[10].first.get() = (nts::Tristate)byte6;
-    *this->_pins[11].first.get() = (nts::Tristate)byte5;
-    *this->_pins[13].first.get() = (nts::Tristate)byte4;
-    *this->_pins[14].first.get() = (nts::Tristate)byte3;
-    *this->_pins[15].first.get() = (nts::Tristate)byte2;
-    *this->_pins[16].first.get() = (nts::Tristate)byte1;
-    *this->_pins[17].first.get() = (nts::Tristate)byte0;
+    *this->_pins[9].first.get() = (nts::Tristate)byte0;
+    *this->_pins[10].first.get() = (nts::Tristate)byte1;
+    *this->_pins[11].first.get() = (nts::Tristate)byte2;
+    *this->_pins[13].first.get() = (nts::Tristate)byte3;
+    *this->_pins[14].first.get() = (nts::Tristate)byte4;
+    *this->_pins[15].first.get() = (nts::Tristate)byte5;
+    *this->_pins[16].first.get() = (nts::Tristate)byte6;
+    *this->_pins[17].first.get() = (nts::Tristate)byte7;
 }
 
 void nts::Chipset2716::simulate(std::size_t tick)
 {
     (void)tick;
-    int address = getAddress();
-    if (address < 0 || address > 2048) {
-        return;
-    }
+    int address;
     //Mode reading
     if (*this->_pins[18].first.get() == nts::Tristate::False &&
         *this->_pins[20].first.get() == nts::Tristate::False) {
+        address = getAddress();
+        if (address < 0 || address > 2048)
+            return;
         readMode(address);
         return;
     }

@@ -17,6 +17,7 @@ namespace nts {
             void simulate(std::size_t tick) override;
             void readMode(int address);
             void writeMode(int address);
+            void setLink(std::size_t pin, IComponent &component, std::size_t componentPin) override;
             int getAddress();
         private:
         uint8_t _memory[1024];
