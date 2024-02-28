@@ -26,25 +26,25 @@ void nts::JohnsonComponent::simulate(std::size_t tick) {
     Tristate reset = *_pins[3].first.get();
 
     if (_prevClock == Tristate::Undefined) {
-        for (std::size_t i = 0; i < 11; i++)
-            *_pins[i + 3].first.get() = Tristate::False;
+        for (std::size_t i = 1; i < 11; i++)
+            *_pins[i + 3].first.get() = Tristate::True;
     }
     if (reset == Tristate::True || _currentCount == 10) {
         if (_currentCount != 0)
-            *_pins[_currentCount + 3].first.get() = Tristate::False;
+            *_pins[_currentCount + 3].first.get() = Tristate::True;
         _currentCount = 0;
         return;
     }
     if (clock == Tristate::True && _prevClock == Tristate::False) {
         if(_currentCount + 1 != 11)
-            *_pins[_currentCount + 4].first.get() = Tristate::True;
+            *_pins[_currentCount + 4].first.get() = Tristate::False;
         if (_currentCount != 0)
-            *_pins[_currentCount + 3].first.get() = Tristate::False;
+            *_pins[_currentCount + 3].first.get() = Tristate::True;
         _currentCount++;
     }
     if (_currentCount > 5)
-        *_pins[14].first.get() = Tristate::True;
-    else
         *_pins[14].first.get() = Tristate::False;
+    else
+        *_pins[14].first.get() = Tristate::True;
     _prevClock = clock;
 }

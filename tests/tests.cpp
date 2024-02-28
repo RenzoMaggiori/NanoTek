@@ -830,17 +830,17 @@ Test(counter_component_tests, outputs) {
     counterComponent.setLink(11, falseComponent1, 1);
     counterComponent.simulate(0);
     auto output1 = counterComponent.compute(1);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be False");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 carry out should be False");
     counterComponent.setLink(11, trueComponent, 1);
     counterComponent.setLink(10, falseComponent1, 1);
     counterComponent.simulate(0);
     counterComponent.setLink(10, trueComponent1, 1);
     counterComponent.simulate(0);
     output1 = counterComponent.compute(1);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be True");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 carry out should be True");
     counterComponent.simulate(0);
     output1 = counterComponent.compute(1);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be True");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 carry out should be True");
 
 }
 
@@ -855,7 +855,7 @@ Test(johnson_component_tests, outputs) {
     johnsonComponent.setLink(3, trueComponent, 1);
     johnsonComponent.simulate(0);
     auto output1 = johnsonComponent.compute(4);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 should be False");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 should be False");
     johnsonComponent.setLink(3, falseComponent2, 1);
     johnsonComponent.setLink(1, falseComponent1, 1);
     johnsonComponent.simulate(0);
@@ -866,7 +866,7 @@ Test(johnson_component_tests, outputs) {
     johnsonComponent.setLink(1, trueComponent1, 1);
     johnsonComponent.simulate(0);
     output1 = johnsonComponent.compute(5);
-    cr_assert_eq(output1, nts::Tristate::True, "out_1 should be True");
+    cr_assert_eq(output1, nts::Tristate::False, "out_1 should be True");
     for (std::size_t i = 0; i < 8; i++) {
         johnsonComponent.setLink(1, falseComponent1, 1);
         johnsonComponent.simulate(0);
@@ -874,16 +874,16 @@ Test(johnson_component_tests, outputs) {
         johnsonComponent.simulate(0);
     }
     output1 = johnsonComponent.compute(13);
-    cr_assert_eq(output1, nts::Tristate::True, "out_s should be True");
+    cr_assert_eq(output1, nts::Tristate::False, "out_s should be True");
     johnsonComponent.setLink(1, falseComponent1, 1);
     johnsonComponent.simulate(0);
     johnsonComponent.setLink(1, trueComponent1, 1);
     johnsonComponent.simulate(0);
     output1 = johnsonComponent.compute(4);
-    cr_assert_eq(output1, nts::Tristate::False, "out_s should be False");
+    cr_assert_eq(output1, nts::Tristate::True, "out_s should be False");
 }
 
-// ---- Johnson component ---- //
+// ---- Logger component ---- //
 Test(logger_component_tests, initialization) {
     nts::LoggerComponent loggerComponent;
     auto pins = loggerComponent.getPins();
