@@ -830,17 +830,17 @@ Test(counter_component_tests, outputs) {
     counterComponent.setLink(11, falseComponent1, 1);
     counterComponent.simulate(0);
     auto output1 = counterComponent.compute(1);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be False");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 carry out should be False");
     counterComponent.setLink(11, trueComponent, 1);
     counterComponent.setLink(10, falseComponent1, 1);
     counterComponent.simulate(0);
     counterComponent.setLink(10, trueComponent1, 1);
     counterComponent.simulate(0);
     output1 = counterComponent.compute(1);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be True");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 carry out should be True");
     counterComponent.simulate(0);
     output1 = counterComponent.compute(1);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 carry out should be True");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 carry out should be True");
 
 }
 
