@@ -57,7 +57,7 @@ int nts::LoggerComponent::getByte()
 void nts::LoggerComponent::simulate(std::size_t tick)
 {
     if (*_pins[10].first.get() == Tristate::False
-    && *_pins[9].first.get() == Tristate::True && this->_prevClock == Tristate::False) {
+    && *_pins[9].first.get() == Tristate::True && this->_prevClock != Tristate::True) {
         this->_logger << (char)getByte() << std::flush;
     }
     _prevClock = *_pins[9].first.get();
