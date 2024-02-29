@@ -157,5 +157,8 @@ void nts::Circuit::setComponentsStatus(std::string line) {
                 throw nts::Error("Invalid input value");
         }
     }
-    _inputStatus[source] = pinValue;
+    if (_components.find(source) !=_components.end())
+        _inputStatus[source] = pinValue;
+    else
+        throw nts::Error("Invalid input value");
 }
