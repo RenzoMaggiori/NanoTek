@@ -11,41 +11,51 @@
 
 nts::Chipset4801::Chipset4801()
 {
-    for (size_t i = 1; i < 33; i++) {
-        switch (i) {
-            case 1 ... 8:
-                _pins[i].second = nts::pinType::INPUT;
-                break;
-            case 9 ... 11:
-                _pins[i].second = nts::pinType::HYBRID;
-                break;
-            case 12:
-                _pins[i].second = nts::pinType::NONE;
-                break;
-            case 13 ... 17:
-                _pins[i].second = nts::pinType::OUTPUT;
-                break;
-            case 18:
-                _pins[i].second = nts::pinType::INPUT;
-                break;
-            case 19:
-                _pins[i].second = nts::pinType::NONE;
-                break;
-            case 20 ... 21:
-                _pins[i].second = nts::pinType::INPUT;
-                break;
-            case 22 ... 23:
-                _pins[i].second = nts::pinType::INPUT;
-                break;
-            case 24:
-                _pins[i].second = nts::pinType::NONE;
-                break;
-            default:
-                _pins[i].second = nts::pinType::NONE;
-                break;
-        }
+    //ADDRESS
+    _pins[1].second = nts::pinType::INPUT;
+    _pins[2].second = nts::pinType::INPUT;
+    _pins[3].second = nts::pinType::INPUT;
+    _pins[4].second = nts::pinType::INPUT;
+    _pins[5].second = nts::pinType::INPUT;
+    _pins[6].second = nts::pinType::INPUT;
+    _pins[7].second = nts::pinType::INPUT;
+    _pins[8].second = nts::pinType::INPUT;
+    _pins[22].second = nts::pinType::INPUT;
+    _pins[23].second = nts::pinType::INPUT;
+
+    //HYBRID OUTPUTS
+    _pins[9].second = nts::pinType::HYBRID;
+    _pins[10].second = nts::pinType::HYBRID;
+    _pins[11].second = nts::pinType::HYBRID;
+    _pins[13].second = nts::pinType::HYBRID;
+    _pins[14].second = nts::pinType::HYBRID;
+    _pins[15].second = nts::pinType::HYBRID;
+    _pins[16].second = nts::pinType::HYBRID;
+    _pins[17].second = nts::pinType::HYBRID;
+    _pins[static_cast<std::size_t>(-9)].second = nts::pinType::INPUT;
+    _pins[static_cast<std::size_t>(-10)].second = nts::pinType::INPUT;
+    _pins[static_cast<std::size_t>(-11)].second = nts::pinType::INPUT;
+    _pins[static_cast<std::size_t>(-13)].second = nts::pinType::INPUT;
+    _pins[static_cast<std::size_t>(-14)].second = nts::pinType::INPUT;
+    _pins[static_cast<std::size_t>(-15)].second = nts::pinType::INPUT;
+    _pins[static_cast<std::size_t>(-16)].second = nts::pinType::INPUT;
+    _pins[static_cast<std::size_t>(-17)].second = nts::pinType::INPUT;
+
+    //IGNORE
+    _pins[12].second = nts::pinType::NONE;
+    _pins[19].second = nts::pinType::NONE;
+    _pins[24].second = nts::pinType::NONE;
+
+    //MODES
+    _pins[18].second = nts::pinType::INPUT;
+    _pins[20].second = nts::pinType::INPUT;
+    _pins[21].second = nts::pinType::INPUT;
+
+
+    for (size_t i = 1; i < 25; i++) {
         _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
     }
+
     std::fill(std::begin(this->_memory), std::end(this->_memory), 0);
 }
 
@@ -65,7 +75,6 @@ int nts::Chipset4801::getAddress()
     inputs.push_front(*_pins[1].first.get());
     inputs.push_front(*_pins[23].first.get());
     inputs.push_front(*_pins[22].first.get());
-    inputs.push_front(*_pins[19].first.get());
 
     for (std::size_t i = 0; i < inputs.size(); i++) {
         if (inputs[i] != nts::Tristate::Undefined)
@@ -93,16 +102,15 @@ void nts::Chipset4801::readMode(int address)
     int byte5 = (data >> 5) & 1;
     int byte6 = (data >> 6) & 1;
     int byte7 = (data >> 7) & 1;
-    std::cout << "Data: " << data << std::endl;
 
-    *this->_pins[9].first.get() = (nts::Tristate)byte7;
-    *this->_pins[10].first.get() = (nts::Tristate)byte6;
-    *this->_pins[11].first.get() = (nts::Tristate)byte5;
-    *this->_pins[13].first.get() = (nts::Tristate)byte4;
-    *this->_pins[14].first.get() = (nts::Tristate)byte3;
-    *this->_pins[15].first.get() = (nts::Tristate)byte2;
-    *this->_pins[16].first.get() = (nts::Tristate)byte1;
-    *this->_pins[17].first.get() = (nts::Tristate)byte0;
+    *this->_pins[9].first.get() = (nts::Tristate)byte0;
+    *this->_pins[10].first.get() = (nts::Tristate)byte1;
+    *this->_pins[11].first.get() = (nts::Tristate)byte2;
+    *this->_pins[13].first.get() = (nts::Tristate)byte3;
+    *this->_pins[14].first.get() = (nts::Tristate)byte4;
+    *this->_pins[15].first.get() = (nts::Tristate)byte5;
+    *this->_pins[16].first.get() = (nts::Tristate)byte6;
+    *this->_pins[17].first.get() = (nts::Tristate)byte7;
 }
 
 void nts::Chipset4801::writeMode(int address)
@@ -110,47 +118,21 @@ void nts::Chipset4801::writeMode(int address)
     int data = 0;
     std::deque<nts::Tristate> inputs;
 
-    inputs.push_front(*_pins[9].first.get());
-    inputs.push_front(*_pins[10].first.get());
-    inputs.push_front(*_pins[11].first.get());
-    inputs.push_front(*_pins[13].first.get());
-    inputs.push_front(*_pins[14].first.get());
-    inputs.push_front(*_pins[15].first.get());
-    inputs.push_front(*_pins[16].first.get());
-    inputs.push_front(*_pins[17].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-9)].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-10)].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-11)].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-13)].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-14)].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-15)].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-16)].first.get());
+    inputs.push_front(*_pins[static_cast<std::size_t>(-17)].first.get());
 
-    for (std::size_t i = 0; i < inputs.size(); i++) {
-        if (inputs[i] != nts::Tristate::Undefined) {
-            data += 1 << i;
+    for (std::size_t i = inputs.size(); i > 0; i--) {
+        if (inputs[i-1] == nts::Tristate::True) {
+            data += 1 << (inputs.size() - i);
         }
     }
     this->_memory[address] = data;
-}
-
-void nts::Chipset4801::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
-{
-    // AComponent *componentCast = dynamic_cast<AComponent*>(&component);
-    // nts::pinType thisPinType;
-    // nts::pinType compPinType;
-
-    // if (!componentCast) throw nts::Error("Component casting failed.");
-    // if (pin > _pins.size() || pin <= 0) throw nts::Error("Pin outside of bounds.");
-    // if (componentPin > componentCast->getPins().size() || componentPin <= 0) throw nts::Error("Component pin outside of bounds.");
-
-    // if (Chipset* chipsetPtr = dynamic_cast<Chipset*>(componentCast))
-    //     return chipsetPtr->setLink(componentPin, *this, pin);
-    // thisPinType = this->getPinType(pin);
-    // compPinType = componentCast->getPinType(componentPin);
-
-    // if (thisPinType == pinType::INPUT && compPinType == pinType::OUTPUT) {
-    //     this->getPins()[pin].first = componentCast->getPins()[componentPin].first;
-    //     componentCast->getOutputLink().push_front(this);
-    // }
-    // if (thisPinType == pinType::OUTPUT && compPinType == pinType::INPUT) {
-    //     componentCast->getPins()[componentPin].first = this->getPins()[pin].first;
-    //     this->_outputLink.push_front(componentCast);
-    // }
-
 }
 
 void nts::Chipset4801::simulate(std::size_t tick)

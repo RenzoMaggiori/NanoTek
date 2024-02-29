@@ -12,30 +12,40 @@
 nts::Chipset2716::Chipset2716()
 {
     std::ifstream file("./rom.bin");
+
+    //ADDRESS
+    _pins[1].second = nts::pinType::INPUT;
+    _pins[2].second = nts::pinType::INPUT;
+    _pins[3].second = nts::pinType::INPUT;
+    _pins[4].second = nts::pinType::INPUT;
+    _pins[5].second = nts::pinType::INPUT;
+    _pins[6].second = nts::pinType::INPUT;
+    _pins[7].second = nts::pinType::INPUT;
+    _pins[8].second = nts::pinType::INPUT;
+    _pins[22].second = nts::pinType::INPUT;
+    _pins[23].second = nts::pinType::INPUT;
+    _pins[19].second = nts::pinType::INPUT;
+    //OUTPUTS
+    _pins[9].second = nts::pinType::OUTPUT;
+    _pins[10].second = nts::pinType::OUTPUT;
+    _pins[11].second = nts::pinType::OUTPUT;
+    _pins[13].second = nts::pinType::OUTPUT;
+    _pins[14].second = nts::pinType::OUTPUT;
+    _pins[15].second = nts::pinType::OUTPUT;
+    _pins[16].second = nts::pinType::OUTPUT;
+    _pins[17].second = nts::pinType::OUTPUT;
+    //IGNORE
+    _pins[12].second = nts::pinType::NONE;
+    _pins[21].second = nts::pinType::NONE;
+    _pins[24].second = nts::pinType::NONE;
+    //MODES
+    _pins[18].second = nts::pinType::INPUT;
+    _pins[20].second = nts::pinType::INPUT;
+
     for (size_t i = 1; i < 25; i++) {
-        if (i < 9) {
-            _pins[i].second = nts::pinType::INPUT;
-        } else if (i > 8 && i < 12) {
-            _pins[i].second = nts::pinType::OUTPUT;
-        } else if (i == 12){
-            _pins[i].second = nts::pinType::NONE;
-        } else if (i > 12 && i < 18) {
-            _pins[i].second = nts::pinType::OUTPUT;
-        } else if (i == 18) {
-            _pins[i].second = nts::pinType::INPUT;
-        } else if (i == 19) {
-            _pins[i].second = nts::pinType::INPUT;
-        } else if (i == 20) {
-            _pins[i].second = nts::pinType::INPUT;
-        } else if (i == 21) {
-            _pins[i].second = nts::pinType::NONE;
-        } else if (i > 21 && i < 24) {
-            _pins[i].second = nts::pinType::INPUT;
-        } else if (i == 24) {
-            _pins[i].second = nts::pinType::NONE;
-        }
         _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
     }
+
     if (file.is_open()) {
         std::copy(std::istreambuf_iterator<char>(file),
                   std::istreambuf_iterator<char>(),

@@ -46,7 +46,6 @@ namespace nts {
             std::deque<IComponent *> getOutputLink();
             std::size_t getPriority() const;
 
-
             // Member
             virtual void simulate(std::size_t tick) override;
             virtual Tristate compute(std::size_t pin) override;

@@ -14,7 +14,7 @@
 
 void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
 {
-    if (pin > _pins.size() || pin <= 0) throw nts::Error("Pin outside of bounds.");
+    if (getPins().find(pin) == getPins().end() || pin <= 0) throw nts::Error("Pin outside of bounds.");
     if (componentPin > static_cast<AComponent*>(&component)->getPins().size() || componentPin <= 0)
         throw nts::Error("Component pin outside of bounds.");
 
