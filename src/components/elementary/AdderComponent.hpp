@@ -8,7 +8,7 @@
 #ifndef ADDERCOMPONENT_HPP_
 #define ADDERCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class AdderComponent: public AComponent {

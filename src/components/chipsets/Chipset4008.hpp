@@ -9,7 +9,6 @@
 #define CHIPSET4008_HPP_
 
 #include "Chipset.hpp"
-#include "../elementary/AdderComponent.hpp"
 
 
 namespace nts {

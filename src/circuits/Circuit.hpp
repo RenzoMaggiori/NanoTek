@@ -8,7 +8,7 @@
 #ifndef CIRCUIT_HPP_
 #define CIRCUIT_HPP_
 
-#include "../AComponent.hpp"
+#include "AComponent.hpp"
 #include <cstddef>
 #include <deque>
 #include <sstream>

@@ -8,7 +8,7 @@
 #ifndef ORCOMPONENT_HPP_
 #define ORCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class OrComponent: public AComponent {

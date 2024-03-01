@@ -8,7 +8,7 @@
 #ifndef COUNTERCOMPONENT_HPP_
 #define COUNTERCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class CounterComponent: public AComponent {

@@ -9,7 +9,6 @@
 #define CHIPSET4013_HPP_
 
 #include "Chipset.hpp"
-#include "../elementary/FlipflopComponent.hpp"
 
 namespace nts {
     class Chipset4013: public Chipset {

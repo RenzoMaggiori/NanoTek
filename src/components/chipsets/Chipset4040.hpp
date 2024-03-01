@@ -9,7 +9,7 @@
 #define CHIPSET4040_HPP_
 
 #include "Chipset.hpp"
-#include "../elementary/CounterComponent.hpp"
+#include "CounterComponent.hpp"
 
 namespace nts {
     class Chipset4040: public Chipset {

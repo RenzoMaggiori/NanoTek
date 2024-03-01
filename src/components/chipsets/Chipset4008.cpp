@@ -6,6 +6,7 @@
 */
 
 #include "Chipset4008.hpp"
+#include "AdderComponent.hpp"
 
 nts::Chipset4008::Chipset4008() {
 

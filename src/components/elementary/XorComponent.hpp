@@ -8,7 +8,7 @@
 #ifndef XORCOMPONENT_HPP_
 #define XORCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class XorComponent: public AComponent{

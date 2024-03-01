@@ -8,11 +8,8 @@
 #include "Parser.hpp"
 #include "IComponent.hpp"
 #include <algorithm>
-#include <cstddef>
 #include <fstream>
 #include <iostream>
-#include <memory>
-#include <regex>
 #include <string>
 
 

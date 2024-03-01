@@ -5,37 +5,40 @@
 ## Makefile
 ##
 
-SRC	=	$(wildcard src/*.cpp) \
+SRC =	$(wildcard src/*.cpp) \
 		$(wildcard src/components/*.cpp) \
 		$(wildcard src/circuits/*.cpp) \
 		$(wildcard src/components/chipsets/*.cpp) \
 		$(wildcard src/components/elementary/*.cpp) \
 		$(wildcard src/components/special/*.cpp) \
-	    $(wildcard src/components/chipsets/single/*.cpp) \
+	    $(wildcard src/components/chipsets/single/*.cpp)
 
-# Exclude main.cpp from the test compilation to avoid multiple main definitions
 TEST_SRC = $(filter-out src/main.cpp, $(SRC)) $(wildcard tests/*.cpp)
 
-CFLAGS	=	-I./include/ -g3
+CFLAGS = -I./src/ -I./src/components/elementary/ -I./src/components/special/ -I./src/components/chipsets/ -I./src/components/chipsets/single/ -I./src/circuits/ -g3
 
 LDFLAGS = -lcriterion --coverage
 
-NAME	=	nanotekspice
+NAME = nanotekspice
+TEST_NAME = unit_tests
 
 all: $(NAME)
 
-$(NAME):
-	g++ $(CFLAGS) -Wall -Werror -o $(NAME) $(SRC)
+$(NAME): $(SRC:.cpp=.o)
+	g++ $(CFLAGS) $(SRC:.cpp=.o) -o $(NAME)
+
+%.o: %.cpp
+	g++ $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(NAME)
+	rm -rf $(SRC:.cpp=.o)
 
 fclean: clean
-	rm -rf $(NAME) unit_tests *.gcno *.gcda
+	rm -rf $(NAME) $(TEST_NAME) *.gcno *.gcda
 
-re:	fclean all
+re: fclean all
 
-# New target for compiling and running tests
-tests_run:
-	g++ $(CFLAGS) $(TEST_SRC) $(LDFLAGS) -o unit_tests
-	./unit_tests
+tests_run: CFLAGS += --coverage
+tests_run: $(TEST_SRC:.cpp=.o)
+	g++ $(CFLAGS) $(TEST_SRC:.cpp=.o) $(LDFLAGS) -o $(TEST_NAME)
+	./$(TEST_NAME)

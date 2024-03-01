@@ -8,7 +8,7 @@
 #ifndef CHIPSET2716_HPP_
 #define CHIPSET2716_HPP_
 
-#include "../../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class Chipset2716 : public AComponent {

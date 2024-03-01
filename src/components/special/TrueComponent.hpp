@@ -8,7 +8,7 @@
 #ifndef TRUECOMPONENT_HPP_
 #define TRUECOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class TrueComponnet: public AComponent {

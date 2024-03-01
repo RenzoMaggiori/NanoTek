@@ -9,15 +9,9 @@
 #define PARSER_HPP_
 
 #include <cstddef>
-#include <exception>
-#include <fstream>
-#include <iostream>
 #include <deque>
-#include <memory>
 #include <sstream>
-#include <vector>
 #include <utility>
-#include "IComponent.hpp"
 
 
  ;

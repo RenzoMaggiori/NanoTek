@@ -8,7 +8,7 @@
 #ifndef NOTCOMPONENT_HPP_
 #define NOTCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class NotComponent: public AComponent {

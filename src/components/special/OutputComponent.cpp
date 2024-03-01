@@ -6,7 +6,6 @@
 */
 
 #include "OutputComponent.hpp"
-#include <iostream>
 
 nts::OutputComponent::OutputComponent() {
     this->getPins()[1].first = std::make_shared<nts::Tristate>(Tristate::Undefined);

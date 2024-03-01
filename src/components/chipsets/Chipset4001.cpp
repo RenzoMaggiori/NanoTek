@@ -6,7 +6,7 @@
 */
 
 #include "Chipset4001.hpp"
-#include "../elementary/NorComponent.hpp"
+#include "NorComponent.hpp"
 
 nts::Chipset4001::Chipset4001()
 {

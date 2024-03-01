@@ -6,8 +6,6 @@
 */
 
 #include "Chipset4801.hpp"
-#include <iostream>
-#include "../Chipset.hpp"
 
 nts::Chipset4801::Chipset4801()
 {

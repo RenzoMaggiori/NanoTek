@@ -8,7 +8,7 @@
 #ifndef JOHNSONCOMPONENT_HPP_
 #define JOHNSONCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class JohnsonComponent: public AComponent {

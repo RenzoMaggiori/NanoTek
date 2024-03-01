@@ -8,7 +8,7 @@
 #ifndef CHIPSET_HPP_
 #define CHIPSET_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 #include <cstddef>
 #include <memory>
 

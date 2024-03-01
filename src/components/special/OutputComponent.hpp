@@ -8,7 +8,7 @@
 #ifndef OUTPUTCOMPONENT_HPP_
 #define OUTPUTCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class OutputComponent: public AComponent {

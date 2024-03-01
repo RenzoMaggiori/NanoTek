@@ -6,6 +6,7 @@
 */
 
 #include "Chipset4512.hpp"
+#include "SelectorComponent.hpp"
 
 nts::Chipset4512::Chipset4512() {
     this->_components[1] = std::make_unique<nts::SelectorComponent>();
@@ -18,9 +19,7 @@ nts::Chipset4512::Chipset4512() {
     this->_pins[6] = static_cast<SelectorComponent*>(this->_components[1].get())->getPins()[6];
     this->_pins[7] = static_cast<SelectorComponent*>(this->_components[1].get())->getPins()[7];
     this->_pins[9] = static_cast<SelectorComponent*>(this->_components[1].get())->getPins()[9];
-    
     this->_pins[8] = std::make_pair<std::shared_ptr<nts::Tristate>, nts::pinType>(nullptr, nts::pinType::NONE);;
-    
     this->_pins[11] = static_cast<SelectorComponent*>(this->_components[1].get())->getPins()[11];
     this->_pins[12] = static_cast<SelectorComponent*>(this->_components[1].get())->getPins()[12];
     this->_pins[13] = static_cast<SelectorComponent*>(this->_components[1].get())->getPins()[13];

@@ -8,7 +8,7 @@
 #ifndef SELECTORCOMPONENT_HPP_
 #define SELECTORCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class SelectorComponent: public AComponent {

@@ -6,6 +6,7 @@
 */
 
 #include "Chipset4017.hpp"
+#include "JohnsonComponent.hpp"
 
 nts::Chipset4017::Chipset4017() {
     this->_components[1] = std::make_unique<nts::JohnsonComponent>();

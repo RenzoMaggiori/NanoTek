@@ -9,7 +9,6 @@
 #define CHIPSET4017_HPP_
 
 #include "Chipset.hpp"
-#include "../elementary/JohnsonComponent.hpp"
 
 namespace nts {
     class Chipset4017: public Chipset {

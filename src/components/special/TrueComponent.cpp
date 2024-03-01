@@ -6,7 +6,6 @@
 */
 
 #include "TrueComponent.hpp"
-#include <memory>
 
 nts::TrueComponnet::TrueComponnet() {
     this->getPins()[1].first = std::make_shared<nts::Tristate>(Tristate::True);

@@ -6,8 +6,7 @@
 */
 
 #include "Chipset4081.hpp"
-#include "../elementary/AndComponent.hpp"
-#include <iostream>
+#include "AndComponent.hpp"
 
 nts::Chipset4081::Chipset4081() {
     this->_components[1] = std::make_unique<nts::AndComponent>();

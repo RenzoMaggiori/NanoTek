@@ -8,7 +8,7 @@
 #ifndef LOGGERCOMPONENT_HPP_
 #define LOGGERCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 #include <fstream>
 
 namespace nts {

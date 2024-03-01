@@ -9,7 +9,6 @@
 #define CHIPSET4512_HPP_
 
 #include "Chipset.hpp"
-#include "../elementary/SelectorComponent.hpp"
 
 namespace nts {
     class Chipset4512: public Chipset {

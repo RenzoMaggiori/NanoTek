@@ -6,11 +6,7 @@
 */
 
 #include "Chipset.hpp"
-#include "../elementary/NotComponent.hpp"
-#include <cstddef>
-#include <deque>
-#include <iostream>
-#include <ostream>
+
 
 void nts::Chipset::setLink(std::size_t pin, IComponent &component, std::size_t componentPin)
 {

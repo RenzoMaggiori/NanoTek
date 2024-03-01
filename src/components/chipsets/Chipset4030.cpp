@@ -6,7 +6,7 @@
 */
 
 #include "Chipset4030.hpp"
-#include "../elementary/XorComponent.hpp"
+#include "XorComponent.hpp"
 
 nts::Chipset4030::Chipset4030()
 {

@@ -6,10 +6,8 @@
 */
 
 #include "AComponent.hpp"
-#include "IComponent.hpp"
-#include "components/chipsets/Chipset.hpp"
-#include <iostream>
-#include <memory>
+#include "Chipset.hpp"
+
 nts::pinsMapType &nts::AComponent::getPins() {
     return _pins;
 }

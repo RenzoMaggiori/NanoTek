@@ -6,7 +6,6 @@
 */
 
 #include "InputComponent.hpp"
-#include <iostream>
 
 nts::InputComponent::InputComponent() {
     _pins[1] = std::make_pair(std::make_shared<nts::Tristate>(Tristate::Undefined), nts::OUTPUT);

@@ -6,7 +6,7 @@
 */
 
 #include "Chipset4071.hpp"
-#include "../elementary/OrComponent.hpp"
+#include "OrComponent.hpp"
 
 nts::Chipset4071::Chipset4071() {
     this->_components[1] = std::make_unique<nts::OrComponent>();

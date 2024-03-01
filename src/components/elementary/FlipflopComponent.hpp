@@ -8,7 +8,7 @@
 #ifndef FLIPFLOPCOMPONENT_HPP_
 #define FLIPFLOPCOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts {
     class FlipflopComponent: public AComponent {

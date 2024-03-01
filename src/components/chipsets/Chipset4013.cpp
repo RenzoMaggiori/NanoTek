@@ -6,6 +6,7 @@
 */
 
 #include "Chipset4013.hpp"
+#include "FlipflopComponent.hpp"
 
 nts::Chipset4013::Chipset4013()
 {

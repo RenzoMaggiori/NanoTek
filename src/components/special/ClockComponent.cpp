@@ -6,7 +6,6 @@
 */
 
 #include "ClockComponent.hpp"
-#include <iostream>
 
 nts::ClockComponent::ClockComponent()
 {

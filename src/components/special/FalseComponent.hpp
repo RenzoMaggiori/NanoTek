@@ -8,7 +8,7 @@
 #ifndef FALSECOMPONENT_HPP_
 #define FALSECOMPONENT_HPP_
 
-#include "../../AComponent.hpp"
+#include "AComponent.hpp"
 
 namespace nts
 {
