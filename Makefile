@@ -38,7 +38,6 @@ fclean: clean
 
 re: fclean all
 
-tests_run: CFLAGS += --coverage
-tests_run: $(TEST_SRC:.cpp=.o)
-	g++ $(CFLAGS) $(TEST_SRC:.cpp=.o) $(LDFLAGS) -o $(TEST_NAME)
-	./$(TEST_NAME)
+tests_run:
+	g++ $(CFLAGS) $(TEST_SRC) $(LDFLAGS) -o unit_tests
+	./unit_tests

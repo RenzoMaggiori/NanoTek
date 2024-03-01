@@ -1,9 +1,13 @@
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 #include <criterion/logging.h>
-#include "../src/Parser.hpp"
-#include "../src/Factory.hpp"
-#include "../src/circuits/Circuit.hpp"
+#include "Parser.hpp"
+#include "Factory.hpp"
+#include "Circuit.hpp"
+#include "SelectorComponent.hpp"
+#include "JohnsonComponent.hpp"
+#include "FlipflopComponent.hpp"
+#include "AdderComponent.hpp"
 
 using nts::Parser;
 
