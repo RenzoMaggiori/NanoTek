@@ -41,7 +41,7 @@ void nts::CounterComponent::updateOutputPins() {
             case 15: bitPosition = 11; break;
             default: continue;
         }
-        Tristate value = (_counter >> (bitPosition - 1)) & 1 ? Tristate::False : Tristate::True;
+        Tristate value = (_counter >> (bitPosition - 1)) & 1 ? Tristate::True : Tristate::False;
         *_pins[pin].first.get() = value;
     }
 }
@@ -54,7 +54,7 @@ void nts::CounterComponent::simulate(std::size_t tick) {
 
     if (reset == Tristate::True) {
         _counter = 0;
-    } else if ((clock == Tristate::True && _prevClock == Tristate::False) || (clock != Tristate::Undefined && _prevClock == Tristate::Undefined)) {
+    } else if (clock == Tristate::False) {
         if (_counter < 0xFFF)
             _counter++;
         else
