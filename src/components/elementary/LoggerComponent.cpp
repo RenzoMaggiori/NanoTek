@@ -15,21 +15,6 @@ nts::LoggerComponent::LoggerComponent()
         _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
         _pins[i].second = type;
     }
-
-    // Open the log file in append mode
-    this->_logger.open("./log.bin", std::ios_base::app);
-
-    // Check if the file is open
-    if (!this->_logger.is_open()) {
-        throw nts::Error("Could not open log file");
-    }
-}
-
-nts::LoggerComponent::~LoggerComponent()
-{
-    if (this->_logger.is_open()) {
-        this->_logger.close();
-    }
 }
 
 int nts::LoggerComponent::getByte()
@@ -57,8 +42,14 @@ int nts::LoggerComponent::getByte()
 void nts::LoggerComponent::simulate(std::size_t tick)
 {
     if (*_pins[10].first.get() == Tristate::False
-    && *_pins[9].first.get() == Tristate::True && this->_prevClock != Tristate::True) {
-        this->_logger << (char)getByte() << std::flush;
+    && *_pins[9].first.get() == Tristate::True) {
+        this->_logger.open("./log.bin", std::ios_base::app);
+        if (!this->_logger.is_open()) {
+            throw  nts::Error("Could not open log file");
+            return;
+        }
+        this->_logger << (char)getByte();
+        this->_logger.close();
     }
     _prevClock = *_pins[9].first.get();
  }

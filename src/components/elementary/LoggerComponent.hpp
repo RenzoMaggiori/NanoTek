@@ -15,7 +15,6 @@ namespace nts {
     class LoggerComponent: public AComponent {
         public:
             LoggerComponent();
-            ~LoggerComponent();
             void simulate(std::size_t tick) override;
             int getByte();
         protected:
