@@ -56,7 +56,7 @@ nts::Chipset4801::Chipset4801()
         _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
     }
 
-    std::fill(std::begin(this->_memory), std::end(this->_memory), 0);
+    std::fill(std::begin(this->_memory), std::end(this->_memory), 255);
 }
 
 
