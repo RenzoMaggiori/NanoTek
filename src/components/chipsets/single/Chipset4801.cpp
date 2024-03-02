@@ -54,7 +54,7 @@ nts::Chipset4801::Chipset4801()
         _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
     }
 
-    std::fill(std::begin(this->_memory), std::end(this->_memory), 255);
+    std::fill(std::begin(this->_memory), std::end(this->_memory), 0);
 }
 
 
@@ -142,14 +142,14 @@ void nts::Chipset4801::simulate(std::size_t tick)
     //Mode reading
     if (*this->_pins[18].first.get() == nts::Tristate::False &&
         *this->_pins[21].first.get() == nts::Tristate::False) {
-        readMode(address);
+        writeMode(address);
         return;
     }
     //Mode programming
     if (*this->_pins[18].first.get() == nts::Tristate::False &&
         *this->_pins[20].first.get() == nts::Tristate::False &&
         *this->_pins[21].first.get() == nts::Tristate::True) {
-        writeMode(address);
+        readMode(address);
         return;
     }
 }

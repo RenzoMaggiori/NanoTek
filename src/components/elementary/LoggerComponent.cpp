@@ -11,7 +11,7 @@
 nts::LoggerComponent::LoggerComponent()
 {
     nts::pinType type = nts::pinType::INPUT;
-    for (size_t i = 1; i < 11; i++) {  // Adjusted indices to start from 0
+    for (size_t i = 1; i < 11; i++) {
         _pins[i].first = std::make_shared<nts::Tristate>(Tristate::Undefined);
         _pins[i].second = type;
     }
@@ -41,7 +41,7 @@ int nts::LoggerComponent::getByte()
 
 void nts::LoggerComponent::simulate(std::size_t tick)
 {
-    if (*_pins[10].first.get() == Tristate::False
+    if (*_pins[10].first.get() != Tristate::True
     && *_pins[9].first.get() == Tristate::True) {
         this->_logger.open("./log.bin", std::ios_base::app);
         if (!this->_logger.is_open()) {
