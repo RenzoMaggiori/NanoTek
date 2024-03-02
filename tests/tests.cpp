@@ -870,7 +870,7 @@ Test(johnson_component_tests, outputs) {
     johnsonComponent.setLink(1, trueComponent1, 1);
     johnsonComponent.simulate(0);
     output1 = johnsonComponent.compute(5);
-    cr_assert_eq(output1, nts::Tristate::False, "out_1 should be True");
+    cr_assert_eq(output1, nts::Tristate::True, "out_1 should be True");
     for (std::size_t i = 0; i < 8; i++) {
         johnsonComponent.setLink(1, falseComponent1, 1);
         johnsonComponent.simulate(0);
