@@ -42,7 +42,8 @@ int nts::LoggerComponent::getByte()
 void nts::LoggerComponent::simulate(std::size_t tick)
 {
     if (*_pins[10].first.get() != Tristate::True
-    && *_pins[9].first.get() == Tristate::True) {
+    && *_pins[9].first.get() == Tristate::True &&
+    (_prevClock == Tristate::False || _prevClock == Tristate::Undefined)) {
         this->_logger.open("./log.bin", std::ios_base::app);
         if (!this->_logger.is_open()) {
             throw  nts::Error("Could not open log file");
