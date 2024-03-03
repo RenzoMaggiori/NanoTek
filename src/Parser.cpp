@@ -8,10 +8,11 @@
 #include "Parser.hpp"
 #include "IComponent.hpp"
 #include <algorithm>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <string>
-
+#include <cstring>
 
 nts::Parser::Parser(const std::string &file) {
     if (file == "") throw nts::Error("File does not exist");
@@ -50,7 +51,7 @@ void nts::Parser::existingComponent(std::string source, std::string destination)
 {
     bool destinationName = false;
     bool sourceName = false;
-    //Checks if the destination and source chipset exist, if not an error is throwed
+
     for (auto &it: _chipsets) {
         if (it.second == source)
             sourceName = true;
@@ -87,12 +88,15 @@ void nts::Parser::parseLink(const std::string& line) {
 }
 
 
-void nts::Parser::parseFile(const std::string &file) {
+void nts::Parser::parseFile(const std::string &file)
+{
     std::ifstream parseFile(file);
     std::string line;
     ParseState state = ParseState::NONE;
-    if (!parseFile.is_open()) throw nts::Error("File does not exist.");
-
+    if (!parseFile.is_open())
+        throw nts::Error("File does not exist.");
+    if (std::strstr(file.c_str(), ".nts") == nullptr)
+        throw nts::Error("Invalid file: not a .nts file.");
     while (std::getline(parseFile, line)) {
         ltrim(rtrim(line));
         if (line == ".chipsets:" || std::strncmp(line.c_str(), ".chipsets:#", 11) == 0) {
@@ -107,7 +111,6 @@ void nts::Parser::parseFile(const std::string &file) {
         else if (state == ParseState::LINKS)
             parseLink(line);
     }
-
     if (_chipsets.size() == 0) throw nts::Error("Invalid file: no chipsets");
     if (_links.size() == 0) throw nts::Error("Invalid file: no chipsets");
 }
